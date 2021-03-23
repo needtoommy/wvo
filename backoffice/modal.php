@@ -110,6 +110,7 @@
                  </div>
 
 
+
                  <?php
                     $sql = "SELECT file_name, is_image FROM multi_file where m_id = 2 and req_id= " . $_POST['popupid'] . "";
                     // echo $sql;
