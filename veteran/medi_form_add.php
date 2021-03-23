@@ -50,6 +50,9 @@ $res = $db->getData();
     .dataTables_paginate {
         display: none;
     }
+    option{
+        color:black;
+    }
 </style>
 
 <body>
@@ -341,7 +344,7 @@ $res = $db->getData();
                                             <div class="form-group">
                                                 <label class="mr-sm-2">รายละเอียด</label>
                                                 <div class="input-group">
-                                                    <textarea name="REQ_HEL_DETAIL" id="REQ_HEL_DETAIL" class="form-control" placeholder="รายละเอียด" rows="4" cols="50">รายละเอียด</textarea>
+                                                    <textarea name="REQ_HEL_DETAIL" id="REQ_HEL_DETAIL" class="form-control" placeholder="รายละเอียด" rows="4" cols="50"></textarea>
 
                                                 </div>
                                             </div>
@@ -359,9 +362,9 @@ $res = $db->getData();
                                                 <label class="mr-sm-2"> </label>
                                                 <div class="input-group mb-3">
 
-                                                    <input  value="1" type="radio" id="REQ_HEL_PAY_TYPE" name="REQ_HEL_PAY_TYPE" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp; รับเงินด้วยตยเองที่ อผศ.   &nbsp; &nbsp; &nbsp;
+                                                    <input value="1" type="radio" name="REQ_HEL_PAY_TYPE" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp; รับเงินด้วยตยเองที่ อผศ. &nbsp; &nbsp; &nbsp;
 
-                                                    <input  value="2" type="radio" id="REQ_HEL_PAY_TYPE" name="REQ_HEL_PAY_TYPE" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp;  โอนเงินผ่านธนาคาร
+                                                    <input value="2" type="radio" name="REQ_HEL_PAY_TYPE" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp; โอนเงินผ่านธนาคาร
 
 
                                                 </div>
@@ -602,13 +605,13 @@ $res = $db->getData();
                             data: formData,
                             success: function(data) {
 
-                                 //if (data == "success") {
-                                 //    alert('บันทึกรายการสำเร็จ')
-                                // window.location = "case_medi.php"
-                                // } else {
-                                //     alert('บันทึกรายการไม่สำเร็จ')
-                                //     //  window.location = "case_medi.php"
-                                // }
+                                if (data == "success") {
+                                    alert('บันทึกรายการสำเร็จ')
+                                    window.location = "index.php"
+                                } else {
+                                    alert('บันทึกรายการไม่สำเร็จ')
+                                    //  window.location = "case_medi.php"
+                                }
 
                             }
                         })
@@ -621,8 +624,6 @@ $res = $db->getData();
         function chec_getdata(v) {
             $('#check_hidden').val(v);
         }
-
-        
     </script>
 </body>
 
