@@ -1,0 +1,31 @@
+.footer{
+    border-top:1px solid rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.5);
+    padding: 27px 0px;
+    &.dashboard{
+        background: rgba(0,0,0,0.5);
+        margin-left: 75px;
+        border-color: $border-color;
+    }
+    .copyright{
+        p{
+            margin: 0;
+            font-size: 14px;
+            color: #7f88a6;
+            a{
+                color: $primary;
+                font-weight: 700;
+            }
+        }
+    }
+    .footer-social{
+        text-align: right;
+        li{
+            display: inline-block;
+            a{
+                color: #7f88a6;
+                padding: 0px 10px;
+            }
+        }
+    }
+}
