@@ -11,6 +11,7 @@ $db->Execute($sql);
 $res = $db->getData();
 
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,7 +81,7 @@ $res = $db->getData();
                             <div class="dashboard_log my-2">
                                 <div class="d-flex align-items-center">
                                     <div class="account_money">
-                                        <ul>
+                                       <!-- <ul>
                                             <li class="crypto">
                                                 <span>0.0025</span>
                                                 <i class="cc BTC-alt"></i>
@@ -88,12 +89,12 @@ $res = $db->getData();
                                             <li class="usd">
                                                 <span>19.93 USD</span>
                                             </li>
-                                        </ul>
+                                        </ul> -->
                                     </div>
                                     <div class="profile_log dropdown">
                                         <div class="user" data-toggle="dropdown">
                                             <span class="thumb"><i class="la la-user"></i></span>
-                                            <span class="name"><?php echo $res['m_name']; ?></span>
+                                            <span class="name"><?php echo $res['VT_TITLE'] . ' ' . $res['VT_FNAME'] . ' ' . $res['VT_LNAME']; ?></span>
                                             <span class="arrow"><i class="la la-angle-down"></i></span>
                                         </div>
                                         <div class="dropdown-menu dropdown-menu-right">
@@ -171,6 +172,14 @@ $res = $db->getData();
                                         <label class="mr-sm-2">วันที่ยื่นคำร้อง</label>
                                         <div class="input-group mb-3">
                                             <input type="text" name="REQ_HEL_DATE" id="REQ_HEL_DATE" class="form-control" value="<?php echo date('d/m/Y', strtotime('+543 year')) ?>" style="background-color: #31383c;" readonly>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="buy-sell-widget">
+                                    <div class="form-group">
+                                        <label class="mr-sm-2">เบิกให้</label>
+                                        <div class="input-group mb-3">
+                                           
                                         </div>
                                     </div>
 
@@ -366,7 +375,7 @@ $res = $db->getData();
                                                 <label class="mr-sm-2"> </label>
                                                 <div class="input-group mb-3">
 
-                                                    <input value="1" type="radio" name="REQ_HEL_PAY_TYPE" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp; รับเงินด้วยตยเองที่ อผศ. &nbsp; &nbsp; &nbsp;
+                                                    <input value="1" type="radio" name="REQ_HEL_PAY_TYPE" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp; รับเงินด้วยตัวเองที่ อผศ. &nbsp; &nbsp; &nbsp;
 
                                                     <input value="2" type="radio" name="REQ_HEL_PAY_TYPE" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp; โอนเงินผ่านธนาคาร
 
