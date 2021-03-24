@@ -57,7 +57,7 @@ if (isset($_POST['m_username'])) {
     }
     if ($_SESSION["m_level"] == "vsofficer") {
 
-      Header("Location: index.php");
+      Header("Location: index.php?type=1&level=vsofficer");
     }
     if ($_SESSION["m_level"] == "finoffice") {
 
