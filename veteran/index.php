@@ -207,7 +207,7 @@ $res4 = $db->getData();
 
                                                         <a href='medi_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
 
-                                                        <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
+                                                        <a href='medi_history.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
                                                     </div>
                                                 </div>
                                             </div>
