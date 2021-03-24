@@ -377,8 +377,10 @@ $res = $db->getData();
                                             <div class="form-group">
                                                 <label class="mr-sm-2">อัพโหลดไฟล์</label>
                                                 <label class="mr-sm-2"></label>
+                                                
                                                 <div class="input-group">
-                                                    <input type="file" name="REQ_HEL_FILE[1]" class="form-control">
+                                                
+                                                   <input type="file" name="REQ_HEL_FILE[1]" class="form-control">
                                                 </div>
                                             </div>
                                             <span style="cursor:pointer" onclick="addmore();">เพิ่มไฟล์อัพโหลด <span style="color:red;">*</span></span>
