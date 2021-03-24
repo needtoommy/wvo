@@ -100,7 +100,7 @@ $res = $db->getData();
                                             <a href="accounts.html" class="dropdown-item">
                                                 <i class="la la-user"></i> Account
                                             </a>
-                                            <a href="history.html" class="dropdown-item">
+                                            <a href="medi_history.php" class="dropdown-item">
                                                 <i class="la la-book"></i> History
                                             </a>
                                             <a href="settings.html" class="dropdown-item">
