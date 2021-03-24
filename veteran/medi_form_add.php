@@ -142,6 +142,10 @@ $res = $db->getData();
                             <span><i class="la la-tools"></i></span>
                         </a>
                     </li>
+                    <li><a href="medi_history.php" data-toggle="tooltip" data-placement="right" title="Setting">
+                            <span><i class="la la-tools"></i></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
