@@ -303,9 +303,9 @@ $res4 = $db->getData();
                                                         </div>
                                                         <div class="col-md-8">
 
-                                                            <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
+                                                            <a href='mat_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
 
-                                                            <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
+                                                            <a href='mat_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -349,9 +349,9 @@ $res4 = $db->getData();
                                                     </div>
                                                     <div class="col-md-8">
 
-                                                        <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
+                                                        <a href='disa_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
 
-                                                        <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
+                                                        <a href='disa_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
                                                     </div>
                                                 </div>
                                             </div>
