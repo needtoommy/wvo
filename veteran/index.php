@@ -25,6 +25,13 @@ $sql4 = "SELECT * FROM mat_value_bal
 $db->Execute($sql4);
 $res4 = $db->getData();
 
+
+$sql5 ="SELECT *
+ FROM edu_value_bal 
+    WHERE m_id = " . intval($_SESSION["m_id"]) . " ";
+$db->Execute($sql5);
+$res5 = $db->getData();
+
 ?>
 
 
@@ -367,6 +374,57 @@ $res4 = $db->getData();
                                             <div class="col-md-6">
                                                 <div class="row">
                                                     <div class="col-md-6">
+                                                        <span style="float: right;">วงเงินสูงสุดที่สามารถเบิก : </span>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span style="float: right;"> <?php echo number_format($res5['edu_value_bal_begin'], 2) ?> บาท</span>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <span style="float: right;">วงเงินสูงสุดที่สามารถเบิก : </span>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span style="float: right;"> <?php echo number_format($res5['edu_value_bal_begin'], 2) ?> บาท</span>
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <span style="float: right;">สิทธิที่ใช้ไป : </span>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span style="float: right;"><?php echo number_format($res5['edu_value_bal_use'], 2) ?> บาท</span>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <span style="float: right;">สิทธิคงเหลือ : </span>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span style="float: right;"><?php echo number_format($res5['edu_value_bal_use'], 2) ?> บาท</span>
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                    </div>
+                                                    <div class="col-md-8">
+
+                                                        <a href='edu_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
+
+                                                        <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li class="media">
+                                        <span style="font-size: 5rem; color: Dodgerblue;">
+                                                    <i class="fas fa-user-graduate" style="font-size: 3rem;"></i>
+                                                </span> &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <div class="media-body">
+                                                    <h5 class="m-0">เงินเลี้ยงชีพรายเดือน</h5>
+                                                </div>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-6">
                                                         <span style="float: right;">สิทธิเบิก : </span>
                                                     </div>
                                                     <div class="col-md-6">
@@ -392,7 +450,7 @@ $res4 = $db->getData();
                                                     </div>
                                                     <div class="col-md-8">
 
-                                                        <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
+                                                        <a href='edu_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
 
                                                         <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
                                                     </div>
