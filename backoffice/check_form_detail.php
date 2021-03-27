@@ -672,18 +672,18 @@ $level = $_SESSION['m_level'];
                             <div class="alert alert-muted">
                                 ยืนคำร้องขอเบิกค่ารักษาพยาบาล โดย
                                 <br>
-                                ชั้นบัตร 3ป. เลขที่บัตร 77789
+                                ชั้นบัตร <?php echo $res['VT_CARD_STEP'] ?> เลขที่บัตร <?php echo $res['VT_CARD_NO'] ?>
                                 <br>
-                                ชื่อ - นามสกุล จ่าเอกยอด ภักดี
+                                ชื่อ - นามสกุล <?php echo $res['VT_TITLE'] . $res['VT_FNAME'] . $res['VT_LNAME'] ?>ยอด ภักดี
                                 <hr>
                                 สิทธิเบิก :
-                                3500.00 บาท
+                                <?php echo number_format($res['health_value_bal_begin'], 2) ?> บาท
                                 <br>
                                 สิทธิที่ใช้ไป :
-                                0.00 บาท
+                                <?php echo number_format($res['health_value_bal_use'], 2) ?> บาท
                                 <br>
                                 สิทธิคงเหลือ :
-                                3500.00 บาท
+                                <?php echo number_format($res['health_value_bal_bal'], 2) ?> บาท
                             </div>
                             <form>
                                 <div class="form-group row m-b-15">
@@ -723,10 +723,10 @@ $level = $_SESSION['m_level'];
                                     </div>
                                 </div>
                                 <?php
-                                $sql = "SELECT file_name, is_image FROM multi_file where m_id = ".$_SESSION['m_id']." and req_id= " . $_GET['REQ_HEL_ID'] . "";
-                                echo $sql;
+                                $sql = "SELECT file_name, is_image FROM multi_file where m_id = " . $_SESSION['m_id'] . " and req_id= " . $_GET['REQ_HEL_ID'] . "";
+                                // echo $sql;
+                               
                                 $db->Execute($sql);
-                                var_dump($db->getData());
                                 $i = 1;
                                 while ($row = $db->getData()) {
 
@@ -759,8 +759,8 @@ $level = $_SESSION['m_level'];
                                 <?php }
                                     $i++;
                                 } ?>
-                                <button type="button" class="btn btn-primary">อนุมติใบคำร้อง</button>
-                                <button type="button" class="btn btn-danger">ยกเลิกใบคำร้อง</button>
+                                <button type="button" class="btn btn-primary" onclick="send_form(1)">อนุมติใบคำร้อง</button>
+                                <button type="button" class="btn btn-danger"  onclick="send_form(2)">ยกเลิกใบคำร้อง</button>
                             </form>
                         </div>
                         <!-- end panel-body -->
@@ -773,7 +773,7 @@ $level = $_SESSION['m_level'];
 
 
 
-                print_r($res);
+
 
                 ?>
             </div>
