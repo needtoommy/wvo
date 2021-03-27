@@ -164,7 +164,13 @@ $res = $db->getData();
 
 
                             <div class="card-body">
-
+                           <div class="tab-pane fade show active" id="buy" role="tabpanel">
+                                        <form enctype="multipart/form-data" method="post" name="myform" id="myform" class="currency_validate">
+                                            <input type="hidden" name="check_hidden" id="check_hidden">
+                                            <input type="hidden" name="m_id" id="m_id" value="<?php echo $_SESSION['m_id']; ?>" />
+                                            <input type="hidden" name="s_id" value="1" />
+                                            
+                                            <input type="hidden" name="create_datetime" value="<?php echo date('d/m/Y h:i:sa', strtotime('+543 years')); ?>">
 
                                 <div class="buy-sell-widget">
                                     <div class="form-group">
@@ -173,6 +179,9 @@ $res = $db->getData();
                                             <input type="text" name="REQ_OCC_DATE" id="REQ_OCC_DATE" class="form-control" value="<?php echo date('d/m/Y', strtotime('+543 year')) ?>" style="background-color: #31383c;" readonly>
                                         </div>
                                     </div>
+
+
+                                    <input type="hidden" name="REQ_OCC_TIMESTAMP" value="<?php echo date('d/m/Y h:i:sa', strtotime('+543 years')); ?>">
 
                                     <div class="form-group">
                                         <label class="mr-sm-2">เหตุผลขอรับการสงเคราะห์</label>
@@ -183,7 +192,7 @@ $res = $db->getData();
                                                 <option value="ค่าใช้จ่ายเดินทาง">ค่าใช้จ่ายเดินทาง</option>
                                                 <option value="อื่นๆ">อื่นๆ</option>
                                             </select>
-                                            
+
                                         </div>
                                     </div>
 
@@ -201,8 +210,8 @@ $res = $db->getData();
                                     </div>
 
                                     <div class="form-group">
-                                    <label class="mr-sm-2">วิธีการรับเงิน</label>
-                                     
+                                        <label class="mr-sm-2">วิธีการรับเงิน</label>
+
                                         <div class="input-group mb-3">
 
                                             <input value="1" type="radio" name="REQ_OCC_PAY_TYPE" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp; รับเงินด้วยตัวเองที่ อผศ. &nbsp; &nbsp; &nbsp;
@@ -213,7 +222,7 @@ $res = $db->getData();
                                         </div>
                                     </div>
 
-                                    
+
                                     <div class="form-group">
                                         <label class="mr-sm-2">หมายเหตุ</label>
                                         <div class="input-group">
@@ -222,19 +231,19 @@ $res = $db->getData();
                                         </div>
                                     </div>
 
-                                    </div>
-
-
-
-                                    </form>
-                                    <button id="form_data" name="submit" class="btn btn-success btn-block">ยืนยันรายการ</button>
                                 </div>
+
+
+
+                                </form>
+                                <button id="form_data" name="submit" class="btn btn-success btn-block">ยืนยันรายการ</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 
@@ -243,7 +252,7 @@ $res = $db->getData();
             <div class="row">
                 <div class="col-xl-6">
                     <div class="copyright">
-                        <p>© Copyright 2019 <a href="#">Tradix</a> I All Rights Reserved</p>
+                        <p><a href="#">ระบบสวัสดิการสงเคราะห์</a> I All Rights Reserved</p>
                     </div>
                 </div>
                 <div class="col-xl-6">
@@ -415,27 +424,28 @@ $res = $db->getData();
         }
 
         $('#form_data').click(function(e) {
-            if ($('#REQ_HEL_DETAIL').val() == "") {
+            if ($('#REQ_OCC_VALUE').val() == "") {
                 alert('กรุณากรอกข้อมูลให้ครบ')
                 return false;
             }
             $.ajax({
                 type: "POST",
-                url: "check_val.php",
+                url: "check_val_occ.php",
                 data: {
-                    money: $('#REQ_HEL_VALUE').val(),
+                    money: $('#REQ_OCC_VALUE').val(),
                     id: $('#m_id').val()
                 },
 
                 success: function(data) {
-                    if (data != 'success') {
+                    
+                    if (data !='success') {
                         alert('เงินเกิน')
                     } else {
                         var form = $('form')[0]; // You need to use standard javascript object here
                         var formData = new FormData(form);
                         $.ajax({
                             type: "POST",
-                            url: "medi_form_add_db.php",
+                            url: "occ_form_add_db.php",
                             processData: false,
                             contentType: false,
                             data: formData,

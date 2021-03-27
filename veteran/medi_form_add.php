@@ -370,9 +370,9 @@ $res = $db->getData();
 
                                                 </div>
                                             </div>
-
+                                       
                                             <div class="form-group">
-                                                <label class="mr-sm-2"> </label>
+                                                <label class="mr-sm-2"> วิธีการรับเงิน</label>
                                                 <div class="input-group mb-3">
 
                                                     <input value="1" type="radio" name="REQ_HEL_PAY_TYPE" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp; รับเงินด้วยตัวเองที่ อผศ. &nbsp; &nbsp; &nbsp;

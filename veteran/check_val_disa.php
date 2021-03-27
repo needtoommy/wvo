@@ -2,7 +2,7 @@
 include("../connect/db.php");
 
 $db = new DB();
-$money = $_POST['money'];
+$money = '0';///$_POST['money'];
 $id = $_POST['id'];
 
 
