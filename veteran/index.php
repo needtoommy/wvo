@@ -26,9 +26,19 @@ $db->Execute($sql4);
 $res4 = $db->getData();
 
 
-$sql5 ="SELECT *
- FROM edu_value_bal 
-    WHERE m_id = " . intval($_SESSION["m_id"]) . " ";
+//$sql5 ="SELECT *
+//FROM edu_value_bal 
+//  WHERE m_id = " . intval($_SESSION["m_id"]) . " ";
+//$db->Execute($sql5);
+//$res5 = $db->getData();
+
+$sql5 = "SELECT * FROM
+    (SELECT MAX(seq) as seq,m_id  FROM edu_value_bal GROUP BY m_id) a
+LEFT JOIN
+    (SELECT * FROM edu_value_bal) b
+    ON a.m_id =b.m_id
+WHERE a.m_id =" . intval($_SESSION["m_id"]) . " ";
+
 $db->Execute($sql5);
 $res5 = $db->getData();
 
@@ -222,7 +232,7 @@ $res5 = $db->getData();
 
                                         </li>
                                         <li class="media">
-                                        <span style="font-size: 5rem; color: Dodgerblue;">
+                                            <span style="font-size: 5rem; color: Dodgerblue;">
                                                 <i class="fas fa-hands-helping" style="font-size: 3rem;"></i>
                                             </span> &nbsp;&nbsp;&nbsp;&nbsp;
                                             <div class="media-body">
@@ -321,13 +331,13 @@ $res5 = $db->getData();
 
 
                                         <li class="media">
-                                            
+
                                             <span style="font-size: 5rem; color: Dodgerblue;">
-                                                    <i class="fas fa-house-damage" style="font-size: 3rem;"></i>
-                                                </span> &nbsp;&nbsp;&nbsp;&nbsp;
-                                                <div class="media-body">
-                                                    <h5 class="m-0">ค่าประสบภัยพิบัติ</h5>
-                                                </div>
+                                                <i class="fas fa-house-damage" style="font-size: 3rem;"></i>
+                                            </span> &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <div class="media-body">
+                                                <h5 class="m-0">ค่าประสบภัยพิบัติ</h5>
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -365,12 +375,12 @@ $res5 = $db->getData();
                                         </li>
 
                                         <li class="media">
-                                        <span style="font-size: 5rem; color: Dodgerblue;">
-                                                    <i class="fas fa-user-graduate" style="font-size: 3rem;"></i>
-                                                </span> &nbsp;&nbsp;&nbsp;&nbsp;
-                                                <div class="media-body">
-                                                    <h5 class="m-0">ค่าการศึกษาบุตร</h5>
-                                                </div>
+                                            <span style="font-size: 5rem; color: Dodgerblue;">
+                                                <i class="fas fa-user-graduate" style="font-size: 3rem;"></i>
+                                            </span> &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <div class="media-body">
+                                                <h5 class="m-0">ค่าการศึกษาบุตร</h5>
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -382,7 +392,7 @@ $res5 = $db->getData();
                                                     </div>
 
                                                     <div class="col-md-6">
-                                                        <span style="float: right;">วงเงินสูงสุดที่สามารถเบิก : </span>
+                                                        <span style="float: right;">วงเงินสูงสุดที่เบิกได้ภายในปีนี้: </span>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <span style="float: right;"> <?php echo number_format($res5['edu_value_bal_begin'], 2) ?> บาท</span>
@@ -400,7 +410,7 @@ $res5 = $db->getData();
                                                         <span style="float: right;">สิทธิคงเหลือ : </span>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <span style="float: right;"><?php echo number_format($res5['edu_value_bal_use'], 2) ?> บาท</span>
+                                                        <span style="float: right;"><?php echo number_format($res5['edu_value_bal_bal'], 2) ?> บาท</span>
                                                     </div>
 
                                                     <div class="col-md-4">
@@ -416,12 +426,12 @@ $res5 = $db->getData();
                                         </li>
 
                                         <li class="media">
-                                        <span style="font-size: 5rem; color: Dodgerblue;">
-                                                    <i class="fas fa-user-graduate" style="font-size: 3rem;"></i>
-                                                </span> &nbsp;&nbsp;&nbsp;&nbsp;
-                                                <div class="media-body">
-                                                    <h5 class="m-0">เงินเลี้ยงชีพรายเดือน</h5>
-                                                </div>
+                                            <span style="font-size: 5rem; color: Dodgerblue;">
+                                                <i class="fas fa-hand-holding-usd" style="font-size: 3rem;"></i>
+                                            </span> &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <div class="media-body">
+                                                <h5 class="m-0">เงินเลี้ยงชีพรายเดือน</h5>
+                                            </div>
                                             <div class="col-md-6">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -450,7 +460,7 @@ $res5 = $db->getData();
                                                     </div>
                                                     <div class="col-md-8">
 
-                                                        <a href='edu_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
+                                                        <a href='monthly_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
 
                                                         <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
                                                     </div>
@@ -469,7 +479,7 @@ $res5 = $db->getData();
 
 
             </div>
-<!--
+            <!--
             <div class="row">
                 <div class="col-xl-3 col-lg-4 col-xxl-4">
                     <div class="card">
@@ -619,7 +629,7 @@ $res5 = $db->getData();
     </div> -->
 
 
-<!--
+            <!--
     <div class="footer dashboard">
         <div class="container-fluid">
             <div class="row">
@@ -642,115 +652,115 @@ $res5 = $db->getData();
         </div>
     </div> -->
 
-    <!--removeIf(production)-->
-    <!--**********************************
+            <!--removeIf(production)-->
+            <!--**********************************
             Right sidebar start
         ***********************************-->
-    <div class="sidebar-right">
-        <a class="sidebar-right-trigger" href="javascript:void(0)">
-            <span><i class="fa fa-cog fa-spin"></i></span>
-        </a>
-        <div class="sidebar-right-inner">
-            <div class="admin-settings">
-                <div class="opt-background">
-                    <p>Font Family</p>
-                    <select class="form-control" name="theme_font" id="theme_font">
-                        <option value="nunito">Nunito</option>
-                        <option value="poppins">Poppins</option>
+            <div class="sidebar-right">
+                <a class="sidebar-right-trigger" href="javascript:void(0)">
+                    <span><i class="fa fa-cog fa-spin"></i></span>
+                </a>
+                <div class="sidebar-right-inner">
+                    <div class="admin-settings">
+                        <div class="opt-background">
+                            <p>Font Family</p>
+                            <select class="form-control" name="theme_font" id="theme_font">
+                                <option value="nunito">Nunito</option>
+                                <option value="poppins">Poppins</option>
 
-                        <option value="opensans">Open Sans</option>
+                                <option value="opensans">Open Sans</option>
 
-                    </select>
-                </div>
-                <div>
-                    <p>Primary Color</p>
-                    <div class="opt-nav-header-color">
-                        <span>
-                            <input type="radio" name="navigation_header" value="color_1" class="filled-in chk-col-primary" id="nav_header_color_1" />
-                            <label for="nav_header_color_1"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="navigation_header" value="color_2" class="filled-in chk-col-primary" id="nav_header_color_2" />
-                            <label for="nav_header_color_2"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="navigation_header" value="color_3" class="filled-in chk-col-primary" id="nav_header_color_3" />
-                            <label for="nav_header_color_3"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="navigation_header" value="color_4" class="filled-in chk-col-primary" id="nav_header_color_4" />
-                            <label for="nav_header_color_4"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="navigation_header" value="color_5" class="filled-in chk-col-primary" id="nav_header_color_5" />
-                            <label for="nav_header_color_5"></label>
-                        </span>
-                    </div>
-                </div>
-                <div class="opt-header-color">
-                    <p>Background Color</p>
-                    <div>
-                        <span>
-                            <input type="radio" name="header_bg" value="color_1" class="filled-in chk-col-primary" id="header_color_1">
-                            <label for="header_color_1"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="header_bg" value="color_2" class="filled-in chk-col-primary" id="header_color_2">
-                            <label for="header_color_2"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="header_bg" value="color_3" class="filled-in chk-col-primary" id="header_color_3">
-                            <label for="header_color_3"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="header_bg" value="color_4" class="filled-in chk-col-primary" id="header_color_4">
-                            <label for="header_color_4"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="header_bg" value="color_5" class="filled-in chk-col-primary" id="header_color_5">
-                            <label for="header_color_5"></label>
-                        </span>
+                            </select>
+                        </div>
+                        <div>
+                            <p>Primary Color</p>
+                            <div class="opt-nav-header-color">
+                                <span>
+                                    <input type="radio" name="navigation_header" value="color_1" class="filled-in chk-col-primary" id="nav_header_color_1" />
+                                    <label for="nav_header_color_1"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="navigation_header" value="color_2" class="filled-in chk-col-primary" id="nav_header_color_2" />
+                                    <label for="nav_header_color_2"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="navigation_header" value="color_3" class="filled-in chk-col-primary" id="nav_header_color_3" />
+                                    <label for="nav_header_color_3"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="navigation_header" value="color_4" class="filled-in chk-col-primary" id="nav_header_color_4" />
+                                    <label for="nav_header_color_4"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="navigation_header" value="color_5" class="filled-in chk-col-primary" id="nav_header_color_5" />
+                                    <label for="nav_header_color_5"></label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="opt-header-color">
+                            <p>Background Color</p>
+                            <div>
+                                <span>
+                                    <input type="radio" name="header_bg" value="color_1" class="filled-in chk-col-primary" id="header_color_1">
+                                    <label for="header_color_1"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="header_bg" value="color_2" class="filled-in chk-col-primary" id="header_color_2">
+                                    <label for="header_color_2"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="header_bg" value="color_3" class="filled-in chk-col-primary" id="header_color_3">
+                                    <label for="header_color_3"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="header_bg" value="color_4" class="filled-in chk-col-primary" id="header_color_4">
+                                    <label for="header_color_4"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="header_bg" value="color_5" class="filled-in chk-col-primary" id="header_color_5">
+                                    <label for="header_color_5"></label>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!--**********************************
+            <!--**********************************
             Right sidebar end
         ***********************************-->
-    <!--endRemoveIf(production)-->
+            <!--endRemoveIf(production)-->
 
-    </div>
-
-
-    <script src="./js/global.js"></script>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+        </div>
 
 
-    <script src="./vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="./vendor/circle-progress/circle-progress-init.js"></script>
+        <script src="./js/global.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
 
-    <!--  flot-chart js -->
-    <script src="./vendor/apexchart/apexcharts.min.js"></script>
-    <script src="./vendor/apexchart/apexchart-init.js"></script>
+        <script src="./vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="./vendor/circle-progress/circle-progress-init.js"></script>
 
 
-    <!-- <script src="./js/dashboard.js"></script> -->
-    <script src="./js/dashboard.js"></script>
-    <script src="./js/scripts.js"></script>
+        <!--  flot-chart js -->
+        <script src="./vendor/apexchart/apexcharts.min.js"></script>
+        <script src="./vendor/apexchart/apexchart-init.js"></script>
 
-    <script src="./js/settings.js"></script>
-    <script src="./js/quixnav-init.js"></script>
-    <script src="./js/styleSwitcher.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable();
-        });
-    </script>
+        <!-- <script src="./js/dashboard.js"></script> -->
+        <script src="./js/dashboard.js"></script>
+        <script src="./js/scripts.js"></script>
+
+        <script src="./js/settings.js"></script>
+        <script src="./js/quixnav-init.js"></script>
+        <script src="./js/styleSwitcher.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#example').DataTable();
+            });
+        </script>
 </body>
 
 </html>

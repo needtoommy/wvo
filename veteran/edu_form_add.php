@@ -168,6 +168,9 @@ $step = $res['VT_CARD_STEP'];
 
                             <form enctype="multipart/form-data" method="post" name="myform" id="myform" class="currency_validate" action="edu_form_add_db.php">
                                 <input type="hidden" name="VT_CARD_STEP" value="<?php echo $res['VT_CARD_STEP']; ?>">
+                                <input type="hidden" name="m_id" id="m_id" value="<?php echo $_SESSION['m_id']; ?>" />
+                                <input type="hidden" name="s_id" value="1" />
+
                                 <div class="card-body">
 
 
@@ -297,7 +300,7 @@ $step = $res['VT_CARD_STEP'];
                                             <div class="form-group">
                                                 <label class="mr-sm-2">ระดับชั้น</label>
                                                 <div class="input-group mb-3">
-                                                    <select name="REQ_DST_ID" class="form-control" required>
+                                                    <select name="ELV_ID" class="form-control" required>
                                                         <option value="">-เลือกระดับชั้น-</option>
                                                         <?php while ($res2 = $db->getData()) { ?>
                                                             <option value="<?php echo $res2["ELV_ID"]; ?>">

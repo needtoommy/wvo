@@ -20,6 +20,8 @@ if (isset($_POST['m_username'])) {
 
   if (count($row) > 1) {
 
+    $_SESSION['PERMISSION'] = 'KORN';
+
     $_SESSION["m_id"] = $row["m_id"];
     $_SESSION["m_name"] = $row["m_name"];
     $_SESSION["m_level"] = $row["m_level"];

@@ -2,6 +2,8 @@
 session_start();
 include '../connect/db.php';
 
+$m_id = $_POST["m_id"];
+$s_id = $_POST["s_id"];
 $REQ_EDU_VALUE = $_POST['REQ_EDU_VALUE'];
 $VT_CARD_STEP = $_POST['VT_CARD_STEP'];
 $REQ_EDU_DATE = $_POST['REQ_EDU_DATE'];
@@ -10,7 +12,7 @@ $REQ_EDU_INSTITUTION_TYPE = $_POST['REQ_EDU_INSTITUTION_TYPE'];
 $REQ_EDU_INSTITUTION_NAME = $_POST['REQ_EDU_INSTITUTION_NAME'];
 $REQ_EDU_SEMESTER = $_POST['REQ_EDU_SEMESTER'];
 $REQ_EDU_YEAR = $_POST['REQ_EDU_YEAR'];
-$REQ_DST_ID = $_POST['REQ_DST_ID'];
+$ELV_ID = $_POST['ELV_ID'];
 $REQ_EDU_FACULTY = $_POST['REQ_EDU_FACULTY'];
 $REQ_EDU_PROGRAM = $_POST['REQ_EDU_PROGRAM'];
 $REQ_EDU_GRADE = $_POST['REQ_EDU_GRADE'];
@@ -60,6 +62,8 @@ if ($VT_CARD_STEP == "1ท." || $VT_CARD_STEP == "1ค.") {
 
     $sql = "INSERT INTO req_edu 
     (
+        m_id,
+        s_id,
         REQ_EDU_DATE,
         VT_FM_ID,
         REQ_EDU_INSTITUTION_TYPE,
@@ -75,18 +79,20 @@ if ($VT_CARD_STEP == "1ท." || $VT_CARD_STEP == "1ค.") {
     ) 
     VALUES 
     (
-        $date_edu,
-        $VT_FM_ID,
-        $REQ_EDU_INSTITUTION_TYPE,
-        $REQ_EDU_INSTITUTION_NAME,
-        $REQ_EDU_SEMESTER,
-        $REQ_EDU_YEAR,
-        $ELV_ID,
-        $REQ_EDU_FACULTY,
-        $REQ_EDU_PROGRAM,
-        $REQ_EDU_GRADE,
-        $REQ_EDU_VALUE,
-        $date
+        '$m_id',
+        '$s_id',
+        '$date_edu',
+        '$VT_FM_ID',
+        '$REQ_EDU_INSTITUTION_TYPE',
+        '$REQ_EDU_INSTITUTION_NAME',
+        '$REQ_EDU_SEMESTER',
+        '$REQ_EDU_YEAR',
+        '$ELV_ID',
+        '$REQ_EDU_FACULTY',
+        '$REQ_EDU_PROGRAM',
+        '$REQ_EDU_GRADE',
+        '$REQ_EDU_VALUE',
+        '$date'
 
     )";
 
@@ -104,6 +110,8 @@ if ($VT_CARD_STEP == "1ท." || $VT_CARD_STEP == "1ค.") {
 
         $sql = "INSERT INTO req_edu 
         (
+            m_id,
+            s_id,
             REQ_EDU_DATE,
             VT_FM_ID,
             REQ_EDU_INSTITUTION_TYPE,
@@ -119,6 +127,8 @@ if ($VT_CARD_STEP == "1ท." || $VT_CARD_STEP == "1ค.") {
         ) 
         VALUES 
         (
+            '$m_id',
+            '$s_id',
             '$date_edu',
             '$VT_FM_ID',
             '$REQ_EDU_INSTITUTION_TYPE',
@@ -143,7 +153,7 @@ if ($VT_CARD_STEP == "1ท." || $VT_CARD_STEP == "1ค.") {
 if ($check_type == 1) {
     $check = 0;
 
-    $sql = "select max(REQ_HEL_ID) as maxid from req_health limit 1";
+    $sql = "select max(REQ_EDU_ID) as maxid from req_edu limit 1";
     $db->Execute($sql);
     $res = $db->getData();
 

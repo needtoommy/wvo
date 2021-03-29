@@ -1,6 +1,7 @@
 <?php
-
 session_start();
+if($_SESSION['PERMISSION'] == 'KORN'){
+
 include '../connect/db.php';
 $db = new DB();
 
@@ -25,7 +26,7 @@ $level = $_SESSION['m_level'];
 	<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
 	<link href="../assets/plugins/jvectormap-next/jquery-jvectormap.css" rel="stylesheet" />
 	<link href="../assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
-	<link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+	<!-- <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" /> -->
 	<link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 	<link href="../assets/plugins/datatables.net-fixedcolumns-bs4/css/fixedcolumns.bootstrap4.min.css" rel="stylesheet" />
 	<!-- ================== END PAGE LEVEL STYLE ================== -->
@@ -44,7 +45,7 @@ $level = $_SESSION['m_level'];
 		<div id="header" class="header navbar-default">
 			<!-- begin navbar-header -->
 			<div class="navbar-header">
-				<a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Color</b> Admin</a>
+				<a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>ระบบสวัสดิการสงเคราะห์ทหารผ่านศึก</b> </a>
 				<button type="button" class="navbar-toggle" data-click="sidebar-toggled">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -141,7 +142,7 @@ $level = $_SESSION['m_level'];
 						<a href="javascript:;" class="dropdown-item">Calendar</a>
 						<a href="javascript:;" class="dropdown-item">Setting</a>
 						<div class="dropdown-divider"></div>
-						<a href="javascript:;" class="dropdown-item">Log Out</a>
+						<a  href="check_logout.php" class="dropdown-item">Log Out</a>
 					</div>
 				</li>
 			</ul>
@@ -205,7 +206,7 @@ $level = $_SESSION['m_level'];
 					<!-- -----------------**********************************--------------------- -->
 					<?php if ($level == 'vsofficer') {
 					?>
-						<li>
+						<li <?php echo $_GET['type']==7?'class="active"':'' ?>>
 							<a href="calendar.html">
 								<i class="fa fa-edit"></i>
 								<span>ตรวจสอบใบคำร้องเงินครั้งคราว</span>
@@ -217,7 +218,7 @@ $level = $_SESSION['m_level'];
 					<!-- -----------------**********************************--------------------- -->
 					<?php if ($level == 'vsofficer') {
 					?>
-						<li>
+						<li <?php echo $_GET['type']==8?'class="active"':'' ?>>
 							<a href="calendar.html">
 								<i class="fa fa-edit"></i>
 								<span>จัดการสมาชิก</span>
@@ -228,7 +229,7 @@ $level = $_SESSION['m_level'];
 
 					<!-- -----------------**********************************--------------------- -->
 					<?php if ($level == 'vsofficer') { ?>
-						<li>
+						<li <?php echo $_GET['type']==9?'class="active"':'' ?>>
 							<a href="calendar.html">
 								<i class="fa fa-edit"></i>
 								<span>จัดการตำแหน่ง</span>
@@ -239,7 +240,7 @@ $level = $_SESSION['m_level'];
 
 					<!-- -----------------**********************************--------------------- -->
 					<?php if ($level == 'vsofficer') { ?>
-						<li>
+						<li <?php echo $_GET['type']==10?'class="active"':'' ?>>
 							<a href="calendar.html">
 								<i class="fa fa-edit"></i>
 								<span>จัดการสถานะ</span>
@@ -249,8 +250,20 @@ $level = $_SESSION['m_level'];
 
 
 					<!-- -----------------**********************************--------------------- -->
+					<?php if ($level == 'vsofficer' ) { ?>
+						<li <?php echo $_GET['type']==11?'class="active"':'' ?>>
+							<a href="index.php?type=11&level=<?php echo $level ?>">
+								<i class="fa fa-edit"></i>
+								<span>จัดการประวัติทหารผ่านศึก</span>
+							</a>
+						</li>
+					<?php } ?>
+					<!-- -----------------*************END*************--------------------- -->
+
+					
+					<!-- -----------------**********************************--------------------- -->
 					<?php if ($level == 'vsofficer') { ?>
-						<li>
+						<li <?php echo $_GET['type']==12?'class="active"':'' ?>>
 							<a href="calendar.html">
 								<i class="fa fa-edit"></i>
 								<span>จัดการแผนก</span>
@@ -258,6 +271,7 @@ $level = $_SESSION['m_level'];
 						</li>
 					<?php } ?>
 					<!-- -----------------*************END*************--------------------- -->
+
 
 
 					<li class="has-sub active">
@@ -656,7 +670,7 @@ $level = $_SESSION['m_level'];
 	<!-- ================== END BASE JS ================== -->
 
 	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
-	<script src="../assets/plugins/gritter/js/jquery.gritter.js"></script>
+	<!-- <script src="../assets/plugins/gritter/js/jquery.gritter.js"></script> -->
 	<script src="../assets/plugins/flot/jquery.flot.js"></script>
 	<script src="../assets/plugins/flot/jquery.flot.time.js"></script>
 	<script src="../assets/plugins/flot/jquery.flot.resize.js"></script>
@@ -676,3 +690,8 @@ $level = $_SESSION['m_level'];
 </body>
 
 </html>
+<?php
+}else{
+	header('Location: login.php');
+}
+?>

@@ -12,6 +12,11 @@
 	<link href="assets/css/default/app.min.css" rel="stylesheet" />
 	<!-- ================== END BASE CSS STYLE ================== -->
 </head>
+<style>
+	.sidebar-bg{
+		opacity:0
+	}
+</style>
 <body class="pace-top">
 	<!-- begin #page-loader -->
 	<div id="page-loader" class="fade show">

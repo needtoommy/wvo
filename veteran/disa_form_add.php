@@ -32,6 +32,7 @@ $db->Execute($sql2);
     <link rel="stylesheet" href="./vendor/magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    
 </head>
 <style>
     .dataTables_wrapper {
