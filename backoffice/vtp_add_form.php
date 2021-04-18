@@ -165,6 +165,156 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 					<!-- begin sidebar nav -->
 					<ul class="nav">
 						<li class="nav-header">Navigation</li>
+						<!-- --------------****Start******-------------------- -->
+						<?php
+						if ($level == 'vsofficer') {
+						?>
+							<li class="has-sub active">
+								<a href="calendar.html">
+									<i class="fa fa-edit"></i>
+									<span> พิจารณาคำร้อง</span>
+								</a>
+								<ul class="sub-menu">
+									<li <?php echo $_GET['type'] == 1 ? 'class="active"' : '' ?>><a href="index.php?type=1&level=<?php echo $level ?>">ค่ารักษาพยาบาล</a></li>
+									<li <?php echo $_GET['type'] == 2 ? 'class="active"' : '' ?>><a href="index.php?type=2&level=<?php echo $level ?>">เงินช่วยเหลือครั้งคราว</a></li>
+									<li <?php echo $_GET['type'] == 3 ? 'class="active"' : '' ?>><a href="index.php?type=3&level=<?php echo $level ?>">ค่าประสบภัยพิบัติ</a></li>
+									<li <?php echo $_GET['type'] == 4 ? 'class="active"' : '' ?>><a href="index.php?type=4&level=<?php echo $level ?>">ค่าคลอดบุตร</a></li>
+									<li <?php echo $_GET['type'] == 5 ? 'class="active"' : '' ?>><a href="index.php?type=5&level=<?php echo $level ?>">ค่าการศึกษาบุตร</a></li>
+									<li <?php echo $_GET['type'] == 6 ? 'class="active"' : '' ?>><a href="index.php?type=6&level=<?php echo $level ?>">เงินช่วยเหลือรายเดือน</a></li>
+								</ul>
+							</li>
+
+						<?php } ?>
+
+						<!-- --------------****Start******-------------------- -->
+						<?php
+						if ($level == 'finoffice') {
+						?>
+							<li class="has-sub active">
+								<a href="calendar.html">
+									<i class="fa fa-edit"></i>
+									<span> อนุมัติเบิกจ่าย</span>
+								</a>
+								<ul class="sub-menu">
+									<li <?php echo $_GET['type'] == 1 ? 'class="active"' : '' ?>><a href="index.php?type=1&level=<?php echo $level ?>">ค่ารักษาพยาบาล</a></li>
+									<li <?php echo $_GET['type'] == 2 ? 'class="active"' : '' ?>><a href="index.php?type=2&level=<?php echo $level ?>">เงินช่วยเหลือครั้งคราว</a></li>
+									<li <?php echo $_GET['type'] == 3 ? 'class="active"' : '' ?>><a href="index.php?type=3&level=<?php echo $level ?>">ค่าประสบภัยพิบัติ</a></li>
+									<li <?php echo $_GET['type'] == 4 ? 'class="active"' : '' ?>><a href="index.php?type=4&level=<?php echo $level ?>">ค่าคลอดบุตร</a></li>
+									<li <?php echo $_GET['type'] == 5 ? 'class="active"' : '' ?>><a href="index.php?type=5&level=<?php echo $level ?>">ค่าการศึกษาบุตร</a></li>
+									<li <?php echo $_GET['type'] == 6 ? 'class="active"' : '' ?>><a href="index.php?type=6&level=<?php echo $level ?>">เงินช่วยเหลือรายเดือน</a></li>
+								</ul>
+							</li>
+
+						<?php } ?>
+
+
+						<!-- -----------------**********************************--------------------- -->
+						<?php if ($level == 'finoffice') {
+						?>
+							<li <?php echo $_GET['type'] == 7 ? 'class="active"' : '' ?>>
+								<a href="vs_pay.php?type=7">
+									<i class="fa fa-edit"></i>
+									<span>จ่ายเงินสงเคราะห์</span>
+								</a>
+							</li>
+						<?php } ?>
+
+
+						<!-- -----------------**********************************--------------------- -->
+						<?php if ($level == 'finoffice') {
+						?>
+							<li <?php echo $_GET['type'] == 8 ? 'class="active"' : '' ?>>
+								<a href="vs_pay_m.php?type=8">
+									<i class="fa fa-edit"></i>
+									<span>จ่ายเงินรายเดือน</span>
+								</a>
+							</li>
+						<?php } ?>
+
+
+						<!-- -----------------**********************************--------------------- -->
+						<?php if ($level == 'vsofficer' || $level == 'vsmanager') {
+						?>
+							<li <?php echo $_GET['type'] == 9 ? 'class="active"' : '' ?>>
+								<a href="death_list.php?type=9">
+									<i class="fa fa-edit"></i>
+									<span>บันทึกการสงเคราะห์กรณีถึงแก่ความตาย</span>
+								</a>
+							</li>
+						<?php } ?>
+
+
+
+						<!-- -----------------**********************************--------------------- -->
+						<?php if ($level == '') {
+						?>
+							<li <?php echo $_GET['type'] == 7 ? 'class="active"' : '' ?>>
+								<a href="calendar.html">
+									<i class="fa fa-edit"></i>
+									<span>ตรวจสอบใบคำร้องเงินครั้งคราว</span>
+								</a>
+							</li>
+						<?php } ?>
+
+
+						<!-- -----------------**********************************--------------------- -->
+						<?php if ($level == '') {
+						?>
+							<li <?php echo $_GET['type'] == 8 ? 'class="active"' : '' ?>>
+								<a href="calendar.html">
+									<i class="fa fa-edit"></i>
+									<span>จัดการสมาชิก</span>
+								</a>
+							</li>
+						<?php } ?>
+
+
+						<!-- -----------------**********************************--------------------- -->
+						<?php if ($level == '') { ?>
+							<li <?php echo $_GET['type'] == 9 ? 'class="active"' : '' ?>>
+								<a href="calendar.html">
+									<i class="fa fa-edit"></i>
+									<span>จัดการตำแหน่ง</span>
+								</a>
+							</li>
+						<?php } ?>
+
+
+						<!-- -----------------**********************************--------------------- -->
+						<?php if ($level == '') { ?>
+							<li <?php echo $_GET['type'] == 10 ? 'class="active"' : '' ?>>
+								<a href="calendar.html">
+									<i class="fa fa-edit"></i>
+									<span>จัดการสถานะ</span>
+								</a>
+							</li>
+						<?php } ?>
+
+
+						<!-- -----------------**********************************--------------------- -->
+						<?php if ($level == 'vsofficer') { ?>
+							<li <?php echo $_GET['type'] == 11 ? 'class="active"' : '' ?>>
+								<a href="vtp_add_form.php">
+									<i class="fa fa-edit"></i>
+									<span>จัดการประวัติทหารผ่านศึก</span>
+								</a>
+							</li>
+						<?php } ?>
+						<!-- -----------------*************END*************--------------------- -->
+
+
+						<!-- -----------------**********************************--------------------- -->
+						<?php if ($level == '') { ?>
+							<li <?php echo $_GET['type'] == 12 ? 'class="active"' : '' ?>>
+								<a href="calendar.html">
+									<i class="fa fa-edit"></i>
+									<span>จัดการแผนก</span>
+								</a>
+							</li>
+						<?php } ?>
+						<!-- -----------------*************END*************--------------------- -->
+
+<!--
 						<li class="has-sub">
 							<a href="javascript:;">
 								<b class="caret"></b>
@@ -459,7 +609,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 								<li><a href="javascript:;">Menu 1.3</a></li>
 							</ul>
 						</li>
-						<!-- begin sidebar minify button -->
+						 begin sidebar minify button -->
 						<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 						<!-- end sidebar minify button -->
 					</ul>
@@ -474,14 +624,14 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
 			<div id="content" class="content">
 				<!-- begin breadcrumb -->
-				<ol class="breadcrumb float-xl-right">
+				<!--<ol class="breadcrumb float-xl-right">
 					<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
 					<li class="breadcrumb-item"><a href="javascript:;">Form Stuff</a></li>
 					<li class="breadcrumb-item active">Wizards + Validation</li>
-				</ol>
+				</ol> -->
 				<!-- end breadcrumb -->
 				<!-- begin page-header -->
-				<h1 class="page-header">Wizards + Validation <small>header small text goes here...</small></h1>
+				<h1 class="page-header">จัดการประวัติทหารผ่านศึก <small></small></h1>
 				<!-- end page-header -->
 				<!-- begin wizard-form -->
 				<form action="vtp_add_form_db.php" method="POST" name="form-wizard" class="form-control-with-bg">
@@ -493,8 +643,8 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 								<a href="#step-1">
 									<span class="number">1</span>
 									<span class="info">
-										Personal Info
-										<small>Name, Address, IC No and DOB</small>
+										บันทึกข้อมูลส่วนตัว
+										<small></small>
 									</span>
 								</a>
 							</li>
@@ -502,8 +652,8 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 								<a href="#step-2">
 									<span class="number">2</span>
 									<span class="info">
-										Enter your contact
-										<small>Email and phone no. is required</small>
+										บันทึกประวัติครอบครัว
+										<small></small>
 									</span>
 								</a>
 							</li>
@@ -511,8 +661,8 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 								<a href="#step-3">
 									<span class="number">3</span>
 									<span class="info">
-										Login Account
-										<small>Enter your username and password</small>
+										สร้างบัญชีผู้ใช้
+										<small></small>
 									</span>
 								</a>
 							</li>
@@ -520,8 +670,8 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 								<a href="#step-4">
 									<span class="number">4</span>
 									<span class="info">
-										Completed
-										<small>Complete Registration</small>
+										บันทึกรายกรเสร็จสิ้น
+										<small></small>
 									</span>
 								</a>
 							</li>
@@ -793,8 +943,8 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 								<!-- begin step-4 -->
 								<div id="step-4">
 									<div class="jumbotron m-b-0 text-center">
-										<h2 class="display-4">Register Successfully</h2>
-										<p class="lead mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat commodo porttitor. <br />Vivamus eleifend, arcu in tincidunt semper, lorem odio molestie lacus, sed malesuada est lacus ac ligula. Aliquam bibendum felis id purus ullamcorper, quis luctus leo sollicitudin. </p>
+										<h2 class="display-4">บันทึกข้อมูลรประวัติสำเร็จ</h2>
+										<p class="lead mb-4"> <br /> </p>
 										<p><a href="javascript:;" class="btn btn-primary btn-lg">Proceed to User Profile</a></p>
 									</div>
 								</div>

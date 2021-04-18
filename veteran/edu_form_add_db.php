@@ -101,7 +101,8 @@ if ($VT_CARD_STEP == "1ท." || $VT_CARD_STEP == "1ค.") {
     $check_type = 1;
 } else {
     if ($res_maxuse > 3000) {
-        echo 'จำนวนเงินเกิน';
+        // echo 'จำนวนเงินเกิน';
+        echo "<script type='text/javascript'>alert('จำนวนเงินเกิน'); window.location='index.php'</script>";
         exit;
     } else {
         $sql = "INSERT INTO  edu_value_bal VALUES ('" . $_SESSION['m_id'] . "','12000', $max_seq+1,'$REQ_EDU_VALUE',$max_bal-$REQ_EDU_VALUE,'$year_now', 'Y',  '" . $date . "', '" . $date . "')";
@@ -213,6 +214,8 @@ if ($check_type == 1) {
 // echo $sql;
 
 // echo $sql;
+echo "<script type='text/javascript'>alert('บันทึกสำเร็จ'); window.location='index.php'</script>";
+// header('Location: index.php');
 exit;
 
 $db->Execute($sql);

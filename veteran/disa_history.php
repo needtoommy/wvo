@@ -4,15 +4,13 @@ include '../connect/db.php';
 echo $_SESSION["m_id"];
 $db = new DB;
 
-$sql = "
-SELECT * FROM req_health as rh 
-INNER JOIN tbl_member as m ON m.m_id = rh.m_id 
-INNER JOIN tbl_status as st ON st.s_id = rh.s_id 
-WHERE rh.m_id = " . intval($_SESSION["m_id"]) . " AND m.m_alive <> 0
-ORDER BY rh.m_id DESC";
 
-$db->Execute($sql);
 
+$sql2 = "SELECT * from tbl_member 
+INNER JOIN veteran ON veteran.m_id = tbl_member.m_id
+WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " AND veteran.VT_ALIVE <>0 ";
+$db->Execute($sql2);
+$res2 = $db->getData();
 
 
 
@@ -57,7 +55,7 @@ $db->Execute($sql);
 
                             <div class="dashboard_log my-2">
                                 <div class="d-flex align-items-center">
-                                    <div class="account_money">
+                                    <!--<div class="account_money">
                                         <ul>
                                             <li class="crypto">
                                                 <span>0.0025</span>
@@ -67,12 +65,13 @@ $db->Execute($sql);
                                                 <span>19.93 USD</span>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                     <div class="profile_log dropdown">
                                         <div class="user" data-toggle="dropdown">
                                             <span class="thumb"><i class="la la-user"></i></span>
-                                            <span class="name">Maria Pascle</span>
-                                            <span class="arrow"><i class="la la-angle-down"></i></span>
+                                            <span class="name">
+                                                <p><?php echo $res2['VT_TITLE'] . ' ' . $res2['VT_FNAME'] . ' ' . $res2['VT_LNAME'] ?></p>
+                                            </span>
                                         </div>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a href="accounts.html" class="dropdown-item">
@@ -129,8 +128,8 @@ $db->Execute($sql);
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="page-title-content">
-                            <p>ประวัติการให้การสงเคราะห์ค่ารักษาพยาบาล
-                               
+                            <p>ประวัติการให้การสงเคราะห์ค่าประสบภัยพิบัติ
+
                             </p>
                         </div>
                     </div>
@@ -143,39 +142,47 @@ $db->Execute($sql);
                 <div class="row">
                     <div class="col-md-12">
                         <?php
+                        $sql = "
+                        SELECT * FROM req_disa as rdisa
+                        INNER JOIN tbl_member as m ON m.m_id = rdisa.m_id 
+                        INNER JOIN tbl_status as st ON st.s_id = rdisa.s_id
+                        INNER JOIN  disaster_type as dt ON rdisa.REQ_DST_ID = dt.DST_ID
+                        WHERE rdisa.m_id = " . intval($_SESSION["m_id"]) . " AND m.m_alive <> 0
+                        ORDER BY rdisa.m_id DESC";
+
+                        $db->Execute($sql);
+
 
                         echo ' <table id="example1" class="table table-bordered table-striped">';
                         echo "<thead>";
                         echo "<tr class='warning'>
     
-    <th width='10%'>เลขใบคำร้อง</th>
-      <th width='10%'>วันที่รับคำร้อง</th>
-      <th width='10%'>ชื่อ-สกุล</th>
-      <th width='15%'>รายละเอียดการเบิก</th>
-      <th width='12%'>จำนวนเงินขอเบิก</th>
-      <th width='12%'>จำนวนเงินอนุมัติ</th>
-      <th width='10%'>สถานะ</th>
-      <th width='8%'>ดูรายละเอียด</th>
+                         <th width='5%'>เลขใบคำร้อง</th>
+                         <th width='10%'>วันที่รับคำร้อง</th>
+                        <th width='10%'>ชื่อ-สกุล</th>
+                        <th width='12%'>ประเภทภัยพิบัติ</th>
+                        <th width='12%'>ประเภทความเสียหาย</th>
+                        <th width='12%'>จำนวนเงินอนุมัติ</th>
+                        <th width='10%'>สถานะ</th>
+                        <th width='8%'>ดูรายละเอียด</th>
       
     
     </tr>";
                         echo "</thead>";
                         while ($row = $db->getData()) {
                             echo "<tr>";
-                            echo "<td>" . $row["REQ_HEL_ID"] .  "</td> ";
+                            echo "<td>" . $row["REQ_DISA_ID"] .  "</td> ";
 
-                            echo "<td>" . $row["REQ_HEL_DATE"] .  "</td> ";
-                            //echo "<td>"."<img src='../m_img/".$row['m_img']."' width='100%'>"."</td>";
-                            //echo "<td>" .$row["m_username"].  "</td> ";
+                            echo "<td>" . $row["REQ_DISA_DATE"] .  "</td> ";
                             echo "<td>" . $row["m_fname"] . $row["m_name"] . ' ' . $row["m_lname"] . "</td> ";
-                            echo "<td>" . $row["REQ_HEL_DETAIL"] .  "</td> ";
-                            echo "<td>" . $row["REQ_HEL_VALUE"] .  "</td> ";
-                            echo "<td>" . $row["REQ_HEL_VALUE_APPROVE"] .  "</td> ";
+                            echo "<td>" . $row["DST_NAME"] .  "</td> ";
+                            echo "<td>" . $row["REQ_DMT_TYPE"] .  "</td> ";
+                            echo "<td>" . $row["REQ_DISA_VALUE_APPROVE"] .  "</td> ";
                             echo "<td>" . $row["s_name"] .  "</td> ";
 
 
 
-                            echo "<td><a href='medi_view.php?&REQ_HEL_ID=$row[0]' class='btn btn-primary mt-3 waves-effect'>ดูรายการ</a> 
+                            echo "<td><a href='disa_view.php?&REQ_DISA_ID=$row[0]' class='btn btn-primary mt-3 waves-effect'>ดูรายการ</a> 
     <br></br>
             
     </td> ";
@@ -186,7 +193,7 @@ $db->Execute($sql);
                         mysqli_close($con);
                         ?>
                     </div>
-                <!--    <div class="col-xl-12">
+                    <!--    <div class="col-xl-12">
                         <div class="card">
                             <div class="card-header border-0">
                                 <h4 class="card-title">Transaction History</h4>
@@ -356,101 +363,101 @@ $db->Execute($sql);
                         </div>
                     </div>
                 </div>-->
+                </div>
             </div>
-        </div>
 
 
 
-        
 
-        <!--removeIf(production)-->
-        <!--**********************************
+
+            <!--removeIf(production)-->
+            <!--**********************************
             Right sidebar start
         ***********************************-->
-        <div class="sidebar-right">
-            <a class="sidebar-right-trigger" href="javascript:void(0)">
-                <span><i class="fa fa-cog fa-spin"></i></span>
-            </a>
-            <div class="sidebar-right-inner">
-                <div class="admin-settings">
-                    <div class="opt-background">
-                        <p>Font Family</p>
-                        <select class="form-control" name="theme_font" id="theme_font">
-                            <option value="nunito">Nunito</option>
-                            <option value="opensans">Open Sans</option>
+            <div class="sidebar-right">
+                <a class="sidebar-right-trigger" href="javascript:void(0)">
+                    <span><i class="fa fa-cog fa-spin"></i></span>
+                </a>
+                <div class="sidebar-right-inner">
+                    <div class="admin-settings">
+                        <div class="opt-background">
+                            <p>Font Family</p>
+                            <select class="form-control" name="theme_font" id="theme_font">
+                                <option value="nunito">Nunito</option>
+                                <option value="opensans">Open Sans</option>
 
-                        </select>
-                    </div>
-                    <div>
-                        <p>Primary Color</p>
-                        <div class="opt-nav-header-color">
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_1" class="filled-in chk-col-primary" id="nav_header_color_1" />
-                                <label for="nav_header_color_1"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_2" class="filled-in chk-col-primary" id="nav_header_color_2" />
-                                <label for="nav_header_color_2"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_3" class="filled-in chk-col-primary" id="nav_header_color_3" />
-                                <label for="nav_header_color_3"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_4" class="filled-in chk-col-primary" id="nav_header_color_4" />
-                                <label for="nav_header_color_4"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_5" class="filled-in chk-col-primary" id="nav_header_color_5" />
-                                <label for="nav_header_color_5"></label>
-                            </span>
+                            </select>
                         </div>
-                    </div>
-                    <div class="opt-header-color">
-                        <p>Background Color</p>
                         <div>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_1" class="filled-in chk-col-primary" id="header_color_1">
-                                <label for="header_color_1"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_2" class="filled-in chk-col-primary" id="header_color_2">
-                                <label for="header_color_2"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_3" class="filled-in chk-col-primary" id="header_color_3">
-                                <label for="header_color_3"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_4" class="filled-in chk-col-primary" id="header_color_4">
-                                <label for="header_color_4"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_5" class="filled-in chk-col-primary" id="header_color_5">
-                                <label for="header_color_5"></label>
-                            </span>
+                            <p>Primary Color</p>
+                            <div class="opt-nav-header-color">
+                                <span>
+                                    <input type="radio" name="navigation_header" value="color_1" class="filled-in chk-col-primary" id="nav_header_color_1" />
+                                    <label for="nav_header_color_1"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="navigation_header" value="color_2" class="filled-in chk-col-primary" id="nav_header_color_2" />
+                                    <label for="nav_header_color_2"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="navigation_header" value="color_3" class="filled-in chk-col-primary" id="nav_header_color_3" />
+                                    <label for="nav_header_color_3"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="navigation_header" value="color_4" class="filled-in chk-col-primary" id="nav_header_color_4" />
+                                    <label for="nav_header_color_4"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="navigation_header" value="color_5" class="filled-in chk-col-primary" id="nav_header_color_5" />
+                                    <label for="nav_header_color_5"></label>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="opt-header-color">
+                            <p>Background Color</p>
+                            <div>
+                                <span>
+                                    <input type="radio" name="header_bg" value="color_1" class="filled-in chk-col-primary" id="header_color_1">
+                                    <label for="header_color_1"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="header_bg" value="color_2" class="filled-in chk-col-primary" id="header_color_2">
+                                    <label for="header_color_2"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="header_bg" value="color_3" class="filled-in chk-col-primary" id="header_color_3">
+                                    <label for="header_color_3"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="header_bg" value="color_4" class="filled-in chk-col-primary" id="header_color_4">
+                                    <label for="header_color_4"></label>
+                                </span>
+                                <span>
+                                    <input type="radio" name="header_bg" value="color_5" class="filled-in chk-col-primary" id="header_color_5">
+                                    <label for="header_color_5"></label>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--**********************************
+            <!--**********************************
             Right sidebar end
         ***********************************-->
-        <!--endRemoveIf(production)-->
+            <!--endRemoveIf(production)-->
 
-    </div>
-
-
-
-    <script src="./js/global.js"></script>
+        </div>
 
 
-    <script src="./js/scripts.js"></script>
 
-    <script src="./js/settings.js"></script>
-    <script src="./js/quixnav-init.js"></script>
-    <script src="./js/styleSwitcher.js"></script>
+        <script src="./js/global.js"></script>
+
+
+        <script src="./js/scripts.js"></script>
+
+        <script src="./js/settings.js"></script>
+        <script src="./js/quixnav-init.js"></script>
+        <script src="./js/styleSwitcher.js"></script>
 </body>
 
 </html>

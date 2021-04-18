@@ -14,10 +14,30 @@ $m_email = $_POST['m_email'];
 $year = date('Y') + 543;
 $now = date('d/m/y h:s:i', strtotime('+543 years'));
 
+
+// insert member เพื่อเอาค่า m_id
+$sql = "INSERT INTO tbl_member (
+                        VT_ID,
+                        m_username,
+                        m_password,
+                        m_email
+
+) VALUES (
+                        '$VT_ID',
+                        '$m_username',
+                        '$m_password',
+                        '$m_email'
+)";
+
+$db->Execute($sql);
+// echo $sql;
+// exit;
+
 // insert family
 for ($i = 1; $i <= count($VT_FM_NAME); $i++) {
 
     $sql = "INSERT INTO veteran_family (
+        VT_ID,
         VT_FM_TITLE,
         VT_FM_NAME,
         VT_FM_LNAME,
@@ -25,6 +45,7 @@ for ($i = 1; $i <= count($VT_FM_NAME); $i++) {
         VT_FM_AGE,
         VT_SEX
     ) VALUES (
+        '" . $_POST['VT_ID'][$i] . "',
         '" . $_POST['VT_FM_TITLE'][$i] . "',
         '" . $_POST['VT_FM_NAME'][$i] . "',
         '" . $_POST['VT_FM_LNAME'][$i] . "',
@@ -39,37 +60,22 @@ for ($i = 1; $i <= count($VT_FM_NAME); $i++) {
 }
 
 
-// insert member เพื่อเอาค่า m_id
-$sql = "INSERT INTO tbl_member (
-                        VT_ID,
-                        m_username,
-                        m_password,
-                        m_email
-
-) VALUES (
-                        '$VT_ID'.
-                        '$m_username',
-                        '$m_password',
-                        '$m_email'
-)";
-
-$db->Execute($sql);
 
 // หา max m_id
-$sql = "SELECT m_id FROM tbl_member order by m_id desc limit 1";
+$sql = "SELECT m_id FROM tbl_member WHERE m_alive <> 0 order by m_id desc limit 1";
 $db->Execute($sql);
 $res = $db->getData();
 $m_id = $res['m_id'];
 
 
-$sql = "SELECT VT_CARD_STEP FROM veteran WHERE VT_ID = $VT_ID ";
+$sql = "SELECT VT_CARD_STEP FROM veteran WHERE VT_ID = $VT_ID AND VT_ALIVE <>0";
 $db->Execute($sql);
 $res = $db->getData();
 $VT_CARD_STEP = $res['VT_CARD_STEP'];
 
 
 // update veteran m_id ที่เป็นค่าว่างตอนแรก
-$sql = "UPDATE veteran SET m_id=$m_id WHERE VT_ID=$VT_ID";
+$sql = "UPDATE veteran SET m_id=$m_id WHERE VT_ID=$VT_ID AND VT_ALIVE <>0";
 $db->Execute($sql);
 
 

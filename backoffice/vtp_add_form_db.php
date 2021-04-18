@@ -25,7 +25,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
     $VT_CARD_NO = $_POST['VT_CARD_NO'];
     $VT_ARMY_ST = $_POST['VT_ARMY_ST'];
 
-    $sql = "SELECT VT_ID_NUM FROM veteran WHERE VT_ID_NUM = '$VT_ID_NUM' ";
+    $sql = "SELECT VT_ID_NUM FROM veteran WHERE VT_ID_NUM = '$VT_ID_NUM'  AND VT_ALIVE <>0";
 
     $db->Execute($sql);
     $res_VT_ID_NUM = $db->getData();
@@ -77,7 +77,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
         $db->Execute($sql);
     }
 
-    $sql = "SELECT VT_ID FROM veteran order by VT_ID desc";
+    $sql = "SELECT VT_ID FROM veteran WHERE VT_ALIVE <>0 order by VT_ID desc";
     $db->Execute($sql);
     $res = $db->getData();
 

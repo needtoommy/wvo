@@ -3,17 +3,17 @@ session_start();
 include '../connect/db.php';
 echo $_SESSION["m_id"];
 $db = new DB;
-$ID = $_GET['REQ_HEL_ID'];
+$ID = $_GET['REQ_EDU_ID'];
 
 
-$sql = "SELECT * FROM req_health 
-INNER JOIN tbl_status ON req_health.s_id =tbl_status.s_id 
-INNER JOIN health_value_bal ON req_health.m_id = health_value_bal.m_id
-INNER JOIN veteran ON req_health.m_id = veteran.m_id
-INNER JOIN veteran_family ON veteran.VT_ID = veteran_family.VT_ID
-INNER JOIN gov_hos ON gov_hos.GOV_HOS_ID = req_health.GOV_HOS_ID
-WHERE REQ_HEL_ID=$ID AND veteran.VT_ALIVE <>0
-AND req_health.VT_FM_ID = veteran_family.VT_FM_ID";
+$sql = "SELECT * FROM req_edu as redu
+INNER JOIN tbl_member as m ON m.m_id = redu.m_id 
+INNER JOIN tbl_status as st ON st.s_id = redu.s_id 
+INNER JOIN veteran as vt ON m.m_id = vt.m_id
+INNER JOIN veteran_family as vfm ON vt.VT_ID  = vfm.VT_ID
+INNER JOIN education_level elv ON redu.ELV_ID = elv.ELV_ID
+WHERE redu.REQ_EDU_ID=$ID AND vt.VT_ALIVE <>0
+AND redu.VT_FM_ID = vfm.VT_FM_ID";
 
 
 
@@ -138,7 +138,7 @@ $res2 = $db->getData();
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="page-title-content">
-                            <p>ยื่นคำร้องขอเบิกค่ารักษาพยาบาล โดย
+                            <p>ยื่นคำร้องขอเบิกค่าการศึกษาบุตร โดย
                                 <!--<span>  <p><?php echo $res['VT_TITLE'] . ' ' . $res['VT_FNAME'] . ' ' . $res['VT_LNAME'] ?></p></span> -->
                             </p>
                         </div>
@@ -295,13 +295,10 @@ $res2 = $db->getData();
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tbody>
-                                                <!--<tr>
-                                                    <td><span class="text-primary">วันที่ยื่นคำร้อง</span></td>
-                                                    <td><span class="text-primary"><?php echo $res['REQ_HEL_DATE']; ?></span></td>
-                                                </tr> -->
+                                               
                                                 <tr>
                                                     <td>วันที่ยื่นคำร้อง</td>
-                                                    <td><?php echo $res['REQ_HEL_DATE']; ?></td>
+                                                    <td><?php echo $res['REQ_EDU_DATE']; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>สถานะรายการ</td>
@@ -332,24 +329,50 @@ $res2 = $db->getData();
                                                 </tr>
                                                 <tr>
                                                     <td>เบิกให้</td>
-                                                    <td><?php echo $res['VT_FM_TITLE'] . ' ' . $res['VT_FM_NAME'] . ' ' . $res['VT_FM_LNAME'] ?>&nbsp;&nbsp;เกี่ยวข้องเป็น&nbsp;<?php echo $res['VT_FM_RELATION']; ?></td>
+                                                    <td><?php echo $res["m_fname"] . $row["m_name"] . ' ' . $row["m_lname"]  ?></td> 
                                                 </tr>
                                                 <tr>
-                                                    <td>ชื่อสถานพยาบาล</td>
-                                                    <td><?php echo $res['GOV_HOS_NAME']; ?></td>
+                                                    <td>ประเภทสถาบัน</td>
+                                                    <td><?php echo $res['REQ_EDU_INSTITUTION_TYPE']; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>ป่วยเป็นโรค</td>
-                                                    <td><?php echo $res['REQ_HEL_SICKNESS']; ?></td>
+                                                    <td>ชื่อสถาบัน</td>
+                                                    <td><?php echo $res['REQ_EDU_INSTITUTION_NAME']; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>รายละเอียด</td>
-                                                    <td><?php echo $res['REQ_HEL_DETAIL']; ?></td>
+                                                    <td>ภาคเรียน</td>
+                                                    <td><?php echo $res['REQ_EDU_SEMESTER']; ?></td>
                                                 </tr>
 
                                                 <tr>
+                                                    <td>ปีการศึกษา</td>
+                                                    <td><?php echo $res['REQ_EDU_YEAR']; ?></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>ระดับชั้น</td>
+                                                    <td><?php echo $res['ELV_NAME']; ?></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>คณะ</td>
+                                                    <td><?php echo $res['REQ_EDU_FACULTY']; ?></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>สาขา</td>
+                                                    <td><?php echo $res['REQ_EDU_PROGRAM']; ?></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>เกรดเฉลี่ย</td>
+                                                    <td><?php echo $res['REQ_EDU_GRADE']; ?></td>
+                                                </tr>
+
+
+                                                <tr>
                                                     <td>จำนวนเงินขอเบิก</td>
-                                                    <td><?php echo $res['REQ_HEL_VALUE']; ?>&nbsp;บาท</td>
+                                                    <td><?php echo $res['REQ_EDU_VALUE']; ?>&nbsp;บาท</td>
                                                 </tr>
 
                                                 <tr>
@@ -357,7 +380,7 @@ $res2 = $db->getData();
                                                     <td>
 
                                                         <?php
-                                                        $REQ_HEL_PAY_TYPE = $res["REQ_HEL_PAY_TYPE"];
+                                                        $REQ_HEL_PAY_TYPE = $res["REQ_EDU_PAY_TYPE"];
                                                         if ($REQ_HEL_PAY_TYPE == 1) {
                                                             echo '<font color="#ef8204">';
                                                             echo 'รับเงินด้วยตนเองที่ อผศ.';
@@ -424,7 +447,7 @@ $res2 = $db->getData();
                                             </tbody>
                                         </table>
                                         <center>
-                                        <a href='medi_history.php' class='btn btn-warning btn-s'>กลับหน้าหลัก</a> 
+                                        <a href='index.php' class='btn btn-warning btn-s'>กลับหน้าหลัก</a> 
                                         
                                         </center>
                                         

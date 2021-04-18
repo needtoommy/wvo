@@ -3,17 +3,17 @@ session_start();
 include '../connect/db.php';
 echo $_SESSION["m_id"];
 $db = new DB;
-$ID = $_GET['REQ_HEL_ID'];
+$ID = $_GET['REQ_OCC_ID'];
 
 
-$sql = "SELECT * FROM req_health 
-INNER JOIN tbl_status ON req_health.s_id =tbl_status.s_id 
-INNER JOIN health_value_bal ON req_health.m_id = health_value_bal.m_id
-INNER JOIN veteran ON req_health.m_id = veteran.m_id
+$sql = "SELECT * FROM req_occ 
+INNER JOIN tbl_status ON req_occ.s_id =tbl_status.s_id 
+INNER JOIN occ_value_bal ON req_occ.m_id = occ_value_bal.m_id
+INNER JOIN veteran ON req_occ.m_id = veteran.m_id
 INNER JOIN veteran_family ON veteran.VT_ID = veteran_family.VT_ID
-INNER JOIN gov_hos ON gov_hos.GOV_HOS_ID = req_health.GOV_HOS_ID
-WHERE REQ_HEL_ID=$ID AND veteran.VT_ALIVE <>0
-AND req_health.VT_FM_ID = veteran_family.VT_FM_ID";
+
+WHERE REQ_OCC_ID=$ID AND veteran.VT_ALIVE <>0
+AND req_occ.VT_FM_ID = veteran_family.VT_FM_ID";
 
 
 
@@ -297,11 +297,11 @@ $res2 = $db->getData();
                                             <tbody>
                                                 <!--<tr>
                                                     <td><span class="text-primary">วันที่ยื่นคำร้อง</span></td>
-                                                    <td><span class="text-primary"><?php echo $res['REQ_HEL_DATE']; ?></span></td>
+                                                    <td><span class="text-primary"><?php echo $res['REQ_OCC_DATE']; ?></span></td>
                                                 </tr> -->
                                                 <tr>
                                                     <td>วันที่ยื่นคำร้อง</td>
-                                                    <td><?php echo $res['REQ_HEL_DATE']; ?></td>
+                                                    <td><?php echo $res['REQ_OCC_DATE']; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>สถานะรายการ</td>
@@ -331,8 +331,8 @@ $res2 = $db->getData();
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>เบิกให้</td>
-                                                    <td><?php echo $res['VT_FM_TITLE'] . ' ' . $res['VT_FM_NAME'] . ' ' . $res['VT_FM_LNAME'] ?>&nbsp;&nbsp;เกี่ยวข้องเป็น&nbsp;<?php echo $res['VT_FM_RELATION']; ?></td>
+                                                    <td>เหตุผลขอรับการสงเคราะห์</td>
+                                                    <td><?php echo $res['REQ_OCC_CC_REASON'] ; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>ชื่อสถานพยาบาล</td>

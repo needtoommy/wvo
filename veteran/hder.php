@@ -22,7 +22,7 @@ if($m_level!='member'){
 }
 
 //query member login 
-$sql = "SELECT m_name, m_img FROM tbl_member WHERE m_id=$m_id";
+$sql = "SELECT m_name, m_img FROM tbl_member WHERE m_id=$m_id AND m_alive <> 0";
 $result = mysqli_query($condb, $sql) or die ("Error in query: $sql " . mysqli_error($condb));
 $row = mysqli_fetch_array($result);
 extract($row);

@@ -3,17 +3,15 @@ session_start();
 include '../connect/db.php';
 echo $_SESSION["m_id"];
 $db = new DB;
-$ID = $_GET['REQ_HEL_ID'];
+$ID = $_GET['REQ_DISA_ID'];
 
 
-$sql = "SELECT * FROM req_health 
-INNER JOIN tbl_status ON req_health.s_id =tbl_status.s_id 
-INNER JOIN health_value_bal ON req_health.m_id = health_value_bal.m_id
-INNER JOIN veteran ON req_health.m_id = veteran.m_id
-INNER JOIN veteran_family ON veteran.VT_ID = veteran_family.VT_ID
-INNER JOIN gov_hos ON gov_hos.GOV_HOS_ID = req_health.GOV_HOS_ID
-WHERE REQ_HEL_ID=$ID AND veteran.VT_ALIVE <>0
-AND req_health.VT_FM_ID = veteran_family.VT_FM_ID";
+$sql = "SELECT * FROM req_disa as rdisa
+INNER JOIN tbl_member as m ON m.m_id = rdisa.m_id 
+INNER JOIN tbl_status as st ON st.s_id = rdisa.s_id
+INNER JOIN  disaster_type as dt ON rdisa.REQ_DST_ID = dt.DST_ID
+INNER JOIN  veteran ON m.m_id = veteran.m_id
+WHERE REQ_DISA_ID=$ID AND veteran.VT_ALIVE <>0";
 
 
 
@@ -39,7 +37,7 @@ $res2 = $db->getData();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tradix </title>
+    <title>ระบบสวัสดิการสงเคราะห์ทหารผ่านศึก </title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <!-- Custom Stylesheet -->
@@ -76,7 +74,7 @@ $res2 = $db->getData();
 
                             <div class="dashboard_log my-2">
                                 <div class="d-flex align-items-center">
-                                    
+
                                     <div class="profile_log dropdown">
                                         <div class="user" data-toggle="dropdown">
                                             <span class="thumb"><i class="la la-user"></i></span>
@@ -138,7 +136,7 @@ $res2 = $db->getData();
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="page-title-content">
-                            <p>ยื่นคำร้องขอเบิกค่ารักษาพยาบาล โดย
+                            <p>ยื่นคำร้องขอเบิกค่าประสบภัยพิบัติ โดย
                                 <!--<span>  <p><?php echo $res['VT_TITLE'] . ' ' . $res['VT_FNAME'] . ' ' . $res['VT_LNAME'] ?></p></span> -->
                             </p>
                         </div>
@@ -297,11 +295,11 @@ $res2 = $db->getData();
                                             <tbody>
                                                 <!--<tr>
                                                     <td><span class="text-primary">วันที่ยื่นคำร้อง</span></td>
-                                                    <td><span class="text-primary"><?php echo $res['REQ_HEL_DATE']; ?></span></td>
+                                                    <td><span class="text-primary"><?php echo $res['REQ_OCC_DATE']; ?></span></td>
                                                 </tr> -->
                                                 <tr>
                                                     <td>วันที่ยื่นคำร้อง</td>
-                                                    <td><?php echo $res['REQ_HEL_DATE']; ?></td>
+                                                    <td><?php echo $res['REQ_DISA_DATE']; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>สถานะรายการ</td>
@@ -319,8 +317,7 @@ $res2 = $db->getData();
                                                                 echo '<font color="#1DEC72">';
                                                                 echo $res['s_name'];
                                                                 echo '</font>';
-                                                            }
-                                                            else {
+                                                            } else {
                                                                 echo '<font color="green">';
                                                                 echo 'กำลังดำเนินการ';
                                                                 echo '</font>';
@@ -331,34 +328,32 @@ $res2 = $db->getData();
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>เบิกให้</td>
-                                                    <td><?php echo $res['VT_FM_TITLE'] . ' ' . $res['VT_FM_NAME'] . ' ' . $res['VT_FM_LNAME'] ?>&nbsp;&nbsp;เกี่ยวข้องเป็น&nbsp;<?php echo $res['VT_FM_RELATION']; ?></td>
+                                                    <td>วันที่เริ่มประสบภัยพิบัติ</td>
+                                                    <td><?php echo $res['REQ_DISA_DATE_FROM']; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>ชื่อสถานพยาบาล</td>
-                                                    <td><?php echo $res['GOV_HOS_NAME']; ?></td>
+                                                    <td>วันที่สิ้นสุดประสบภัยพิบัติ</td>
+                                                    <td><?php echo $res['REQ_DISA_DATE_TO']; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>ป่วยเป็นโรค</td>
-                                                    <td><?php echo $res['REQ_HEL_SICKNESS']; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>รายละเอียด</td>
-                                                    <td><?php echo $res['REQ_HEL_DETAIL']; ?></td>
+                                                    <td>ประเภทภัยพิบัติ</td>
+                                                    <td><?php echo $res['DST_NAME']; ?></td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td>จำนวนเงินขอเบิก</td>
-                                                    <td><?php echo $res['REQ_HEL_VALUE']; ?>&nbsp;บาท</td>
+                                                    <td>ประเภทความเสียหาย</td>
+                                                    <td><?php echo $res['REQ_DMT_TYPE']; ?></td>
                                                 </tr>
+
+
 
                                                 <tr>
                                                     <td>วิธีการรับเงิน</td>
                                                     <td>
 
                                                         <?php
-                                                        $REQ_HEL_PAY_TYPE = $res["REQ_HEL_PAY_TYPE"];
-                                                        if ($REQ_HEL_PAY_TYPE == 1) {
+                                                        $REQ_HEL_PAY_TYPE = $res["REQ_DISA_PAY_TYPE"];
+                                                        if ($REQ_DISA_PAY_TYPE == 1) {
                                                             echo '<font color="#ef8204">';
                                                             echo 'รับเงินด้วยตนเองที่ อผศ.';
                                                             echo '</font>';
@@ -382,7 +377,7 @@ $res2 = $db->getData();
                                                 <tr>
                                                     <td>ไฟล์แนบ</td>
                                                     <td> <?php
-                                                            $sql3 = "SELECT file_name, is_image FROM multi_file where m_id = " . $res['m_id'] . " and vs_id ='1'and req_id= " . $res['REQ_HEL_ID'] . "";
+                                                            $sql3 = "SELECT file_name, is_image FROM multi_file where m_id = " . $res['m_id'] . " and vs_id ='1'and req_id= " . $res['REQ_DISA_ID'] . "";
 
                                                             // exit;
                                                             $db->Execute($sql3);
@@ -395,7 +390,7 @@ $res2 = $db->getData();
                                                             ?>
                                                                 <div class="form-group">
                                                                     <div class="col-sm-2 control-label">
-                                                                        ดูใบเสร็จ <?php echo $i ?>:
+                                                                        ดูไฟล์แนบ <?php echo $i ?>:
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <img src="../c_img/<?php echo $res3['file_name']; ?>" alt="<?php echo $res3['file_name']; ?>" width="500" height="500">
@@ -407,11 +402,11 @@ $res2 = $db->getData();
 
                                                                 <div class="form-group">
                                                                     <div class="col-sm-2 control-label">
-                                                                        ดูใบเสร็จ <?php echo $i ?>:
+                                                                        ดูไฟล์แนบ <?php echo $i ?>:
                                                                     </div>
                                                                     <div class="col-sm-3">
                                                                         <a href="../c_img/<?php echo $res3['file_name']; ?>" download>
-                                                                            โหลดเอกสาร <?php echo $i ?>
+                                                                            โหลดไฟล์แนบ <?php echo $i ?>
                                                                         </a>
 
                                                                     </div>
@@ -424,10 +419,10 @@ $res2 = $db->getData();
                                             </tbody>
                                         </table>
                                         <center>
-                                        <a href='medi_history.php' class='btn btn-warning btn-s'>กลับหน้าหลัก</a> 
-                                        
+                                            <a href='medi_history.php' class='btn btn-warning btn-s'>กลับหน้าหลัก</a>
+
                                         </center>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -435,111 +430,111 @@ $res2 = $db->getData();
                     </div>
                 </div>
 
-                
-                                    
-                    
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="footer dashboard">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="copyright">
+                        <p>© Copyright 2021 <a href="#">ระบบสวัสดิการสงเคราะห์</a> I All Rights Reserved</p>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div class="footer-social">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 
-
-        <div class="footer dashboard">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xl-6">
-                        <div class="copyright">
-                            <p>© Copyright 2021 <a href="#">ระบบสวัสดิการสงเคราะห์</a> I All Rights Reserved</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="footer-social">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--removeIf(production)-->
-        <!--**********************************
+    <!--removeIf(production)-->
+    <!--**********************************
             Right sidebar start
         ***********************************-->
-        <div class="sidebar-right">
-            <a class="sidebar-right-trigger" href="javascript:void(0)">
-                <span><i class="fa fa-cog fa-spin"></i></span>
-            </a>
-            <div class="sidebar-right-inner">
-                <div class="admin-settings">
-                    <div class="opt-background">
-                        <p>Font Family</p>
-                        <select class="form-control" name="theme_font" id="theme_font">
-                            <option value="nunito">Nunito</option>
-                            <option value="opensans">Open Sans</option>
+    <div class="sidebar-right">
+        <a class="sidebar-right-trigger" href="javascript:void(0)">
+            <span><i class="fa fa-cog fa-spin"></i></span>
+        </a>
+        <div class="sidebar-right-inner">
+            <div class="admin-settings">
+                <div class="opt-background">
+                    <p>Font Family</p>
+                    <select class="form-control" name="theme_font" id="theme_font">
+                        <option value="nunito">Nunito</option>
+                        <option value="opensans">Open Sans</option>
 
-                        </select>
+                    </select>
+                </div>
+                <div>
+                    <p>Primary Color</p>
+                    <div class="opt-nav-header-color">
+                        <span>
+                            <input type="radio" name="navigation_header" value="color_1" class="filled-in chk-col-primary" id="nav_header_color_1" />
+                            <label for="nav_header_color_1"></label>
+                        </span>
+                        <span>
+                            <input type="radio" name="navigation_header" value="color_2" class="filled-in chk-col-primary" id="nav_header_color_2" />
+                            <label for="nav_header_color_2"></label>
+                        </span>
+                        <span>
+                            <input type="radio" name="navigation_header" value="color_3" class="filled-in chk-col-primary" id="nav_header_color_3" />
+                            <label for="nav_header_color_3"></label>
+                        </span>
+                        <span>
+                            <input type="radio" name="navigation_header" value="color_4" class="filled-in chk-col-primary" id="nav_header_color_4" />
+                            <label for="nav_header_color_4"></label>
+                        </span>
+                        <span>
+                            <input type="radio" name="navigation_header" value="color_5" class="filled-in chk-col-primary" id="nav_header_color_5" />
+                            <label for="nav_header_color_5"></label>
+                        </span>
                     </div>
+                </div>
+                <div class="opt-header-color">
+                    <p>Background Color</p>
                     <div>
-                        <p>Primary Color</p>
-                        <div class="opt-nav-header-color">
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_1" class="filled-in chk-col-primary" id="nav_header_color_1" />
-                                <label for="nav_header_color_1"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_2" class="filled-in chk-col-primary" id="nav_header_color_2" />
-                                <label for="nav_header_color_2"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_3" class="filled-in chk-col-primary" id="nav_header_color_3" />
-                                <label for="nav_header_color_3"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_4" class="filled-in chk-col-primary" id="nav_header_color_4" />
-                                <label for="nav_header_color_4"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_5" class="filled-in chk-col-primary" id="nav_header_color_5" />
-                                <label for="nav_header_color_5"></label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="opt-header-color">
-                        <p>Background Color</p>
-                        <div>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_1" class="filled-in chk-col-primary" id="header_color_1">
-                                <label for="header_color_1"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_2" class="filled-in chk-col-primary" id="header_color_2">
-                                <label for="header_color_2"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_3" class="filled-in chk-col-primary" id="header_color_3">
-                                <label for="header_color_3"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_4" class="filled-in chk-col-primary" id="header_color_4">
-                                <label for="header_color_4"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_5" class="filled-in chk-col-primary" id="header_color_5">
-                                <label for="header_color_5"></label>
-                            </span>
-                        </div>
+                        <span>
+                            <input type="radio" name="header_bg" value="color_1" class="filled-in chk-col-primary" id="header_color_1">
+                            <label for="header_color_1"></label>
+                        </span>
+                        <span>
+                            <input type="radio" name="header_bg" value="color_2" class="filled-in chk-col-primary" id="header_color_2">
+                            <label for="header_color_2"></label>
+                        </span>
+                        <span>
+                            <input type="radio" name="header_bg" value="color_3" class="filled-in chk-col-primary" id="header_color_3">
+                            <label for="header_color_3"></label>
+                        </span>
+                        <span>
+                            <input type="radio" name="header_bg" value="color_4" class="filled-in chk-col-primary" id="header_color_4">
+                            <label for="header_color_4"></label>
+                        </span>
+                        <span>
+                            <input type="radio" name="header_bg" value="color_5" class="filled-in chk-col-primary" id="header_color_5">
+                            <label for="header_color_5"></label>
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
-        <!--**********************************
+    </div>
+    <!--**********************************
             Right sidebar end
         ***********************************-->
-        <!--endRemoveIf(production)-->
+    <!--endRemoveIf(production)-->
 
     </div>
 

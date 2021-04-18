@@ -19,7 +19,7 @@
                 INNER JOIN veteran ON req_health.m_id = veteran.m_id
                 INNER JOIN veteran_family ON veteran.VT_ID = veteran_family.VT_ID
                 WHERE REQ_HEL_ID= " . $_POST['popupid'] . "
-                AND veteran_family.VT_FM_ID =req_health.VT_FM_ID ";
+                AND veteran_family.VT_FM_ID =req_health.VT_FM_ID and veteran.VT_ALIVE <>0 ";
 
         $db->Execute($sql);
         $res = $db->getData();

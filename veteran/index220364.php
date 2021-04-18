@@ -6,7 +6,7 @@ $db = new DB;
 
 $sql = "SELECT * from tbl_member 
 INNER JOIN veteran ON veteran.m_id = tbl_member.m_id
-WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " ";
+WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . "  AND veteran.VT_ALIVE <>0";
 $db->Execute($sql);
 $res = $db->getData();
 
@@ -245,7 +245,7 @@ $res2 = $db->getData();
                                     SELECT * FROM req_health as rh 
                                     INNER JOIN tbl_member as m ON m.m_id = rh.m_id 
                                     INNER JOIN tbl_status as st ON st.s_id = rh.s_id 
-                                    WHERE rh.m_id = " . intval($_SESSION['m_id']) . "
+                                    WHERE rh.m_id = " . intval($_SESSION['m_id']) . " AND m.m_alive <> 0
                                     ORDER BY rh.m_id DESC";
 
                                 $db->Execute($query);

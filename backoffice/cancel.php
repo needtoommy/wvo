@@ -12,11 +12,16 @@ $type = $_POST['type'];
 $reason = $_POST['reason'];
 $money = $_POST['money'];
 $REQ_DISA_RATE = $_POST['REQ_DISA_RATE'];
+$NORMAL_PENSION_VALUE = $_POST['NORMAL_PENSION_VALUE'];
+$EXTRA_PENSION_VALUE = $_POST['EXTRA_PENSION_VALUE'];
+$CLIVE_VALUE = $_POST['CLIVE_VALUE'];
 $m_id = $_POST['m_id'];
 $now = date('d-m-Y h:i:s');
+$memo = $_POST['memo'];
 
 if (isset($type) == 1) {
-    $sql = "UPDATE req_health SET s_id=$s_id , REQ_HEL_CC_REASON='$reason', REQ_HEL_VALUE_APPROVE=$money WHERE REQ_HEL_ID=$id ";
+    $sql = "UPDATE req_health SET s_id=$s_id , REQ_HEL_CC_REASON='$reason', REQ_HEL_VALUE_APPROVE=$money , REQ_HEL_CHG_REASON='$memo'  WHERE REQ_HEL_ID=$id ";
+
     $db->Execute($sql);
 
     $sql = "SELECT health_value_bal_bal FROM health_value_bal_use WHERE m_id=$m_id limit 1";
@@ -29,7 +34,7 @@ if (isset($type) == 1) {
 }
 
 if (isset($type) == 2) {
-    $sql = "UPDATE req_occ SET s_id=$s_id , REQ_OCC_CC_REASON='$reason', REQ_OCC_VALUE_APPROVE=$money WHERE REQ_OCC_ID=$id ";
+    $sql = "UPDATE req_occ SET s_id=$s_id , REQ_OCC_CC_REASON='$reason', REQ_OCC_VALUE_APPROVE=$money , REQ_OCC_CHG_REASON='$memo'  WHERE REQ_OCC_ID=$id ";
     $db->Execute($sql);
 
     $sql = "SELECT occ_value_bal_bal FROM occ_value_bal_use WHERE m_id=$m_id limit 1";
@@ -92,7 +97,7 @@ if (isset($type) == 3) {
 
 
 if (isset($type) == 4) {
-    $sql = "UPDATE req_maternity SET s_id=$s_id , REQ_MAT_CC_REASON='$reason', REQ_MAT_VALUE_APPROVE=$money WHERE REQ_MAT_ID=$id ";
+    $sql = "UPDATE req_maternity SET s_id=$s_id , REQ_MAT_CC_REASON='$reason', REQ_MAT_VALUE_APPROVE=$money  , REQ_MAT_CHG_REASON='$memo'  WHERE REQ_MAT_ID=$id";
     $db->Execute($sql);
 
 
@@ -107,7 +112,7 @@ if (isset($type) == 4) {
 
 
 if (isset($type) == 5) {
-    $sql = "UPDATE req_education SET s_id=$s_id , REQ_EDU_CC_REASON='$reason', REQ_EDU_VALUE_APPROVE=$money WHERE REQ_EDU_ID=$id ";
+    $sql = "UPDATE req_edu SET s_id=$s_id , REQ_EDU_CC_REASON='$reason', REQ_EDU_VALUE_APPROVE=$money  , REQ_EDU_CHG_REASON='$memo' WHERE REQ_EDU_ID=$id ";
     $db->Execute($sql);
 
     $sql = "SELECT max(seq) as max_edu FROM edu_value_bal WHERE m_id=$m_id limit 1";
@@ -126,6 +131,74 @@ if (isset($type) == 5) {
 
     $sql = "UPDATE edu_value_bal SET edu_value_bal_use=$money, edu_value_bal_bal= $total_edu, upddate_datetime='$now'  WHERE m_id=$m_id and seq=$max_edu";
     $db->Execute($sql);
+}
+
+
+if (isset($type) == 6) {
+
+    //ผู้ที่ไม่ได้รับบำนาญ ให้ได้รับการสงเคราะห์เดือนละ 9,000.- บาท
+    if ($EXTRA_PENSION_VALUE == '0.00' && ($NORMAL_PENSION_VALUE == '0.00')) {
+
+
+        if ($s_id == 3) {
+            $sql = "SELECT ATP_VALUE from assist_policy WHERE ATP_ID=5";
+            $db->Execute($sql);
+            $res = $db->getData();
+            $ATP_VALUE_5 =  $res['ATP_VALUE'];
+
+            $sql = "INSERT INTO monthly_approve_list (REQ_MONTHLY_ID,s_id,m_id,MAL_VALUE,create_datetime,status) VALUES ($id, 5,$m_id, $ATP_VALUE_5, '$now', '1')";
+            $db->Execute($sql);
+        }
+
+
+        $sql = "UPDATE req_monthly SET s_id=3,MONTHLY_VALUE_APPROVE=$ATP_VALUE_5, REQ_MONTHLY_CC_REASON='$reason'  WHERE m_id=$m_id and REQ_MOTHLY_ID=$id";
+        $db->Execute($sql);
+    }
+
+    //ผู้ที่ได้รับบำนาญพิเศษ ให้ได้รับการสงเคราะห์เดือนละ 6,500.- บาท
+    if (($EXTRA_PENSION_VALUE > 0) && ($NORMAL_PENSION_VALUE == '0.00')) {
+        if ($s_id == 3) {
+            $sql = "SELECT ATP_VALUE from assist_policy WHERE ATP_ID=4";
+            $db->Execute($sql);
+            $res = $db->getData();
+            $ATP_VALUE_4 =  $res['ATP_VALUE'];
+
+            $sql = "INSERT INTO monthly_approve_list (REQ_MONTHLY_ID,s_id,m_id,MAL_VALUE,create_datetime,status) VALUES ($id, '5',$m_id, $ATP_VALUE_4, '$now', '1')";
+            $db->Execute($sql);
+        }
+        $sql = "UPDATE req_monthly SET s_id=3,MONTHLY_VALUE_APPROVE=$ATP_VALUE_4, REQ_MONTHLY_CC_REASON='$reason'  WHERE m_id=$m_id and REQ_MOTHLY_ID=$id";
+        $db->Execute($sql);
+    }
+
+
+    //ผู้ที่ไม่ได้รับบำนาญพิเศษ แต่ได้รับบำนาญปกติ และเงินช่วยค่าครองชีพผู้รับเบี้ยหวัดบำนาญรวมกันไม่ถึงเดือนละ 9,000.- บาท ให้ได้รับการสงเคราะห์จนครบ 9,๐๐๐.- บาท
+
+    if (($EXTRA_PENSION_VALUE == '0.00') && ($NORMAL_PENSION_VALUE > 0)) {
+        if ($s_id == 3) {
+            $sql = "SELECT ATP_VALUE from assist_policy WHERE ATP_ID=6";
+            $db->Execute($sql);
+            $res = $db->getData();
+            $ATP_VALUE_6 =  $res['ATP_VALUE'];
+
+            if ($NORMAL_PENSION_VALUE <= 9000) {
+                $total =  $ATP_VALUE_6 - ($NORMAL_PENSION_VALUE + $CLIVE_VALUE);
+                $sql = "UPDATE req_monthly SET s_id=3,MONTHLY_VALUE_APPROVE= $total, REQ_MONTHLY_CC_REASON='$reason'  WHERE m_id=$m_id and REQ_MOTHLY_ID=$id";
+                $db->Execute($sql);
+
+                $sql = "INSERT INTO monthly_approve_list (REQ_MONTHLY_ID,s_id,m_id,MAL_VALUE,create_datetime,status) VALUES ($id, '5',$m_id, $total, '$now', '1')";
+                $db->Execute($sql);
+            } else {
+                $sql = "UPDATE req_monthly SET s_id=3,MONTHLY_VALUE_APPROVE=$NORMAL_PENSION_VALUE, REQ_MONTHLY_CC_REASON='$reason'  WHERE m_id=$m_id and REQ_MOTHLY_ID=$id";
+                $db->Execute($sql);
+
+                $sql = "INSERT INTO monthly_approve_list (REQ_MONTHLY_ID,s_id,m_id,MAL_VALUE,create_datetime,status) VALUES ($id, '5',$m_id, $NORMAL_PENSION_VALUE, '$now', '1')";
+                $db->Execute($sql);
+            }
+        } else {
+            $sql = "UPDATE req_monthly SET s_id=3, MONTHLY_VALUE_APPROVE=$NORMAL_PENSION_VALUE, REQ_MONTHLY_CC_REASON='$reason'  WHERE m_id=$m_id and REQ_MOTHLY_ID=$id";
+            $db->Execute($sql);
+        }
+    }
 }
 
 echo 'success';

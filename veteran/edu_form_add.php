@@ -6,7 +6,7 @@ $db = new DB;
 
 $sql = "SELECT * from tbl_member 
 INNER JOIN veteran ON veteran.m_id = tbl_member.m_id
-WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " ";
+WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " AND veteran.VT_ALIVE <>0";
 $db->Execute($sql);
 $res = $db->getData();
 
@@ -209,10 +209,10 @@ $step = $res['VT_CARD_STEP'];
                                                     <?php
                                                     $query = "SELECT * FROM veteran_family  as A
                                              INNER JOIN veteran as B on A.VT_ID = B.VT_ID
-                                             WHERE 
+                                             WHERE veteran.VT_ALIVE <>0 and
                                              B.m_id = " . $_SESSION['m_id'] . "
                                              AND B.VT_ID = A.VT_ID
-                                             AND A.VT_FM_ALIVE='1'
+                                             AND A.VT_FVT_ALIVE='1'
                                              AND A.VT_FM_RELATION='บุตร'
                                              ORDER BY A.VT_FM_ID ASC";
 

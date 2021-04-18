@@ -15,7 +15,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
     <head>
         <meta charset="utf-8" />
-        <title>Color Admin | Dashboard</title>
+        <title>ระบบสวัสดิการสงเคราะห์ทหารผ่านศึก</title>
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
         <meta content="" name="description" />
         <meta content="" name="author" />
@@ -47,7 +47,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
             <div id="header" class="header navbar-default">
                 <!-- begin navbar-header -->
                 <div class="navbar-header">
-                    <a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Color</b> Admin</a>
+                    <a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>ระบบสวัสดิการสงเคราะห์ทหารผ่านศึก</b></a>
                     <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -57,7 +57,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                 <!-- end navbar-header -->
                 <!-- begin header-nav -->
                 <ul class="navbar-nav navbar-right">
-                    <li class="navbar-form">
+                    <!--<li class="navbar-form">
                         <form action="" method="POST" name="search">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Enter keyword" />
@@ -126,7 +126,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                 <a href="javascript:;">View more</a>
                             </div>
                         </div>
-                    </li>
+                    </li>-->
                     <li class="dropdown navbar-user">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="../assets/img/user/user-13.jpg" alt="" />
@@ -144,7 +144,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             <a href="javascript:;" class="dropdown-item">Calendar</a>
                             <a href="javascript:;" class="dropdown-item">Setting</a>
                             <div class="dropdown-divider"></div>
-                            <a href="javascript:;" class="dropdown-item">Log Out</a>
+                            <a href="check_logout.php" class="dropdown-item">Log Out</a>
                         </div>
                     </li>
                 </ul>
@@ -186,7 +186,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
                         <!-- --------------****Start******-------------------- -->
                         <?php
-                        if ($level == 'vsofficer') {
+                        if ($level == 'vsofficer' ||  $level == 'finoffice') {
                         ?>
                             <li class="has-sub active">
                                 <a href="calendar.html">
@@ -206,6 +206,52 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                         <?php } ?>
 
                         <!-- -----------------**********************************--------------------- -->
+                        <?php if ($level == 'finoffice') {
+                        ?>
+                            <li <?php echo $_GET['type'] == 7 ? 'class="active"' : '' ?>>
+                                <a href="vs_pay.php?type=7">
+                                    <i class="fa fa-edit"></i>
+                                    <span>จ่ายเงินสงเคราะห์</span>
+                                </a>
+                            </li>
+                        <?php } ?>
+
+
+                        <!-- -----------------**********************************--------------------- -->
+                        <?php if ($level == 'finoffice') {
+                        ?>
+                            <li <?php echo $_GET['type'] == 8 ? 'class="active"' : '' ?>>
+                                <a href="vs_pay_m.php?type=8">
+                                    <i class="fa fa-edit"></i>
+                                    <span>จ่ายเงินรายเดือน</span>
+                                </a>
+                            </li>
+                        <?php } ?>
+
+                        <!-- -----------------**********************************--------------------- -->
+                        <?php if ($level == 'vsofficer' || $level == 'vsmanager') {
+                        ?>
+                            <li <?php echo $_GET['type'] == 9 ? 'class="active"' : '' ?>>
+                                <a href="death_list.php?type=9">
+                                    <i class="fa fa-edit"></i>
+                                    <span>บันทึกการสงเคราะห์กรณีถึงแก่ความตาย</span>
+                                </a>
+                            </li>
+                        <?php } ?>
+
+
+                        <!-- -----------------**********************************--------------------- -->
+                        <?php if ($level == 'finoffice') {
+                        ?>
+                            <li <?php echo $_GET['type'] == 7 ? 'class="active"' : '' ?>>
+                                <a href="vs_pay.php?type=7">
+                                    <i class="fa fa-edit"></i>
+                                    <span>จ่ายเงินสงเคราะห์</span>
+                                </a>
+                            </li>
+                        <?php } ?>
+
+                        <!-- -----------------**********************************--------------------- -->
                         <?php if ($level == 'vsofficer') {
                         ?>
                             <li>
@@ -218,6 +264,17 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
 
                         <!-- -----------------**********************************--------------------- -->
+                        	<!-- -----------------**********************************--------------------- -->
+						<?php if ($level == 'vsofficer' || $level == 'vsmanager') { ?>
+							<li <?php echo $_GET['type'] == 11 ? 'class="active"' : '' ?>>
+								<a href="vtp_add_form.php">
+									<i class="fa fa-edit"></i>
+									<span>จัดการประวัติทหารผ่านศึก</span>
+								</a>
+							</li>
+						<?php } ?>
+						<!-- -----------------*************END*************--------------------- -->
+
                         <?php if ($level == 'vsofficer') {
                         ?>
                             <li>
@@ -577,68 +634,194 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                 </ol>
                 <!-- end breadcrumb -->
                 <!-- begin page-header -->
-                <h1 class="page-header">ค่ารักษาพยาบาล <small>header small text goes here...</small></h1>
+                <h1 class="page-header">ค่ารักษาพยาบาล <small></small></h1>
                 <!-- end page-header -->
 
+                
                 <!-- begin row -->
-                <div class="row">
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
-                        <div class="widget widget-stats bg-blue">
-                            <div class="stats-icon"><i class="fa fa-desktop"></i></div>
-                            <div class="stats-info">
-                                <h4>TOTAL VISITORS</h4>
-                                <p>3,291,922</p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col-3 -->
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
-                        <div class="widget widget-stats bg-info">
-                            <div class="stats-icon"><i class="fa fa-link"></i></div>
-                            <div class="stats-info">
-                                <h4>BOUNCE RATE</h4>
-                                <p>20.44%</p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col-3 -->
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
-                        <div class="widget widget-stats bg-orange">
-                            <div class="stats-icon"><i class="fa fa-users"></i></div>
-                            <div class="stats-info">
-                                <h4>UNIQUE VISITORS</h4>
-                                <p>1,291,922</p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col-3 -->
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
-                        <div class="widget widget-stats bg-red">
-                            <div class="stats-icon"><i class="fa fa-clock"></i></div>
-                            <div class="stats-info">
-                                <h4>AVG TIME ON SITE</h4>
-                                <p>00:12:23</p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col-3 -->
-                </div>
+				<div class="row">
+					<!-- begin col-3 -->
+					<div style="width:20%; padding:10px;">
+						<?php
+
+
+						if ($_GET['type'] == 1) {
+							$sql = "SELECT count(*) as count from req_health where s_id =1";
+						} else if ($_GET['type'] == 2) {
+							$sql = "SELECT count(*) as count from req_occ where s_id =1";
+						} else if ($_GET['type'] == 3) {
+							$sql = "SELECT count(*) as count from req_disa where s_id =1";
+						} else if ($_GET['type'] == 4) {
+							$sql = "SELECT count(*) as count from req_maternity where s_id =1";
+						} else if ($_GET['type'] == 5) {
+							$sql = "SELECT count(*) as count from req_edu where s_id =1";
+						} else if ($_GET['type'] == 6) {
+							$sql = "SELECT count(*) as count from req_monthly where s_id =1";
+						}
+						$db->Execute($sql);
+						$res = $db->getData();
+						?>
+						<div class="widget widget-stats bg-blue">
+							<div class="stats-icon"><i class="fa fa-pause"></i></div>
+							<div class="stats-info">
+								<h3>รออนุมัติ</h3>
+								<p><?php echo $res['count']; ?></p>
+							</div>
+							<div class="stats-link">
+								<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- end col-3 -->
+					<!-- begin col-3 -->
+					<div style="width:20%; padding:10px;">
+
+						<?php
+
+
+						if ($_GET['type'] == 1) {
+							$sql = "SELECT count(*) count from req_health where s_id =3";
+						} else if ($_GET['type'] == 2) {
+							$sql = "SELECT count(*) count from req_occ where s_id =3";
+						} else if ($_GET['type'] == 3) {
+							$sql = "SELECT count(*) count from req_disa where s_id =3";
+						} else if ($_GET['type'] == 4) {
+							$sql = "SELECT count(*) count from req_maternity where s_id =3";
+						} else if ($_GET['type'] == 5) {
+							$sql = "SELECT count(*) count from req_edu where s_id =3";
+						} else if ($_GET['type'] == 6) {
+							$sql = "SELECT count(*) count from req_monthly where s_id =3";
+						}
+						$db->Execute($sql);
+						$res = $db->getData();
+						?>
+
+						<div class="widget widget-stats bg-info">
+							<div class="stats-icon"><i class="fa fa-check"></i></div>
+							<div class="stats-info">
+								<h3>อนุมัติ</h3>
+								<p><?php echo $res['count'] ?></p>
+							</div>
+							<div class="stats-link">
+								<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- end col-3 -->
+					<!-- begin col-3 -->
+					<div style="width:20%; padding:10px;">
+						<?php
+
+
+						if ($_GET['type'] == 1) {
+							$sql = "SELECT count(*) count from req_health where s_id =5";
+						} else if ($_GET['type'] == 2) {
+							$sql = "SELECT count(*) count from req_occ where s_id =5";
+						} else if ($_GET['type'] == 3) {
+							$sql = "SELECT count(*) count from req_disa where s_id =5";
+						} else if ($_GET['type'] == 4) {
+							$sql = "SELECT count(*) count from req_maternity where s_id =5";
+						} else if ($_GET['type'] == 5) {
+							$sql = "SELECT count(*) count from req_edu where s_id =5";
+						} else if ($_GET['type'] == 6) {
+							$sql = "SELECT count(*) count from req_monthly where s_id =5";
+						}
+						$db->Execute($sql);
+						$res = $db->getData();
+						?>
+
+
+
+
+						<div class="widget widget-stats bg-orange">
+							<div class="stats-icon"><i class="fa fa-check"></i></div>
+							<div class="stats-info">
+								<h3>อนุมัติเบิกจ่าย</h3>
+								<p><?php echo $res['count'] ?></p>
+							</div>
+							<div class="stats-link">
+								<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- end col-3 -->
+
+					<!-- begin col-3 -->
+					<div style="width:20%; padding:10px;">
+						<?php
+
+
+						if ($_GET['type'] == 1) {
+							$sql = "SELECT count(*) count from req_health where s_id =8";
+						} else if ($_GET['type'] == 2) {
+							$sql = "SELECT count(*) count from req_occ where s_id =8";
+						} else if ($_GET['type'] == 3) {
+							$sql = "SELECT count(*) count from req_disa where s_id =8";
+						} else if ($_GET['type'] == 4) {
+							$sql = "SELECT count(*) count from req_maternity where s_id =8";
+						} else if ($_GET['type'] == 5) {
+							$sql = "SELECT count(*) count from req_edu where s_id =8";
+						} else if ($_GET['type'] == 6) {
+							$sql = "SELECT count(*) count from req_monthly where s_id =8";
+						}
+						$db->Execute($sql);
+						$res = $db->getData();
+						?>
+
+
+
+
+						<div class="widget widget-stats bg-success">
+							<div class="stats-icon"><i class="fa fa-check"></i></div>
+							<div class="stats-info">
+								<h3>จ่ายแล้ว</h3>
+								<p><?php echo $res['count'] ?></p>
+							</div>
+							<div class="stats-link">
+								<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- end col-3 -->
+
+
+
+					<!-- begin col-3 -->
+					<div style="width:20%; padding:10px;">
+						<?php
+
+
+						if ($_GET['type'] == 1) {
+							$sql = "SELECT count(*) count from req_health where s_id =7";
+						} else if ($_GET['type'] == 2) {
+							$sql = "SELECT count(*) count from req_occ where s_id =7";
+						} else if ($_GET['type'] == 3) {
+							$sql = "SELECT count(*) count from req_disa where s_id =7";
+						} else if ($_GET['type'] == 4) {
+							$sql = "SELECT count(*) count from req_maternity where s_id =7";
+						} else if ($_GET['type'] == 5) {
+							$sql = "SELECT count(*) count from req_edu where s_id =7";
+						} else if ($_GET['type'] == 6) {
+							$sql = "SELECT count(*) count from req_monthly where s_id =7";
+						}
+						$db->Execute($sql);
+						$res = $db->getData();
+						?>
+
+
+						<div class="widget widget-stats bg-red">
+							<div class="stats-icon"><i class="fa fa-times"></i></div>
+							<div class="stats-info">
+								<h3>ยกเลิก</h3>
+								<p><?php echo $res['count'] ?></p>
+							</div>
+							<div class="stats-link">
+								<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- end col-3 -->
+				</div>
                 <!-- end row -->
                 <!-- begin row -->
                 <div class="row">
@@ -663,7 +846,10 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                 $sql = "SELECT * FROM req_health as rh 
                             INNER JOIN tbl_member as m ON m.m_id = rh.m_id 
                             INNER JOIN tbl_status as st ON st.s_id = rh.s_id 
-                            WHERE rh.REQ_HEL_ID=" . $_GET['REQ_HEL_ID'] . "
+                            INNER JOIN health_value_bal as hvb ON rh.m_id = hvb.m_id
+                            INNER JOIN veteran as vt ON rh.m_id = vt.m_id
+                            INNER JOIN veteran_family ON rh.VT_FM_ID =veteran_family.VT_FM_ID
+                            WHERE rh.REQ_HEL_ID=" . $_GET['REQ_HEL_ID'] . " AND m.m_alive <> 0
                             ORDER BY rh.m_id DESC
                             ";
                             }
@@ -672,16 +858,20 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                 $sql = "SELECT * FROM req_occ as oc 
                             INNER JOIN tbl_member as m ON m.m_id = oc.m_id 
                             INNER JOIN tbl_status as st ON st.s_id = oc.s_id 
-                            WHERE oc.REQ_OCC_ID=" . $_GET['REQ_OCC_ID'] . "
+                            INNER JOIN occ_value_bal as ovb ON m.m_id = ovb.m_id
+                            INNER JOIN veteran as vt ON rh.m_id = vt.m_id
+                            WHERE oc.REQ_OCC_ID=" . $_GET['REQ_OCC_ID'] . " AND m.m_alive <> 0
                              ORDER BY oc.REQ_OCC_ID DESC";
                             }
+                            // echo $sql;
 
                             if (isset($_GET['REQ_DISA_ID'])) {
                                 $sql = "SELECT * FROM req_disa as rdisa
                             INNER JOIN tbl_member as m ON m.m_id = rdisa.m_id 
-                            INNER JOIN tbl_status as st ON st.s_id = rdisa.s_id 
+                            INNER JOIN tbl_status as st ON st.s_id = rdisa.s_id
+                            INNER JOIN veteran as vt ON rh.m_id = vt.m_id 
                             INNER JOIN disaster_type ON rdisa.REQ_DST_ID = disaster_type.DST_ID
-                            WHERE rdisa.REQ_DISA_ID=" . $_GET['REQ_DISA_ID'] . "";
+                            WHERE rdisa.REQ_DISA_ID=" . $_GET['REQ_DISA_ID'] . " AND m.m_alive <> 0";
                             }
 
 
@@ -691,9 +881,10 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             INNER JOIN tbl_member as m ON m.m_id = rmat.m_id 
                             INNER JOIN tbl_status as st ON st.s_id = rmat.s_id 
                             INNER JOIN veteran ON veteran.m_id= m.m_id
+                            INNER JOIN veteran as vt ON rh.m_id = vt.m_id
                             INNER JOIN veteran_family ON veteran.VT_ID = veteran_family.VT_ID
                             WHERE rmat.REQ_MAT_ID = " . $_GET['REQ_MAT_ID'] . "
-                            AND veteran_family.VT_FM_RELATION ='ภรรยา'
+                            AND veteran_family.VT_FM_RELATION ='ภรรยา' and veteran.VT_ALIVE <>0
                             ";
                             }
 
@@ -705,10 +896,11 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             INNER JOIN tbl_member as m ON m.m_id = red.m_id 
                               INNER JOIN tbl_status as st ON st.s_id = red.s_id 
                               INNER JOIN veteran ON veteran.m_id= m.m_id
+                              INNER JOIN veteran as vt ON rh.m_id = vt.m_id
                               INNER JOIN veteran_family ON veteran.VT_ID = veteran_family.VT_ID
                               INNER JOIN education_level ON education_level.ELV_ID = red.ELV_ID
                               WHERE red.REQ_EDU_ID = " . $_GET['REQ_EDU_ID'] . "
-                              AND veteran_family.VT_FM_RELATION ='บุตร'";
+                              AND veteran_family.VT_FM_RELATION ='บุตร' and veteran.VT_ALIVE <>0";
                             }
 
 
@@ -718,8 +910,9 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                 $sql = "SELECT * FROM req_monthly as rmonth
                             INNER JOIN tbl_member as m ON m.m_id = rmonth.m_id 
                             INNER JOIN tbl_status as st ON st.s_id = rmonth.s_id 
+                            INNER JOIN veteran as vt ON rh.m_id = vt.m_id
                             INNER JOIN veteran ON veteran.m_id= m.m_id
-                            WHERE rmonth.REQ_MOTHLY_ID =" . $_GET['REQ_MOTHLY_ID'] . "";
+                            WHERE rmonth.REQ_MOTHLY_ID =" . $_GET['REQ_MOTHLY_ID'] . " and veteran.VT_ALIVE <>0";
                             }
 
 
@@ -729,7 +922,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             $res = $db->getData();
 
                             $REQ_HEL_ID = $res['REQ_HEL_ID'];
-                            echo $sql;
+                            //echo $sql;
                             // print_r($res);
 
                             ?>
@@ -742,7 +935,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                         <br>
                                         ชั้นบัตร <?php echo $res['VT_CARD_STEP'] ?> เลขที่บัตร <?php echo $res['VT_CARD_NO'] ?>
                                         <br>
-                                        ชื่อ - นามสกุล <?php echo $res['VT_TITLE'] . $res['VT_FNAME'] . $res['VT_LNAME'] ?>ยอด ภักดี
+                                        ชื่อ - นามสกุล <?php echo $res['VT_TITLE'] . $res['VT_FNAME'] . $res['VT_LNAME'] ?>
                                         <hr>
                                         สิทธิเบิก :
                                         <?php echo number_format($res['health_value_bal_begin'], 2) ?> บาท
@@ -769,15 +962,10 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                         <div class="form-group row m-b-15">
                                             <label class="col-form-label col-md-3">เบิกให้</label>
                                             <div class="col-md-9">
-                                                <input type="email" class="form-control m-b-5" value="<?php echo $res['REQ_HEL_C_F'] ?>" readonly />
+                                                <input type="email" class="form-control m-b-5" value="<?php echo $res['VT_FM_TITLE'] . $res['VT_FM_NAME'] . ' ' . $res['VT_FM_LNAME'] ?>" readonly />
                                             </div>
                                         </div>
-                                        <div class="form-group row m-b-15">
-                                            <label class="col-form-label col-md-3">จำนวนใบเสร็จ</label>
-                                            <div class="col-md-9">
-                                                <input type="email" class="form-control m-b-5" value="<?php echo $res['REQ_HEL_RECEIPT'] ?>" readonly />
-                                            </div>
-                                        </div>
+
                                         <div class="form-group row m-b-15">
                                             <label class="col-form-label col-md-3">จำนวนเงินขอเบิก</label>
                                             <div class="col-md-9">
@@ -791,8 +979,8 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                             </div>
                                         </div>
                                         <?php
-                                        $sql = "SELECT file_name, is_image FROM multi_file where m_id = " . $_SESSION['m_id'] . " and req_id= " . $_GET['REQ_HEL_ID'] . "";
-                                        // echo $sql;
+                                        $sql = "SELECT file_name, is_image FROM multi_file where req_id= " . $_GET['REQ_HEL_ID'] . " AND vs_id=1";
+                                        //echo $sql;
 
                                         $db->Execute($sql);
                                         $i = 1;
@@ -827,8 +1015,19 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                         <?php }
                                             $i++;
                                         } ?>
-                                        <button type="button" class="btn btn-primary" onclick="send_con(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_HEL_ID'] ?>,'<?php echo number_format($res['REQ_HEL_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
-                                        <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_HEL_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php
+                                        if ($_SESSION['level'] == "finoffice") {
+                                        ?>
+                                   <div class="col-md-12 mt-3" style="text-align: center;">
+                                            <button  style="display: inline-block;" type="button" class="btn btn-primary" onclick="send_con(5, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_HEL_ID'] ?>,'<?php echo number_format($res['REQ_HEL_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
+                                            <button  style="display: inline-block;" type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_HEL_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <button  style="display: inline-block;" type="button" class="btn btn-primary" onclick="send_con(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_HEL_ID'] ?>,'<?php echo number_format($res['REQ_HEL_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
+                                            <button  style="display: inline-block;" type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_HEL_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php } ?>
+                                   </div>
                                     </form>
                                 </div>
                                 <!-- end panel-body -->
@@ -843,7 +1042,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                         <br>
                                         ชั้นบัตร <?php echo $res['VT_CARD_STEP'] ?> เลขที่บัตร <?php echo $res['VT_CARD_NO'] ?>
                                         <br>
-                                        ชื่อ - นามสกุล <?php echo $res['VT_TITLE'] . $res['VT_FNAME'] . $res['VT_LNAME'] ?>ยอด ภักดี
+                                        ชื่อ - นามสกุล <?php echo $res['VT_TITLE'] . $res['VT_FNAME'] . $res['VT_LNAME'] ?>
                                         <hr>
                                         สิทธิเบิก :
                                         <?php echo number_format($res['occ_value_bal_begin'], 2) ?> บาท
@@ -925,11 +1124,20 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
                                                     </div>
                                                 </div>
-                                        <?php }
+                                            <?php }
                                             $i++;
-                                        } ?>
-                                        <button type="button" class="btn btn-primary" onclick="send_con(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_OCC_ID'] ?>,'<?php echo number_format($res['REQ_OCC_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
-                                        <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_OCC_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        }
+                                        if ($_SESSION['level'] == "finoffice") {
+                                            ?>
+                                            <button type="button" class="btn btn-primary" onclick="send_con(5, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_OCC_ID'] ?>,'<?php echo number_format($res['REQ_OCC_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
+                                            <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_OCC_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php
+                                        } else {
+                                        ?>
+
+                                            <button type="button" class="btn btn-primary" onclick="send_con(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_OCC_ID'] ?>,'<?php echo number_format($res['REQ_OCC_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
+                                            <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_OCC_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php } ?>
                                     </form>
                                 </div>
                                 <!-- end panel-body -->
@@ -946,16 +1154,9 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                         <br>
                                         ชั้นบัตร <?php echo $res['VT_CARD_STEP'] ?> เลขที่บัตร <?php echo $res['VT_CARD_NO'] ?>
                                         <br>
-                                        ชื่อ - นามสกุล <?php echo $res['VT_TITLE'] . $res['VT_FNAME'] . $res['VT_LNAME'] ?>ยอด ภักดี
-                                        <hr>
-                                        สิทธิเบิก :
-                                        <?php echo number_format($res['disa_value_bal_begin'], 2) ?> บาท
-                                        <br>
-                                        สิทธิที่ใช้ไป :
-                                        <?php echo number_format($res['disa_value_bal_use'], 2) ?> บาท
-                                        <br>
-                                        สิทธิคงเหลือ :
-                                        <?php echo number_format($res['disa_value_bal_bal'], 2) ?> บาท
+                                        ชื่อ - นามสกุล <?php echo $res['VT_TITLE'] . $res['VT_FNAME'] . ' '.$res['VT_LNAME'] ?>
+                                     
+                                      
                                     </div>
                                     <form id="form_disa">
                                         <div class="form-group row m-b-15">
@@ -1060,7 +1261,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
                                         <?php
                                         $sql = "SELECT file_name, is_image FROM multi_file where req_id= " . $_GET['REQ_DISA_ID'] . " and vs_id=4";
-                                        echo $sql;
+                                        ///echo $sql;
 
                                         $db->Execute($sql);
                                         $i = 1;
@@ -1092,11 +1293,19 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
                                                     </div>
                                                 </div>
-                                        <?php }
+                                            <?php }
                                             $i++;
-                                        } ?>
-                                        <button type="button" class="btn btn-primary" onclick="send_con_disa(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_DISA_ID'] ?>,'<?php echo number_format($res['REQ_DISA_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>, '<?php echo $res['REQ_DMT_TYPE'] ?>')">อนุมติใบคำร้อง</button>
-                                        <button type="button" class="btn btn-danger" onclick="send_can_disa(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_DISA_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        }
+                                        if ($_SESSION['level'] == "finoffice") {
+                                            ?>
+                                            <button type="button" class="btn btn-primary" onclick="send_con_disa(5, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_DISA_ID'] ?>,'<?php echo number_format($res['REQ_DISA_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>, '<?php echo $res['REQ_DMT_TYPE'] ?>')">อนุมติใบคำร้อง</button>
+                                            <button type="button" class="btn btn-danger" onclick="send_can_disa(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_DISA_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <button type="button" class="btn btn-primary" onclick="send_con_disa(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_DISA_ID'] ?>,'<?php echo number_format($res['REQ_DISA_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>, '<?php echo $res['REQ_DMT_TYPE'] ?>')">อนุมติใบคำร้อง</button>
+                                            <button type="button" class="btn btn-danger" onclick="send_can_disa(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_DISA_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php } ?>
                                     </form>
                                 </div>
                                 <!-- end panel-body -->
@@ -1159,7 +1368,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
                                         <?php
                                         $sql = "SELECT file_name, is_image FROM multi_file where req_id= " . $_GET['REQ_MAT_ID'] . " and vs_id=3";
-                                        echo $sql;
+                                        //echo $sql;
 
                                         $db->Execute($sql);
                                         $i = 1;
@@ -1191,11 +1400,19 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
                                                     </div>
                                                 </div>
-                                        <?php }
+                                            <?php }
                                             $i++;
-                                        } ?>
-                                        <button type="button" class="btn btn-primary" onclick="send_con(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_MAT_ID'] ?>,'<?php echo number_format($res['REQ_MAT_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
-                                        <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_MAT_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        }
+                                        if ($_SESSION['level'] == "finoffice") {
+                                            ?>
+                                            <button type="button" class="btn btn-primary" onclick="send_con(5, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_MAT_ID'] ?>,'<?php echo number_format($res['REQ_MAT_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
+                                            <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_MAT_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <button type="button" class="btn btn-primary" onclick="send_con(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_MAT_ID'] ?>,'<?php echo number_format($res['REQ_MAT_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
+                                            <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_MAT_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php } ?>
                                     </form>
                                 </div>
                                 <!-- end panel-body -->
@@ -1340,11 +1557,20 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
                                                     </div>
                                                 </div>
-                                        <?php }
+                                            <?php }
                                             $i++;
-                                        } ?>
-                                        <button type="button" class="btn btn-primary" onclick="send_con(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_EDU_ID'] ?>,'<?php echo number_format($res['REQ_EDU_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
-                                        <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_EDU_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        }
+                                        if ($_SESSION['level'] == "finoffice") {
+                                            ?>
+                                            <button type="button" class="btn btn-primary" onclick="send_con(5, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_EDU_ID'] ?>,'<?php echo number_format($res['REQ_EDU_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
+                                            <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_EDU_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php
+                                        } else {
+
+                                        ?>
+                                            <button type="button" class="btn btn-primary" onclick="send_con(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_EDU_ID'] ?>,'<?php echo number_format($res['REQ_EDU_VALUE'], 2) ?>', <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
+                                            <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_EDU_ID'] ?>,  <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php } ?>
                                     </form>
                                 </div>
                                 <!-- end panel-body -->
@@ -1404,14 +1630,25 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                         <div class="form-group row m-b-15">
                                             <label class="col-form-label col-md-3">เงินบำนาญปกติ</label>
                                             <div class="col-md-9">
-                                                <input type="text" class="form-control m-b-5" value="<?php echo $res['NORMAL_PENSION_ST'] == 1 ? 'ได้เงินบำนาญปกติ ' . $res['NORMAL_PENSION_VALUE'] : 'ไม่ได้เงินบำนาญปกติ' ?> บาท" readonly />
+                                                <input type="text" class="form-control m-b-5" value="<?php echo $res['NORMAL_PENSION_ST'] == 1 ? 'ได้เงินบำนาญปกติ ' . $res['NORMAL_PENSION_VALUE'] : 'ไม่ได้เงินบำนาญปกติ' ?> บาท" id="" readonly />
                                             </div>
                                         </div>
+                                        <input type="hidden" name="NORMAL_PENSION_VALUE" id="NORMAL_PENSION_VALUE" value="<?php echo $res['NORMAL_PENSION_VALUE'] ?>">
 
                                         <div class="form-group row m-b-15">
                                             <label class="col-form-label col-md-3">เงินบำนาญพิเศษ</label>
                                             <div class="col-md-9">
                                                 <input type="text" class="form-control m-b-5" value="<?php echo $res['EXTRA_PENSION_ST'] == 1 ? 'ได้เงินบำนาญพิเศษ' . $res['EXTRA_PENSION_VALUE'] : 'ไม่ได้เงินบำนาญพิเศษ' ?> บาท" readonly />
+                                                <input type="hidden" name="EXTRA_PENSION_VALUE" id="EXTRA_PENSION_VALUE" value="<?php echo $res['EXTRA_PENSION_VALUE'] ?>">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group row m-b-15">
+                                            <label class="col-form-label col-md-3">เงินค่าครองชีพ</label>
+                                            <div class="col-md-9">
+                                                <input type="text" class="form-control m-b-5" value="<?php echo $res['CLIVE_VALUE'] ?> บาท" id="CLIVE_VALUE" readonly />
+                                                >
                                             </div>
                                         </div>
 
@@ -1460,11 +1697,19 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
                                                     </div>
                                                 </div>
-                                        <?php }
+                                            <?php }
                                             $i++;
-                                        } ?>
-                                        <button type="button" class="btn btn-primary" onclick="send_form(1)">อนุมติใบคำร้อง</button>
-                                        <button type="button" class="btn btn-danger" onclick="send_form(2)">ยกเลิกใบคำร้อง</button>
+                                        }
+                                        if ($_SESSION['level'] == "finoffice") {
+                                            ?>
+                                            <button type="button" class="btn btn-primary" onclick="send_con(3, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_MOTHLY_ID'] ?>,1, <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
+                                            <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_MOTHLY_ID'] ?>, 1, <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <button type="button" class="btn btn-primary" onclick="send_con(1, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_MOTHLY_ID'] ?>,1, <?php echo $res['m_id'] ?>)">อนุมติใบคำร้อง</button>
+                                            <button type="button" class="btn btn-danger" onclick="send_can(7, <?php echo $_GET['type'] ?>,<?php echo $_GET['REQ_MOTHLY_ID'] ?>, 1, <?php echo $res['m_id'] ?>)">ยกเลิกใบคำร้อง</button>
+                                        <?php } ?>
                                     </form>
                                 </div>
                                 <!-- end panel-body -->
@@ -1523,10 +1768,46 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
         <script src="../assets/js/demo/table-manage-fixed-columns.demo.js"></script>
         <script>
             const send_con = (s_id, type, id, moneys, m_id) => {
+                if (type == 6) {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "cancel.php",
+                        data: {
+                            id: id,
+                            s_id: s_id,
+                            type: type,
+                            m_id: m_id,
+                            NORMAL_PENSION_VALUE: $('#NORMAL_PENSION_VALUE').val(),
+                            EXTRA_PENSION_VALUE: $('#EXTRA_PENSION_VALUE').val(),
+                            CLIVE_VALUE: $('#CLIVE_VALUE').val(),
+                        },
+                        success: function(data) {
+                            if (data === 'success') {
+                                alert('อนุมัติรายการสำเร็จ')
+                            } else {
+                                alert('อนุมัติรายการไม่สำเร็จ')
+                            }
+
+                        }
+                    });
+                    return false;
+                }
                 let money = prompt("จำนวนเงิน:", moneys);
                 if (money == null || money == "") {
                     alert('กรุณาใส่จำนวนเงิน')
                 } else {
+                    var memo = ''
+                    moneys = parseFloat(moneys)
+                    money = parseFloat(money)
+                    if (money < moneys) {
+                        memo = prompt("เหตุผล:");
+
+                        if (memo == '') {
+                            return false;
+                        }
+                    }
+
 
                     $.ajax({
                         type: "POST",
@@ -1536,7 +1817,8 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             s_id: s_id,
                             type: type,
                             money: money,
-                            m_id: m_id
+                            m_id: m_id,
+                            memo: memo
                         },
                         success: function(data) {
                             if (data === 'success') {
@@ -1555,6 +1837,31 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                 if (person == null || person == "") {
                     alert('กรณาใส่เหตุผลที่ยกเลิก')
                 } else {
+
+                    if (type == 6) {
+                        $.ajax({
+                            type: "POST",
+                            url: "cancel.php",
+                            data: {
+                                id: id,
+                                s_id: s_id,
+                                type: type,
+                                reason: person,
+                                m_id: m_id,
+                                NORMAL_PENSION_VALUE: $('#NORMAL_PENSION_VALUE').val(),
+                                EXTRA_PENSION_VALUE: $('#EXTRA_PENSION_VALUE').val()
+                            },
+                            success: function(data) {
+                                if (data == 'success') {
+                                    alert('ยกเลิกรายการสำเร็จ')
+                                } else {
+                                    alert('ยกเลิกรายการไมสำเร็จ')
+                                }
+
+                            }
+                        });
+                        return false
+                    }
 
                     $.ajax({
                         type: "POST",
@@ -1603,7 +1910,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             formData.append('money', money)
                             formData.append('m_id', m_id)
                             formData.append('REQ_DISA_RATE', REQ_DISA_RATE)
-                        
+
                             $.ajax({
                                 type: "POST",
                                 url: "cancel.php",

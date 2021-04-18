@@ -11,7 +11,7 @@ if (isset($_POST['m_username'])) {
 
   $sql = "SELECT * FROM tbl_member 
                   WHERE  m_username='" . $m_username . "' 
-                  AND  m_password='" . $m_password . "' ";
+                  AND  m_password='" . $m_password . "'  AND m_alive <> 0";
   echo $sql;
   $db->Execute($sql);
 
@@ -67,11 +67,11 @@ if (isset($_POST['m_username'])) {
     }
     if ($_SESSION["m_level"] == "finmanager") {
 
-      Header("Location: fin_index.php");
+      Header("Location: index.php?type=1&level=finmanager");
     }
     if ($_SESSION["m_level"] == "vsmanager") {
 
-      Header("Location: index.php");
+      Header("Location: index.php?type=1&level=vsmanager");
     }
   } else {
     echo "<script>";

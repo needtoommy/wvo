@@ -67,7 +67,7 @@ var handleBootstrapWizardsValidation = function () {
 		  processData: false, // NEEDED, DON'T OMIT THIS
 
           success: function (data) {
-			window.location = 'index.php'
+			// window.location = 'index.php'
 		  },
         });
       }

@@ -6,7 +6,7 @@ $db = new DB;
 
 $sql = "SELECT * from tbl_member 
 INNER JOIN veteran ON veteran.m_id = tbl_member.m_id
-WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " ";
+WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " AND veteran.VT_ALIVE <>0";
 $db->Execute($sql);
 $res = $db->getData();
 
@@ -219,6 +219,17 @@ $db->Execute($sql2);
                                             <div class="input-group">
                                                 <input type="text" name="EXTRA_PEN_AGENT_PAY" id="REQ_DISA_DETAIL" class="form-control" placeholder="รับจาก(ระบุหน่วยงาน)">
                                                 <input type="text" name="EXTRA_PENSION_VALUE" id="REQ_DISA_DETAIL" class="form-control" placeholder="กรอกจำนวนเงิน">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="mr-sm-2">เงินครองชีพ</label><br>
+                                            <input value="1" type="radio" name="CLIVE_ST" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp; ได้รับเงินบำนาญพิเศษ &nbsp; &nbsp; &nbsp;
+                                            <input value="0" type="radio" name="CLIVE_ST" style="width: 20px;height:20px;"> &nbsp; &nbsp; &nbsp; ไม่ได้รับเงินบำนาญพิเศษ &nbsp; &nbsp; &nbsp;
+                                            <div class="input-group">
+                                                <input type="text" name="CLIVE_AGENT_PAY" id="REQ_DISA_DETAIL" class="form-control" placeholder="รับจาก(ระบุหน่วยงาน)">
+                                                <input type="text" name="CLIVE_VALUE" id="REQ_DISA_DETAIL" class="form-control" placeholder="กรอกจำนวนเงิน">
 
                                             </div>
                                         </div>

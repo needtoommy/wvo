@@ -6,7 +6,7 @@ $db = new DB;
 
 $sql = "SELECT * from tbl_member 
 INNER JOIN veteran ON veteran.m_id = tbl_member.m_id
-WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " ";
+WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " AND veteran.VT_ALIVE <>0 ";
 $db->Execute($sql);
 $res = $db->getData();
 
@@ -215,7 +215,7 @@ $res5 = $db->getData();
                                                         <span style="float: right;">สิทธิคงเหลือ : </span>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <span style="float: right;"><?php echo number_format($res2['health_value_bal_use'], 2) ?> บาท</span>
+                                                        <span style="float: right;"><?php echo number_format($res2['health_value_bal_bal'], 2) ?> บาท</span>
                                                     </div>
 
                                                     <div class="col-md-4">
@@ -259,7 +259,7 @@ $res5 = $db->getData();
                                                         <span style="float: right;">สิทธิคงเหลือ : </span>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <span style="float: right;"><?php echo number_format($res3['occ_value_bal_use'], 2) ?> บาท</span>
+                                                        <span style="float: right;"><?php echo number_format($res3['occ_value_bal_bal'], 2) ?> บาท</span>
                                                     </div>
 
                                                     <div class="col-md-4">
@@ -268,15 +268,15 @@ $res5 = $db->getData();
 
                                                         <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
 
-                                                        <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
+                                                        <a href='occ_history.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
                                         <?php
                                         $sql = "SELECT a.m_id FROM tbl_member a, veteran b, marital_status c, veteran_family d 
-                                    WHERE a.m_id = b.m_id AND b.VT_MARITAL_ST_ID = c.MARI_ID AND b.VT_ID = d.VT_ID AND d.VT_FM_ALIVE = 1
-                                    AND a.m_id = " . $_SESSION['m_id'] . " AND d.VT_FM_RELATION = 'ภรรยา'
+                                    WHERE a.m_id = b.m_id AND b.VT_MARITAL_ST_ID = c.MARI_ID AND b.VT_ID = d.VT_ID AND d.VT_FVT_ALIVE = 1
+                                    AND a.m_id = " . $_SESSION['m_id'] . " AND d.VT_FM_RELATION = 'ภรรยา' AND b.VT_ALIVE <>0
                                     ";
 
                                         $db->Execute($sql);
@@ -313,7 +313,7 @@ $res5 = $db->getData();
                                                             <span style="float: right;">สิทธิคงเหลือ : </span>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <span style="float: right;"><?php echo number_format($res4['mat_value_bal_use'], 2) ?> บาท</span>
+                                                            <span style="float: right;"><?php echo number_format($res4['mat_value_bal_bal'], 2) ?> บาท</span>
                                                         </div>
 
                                                         <div class="col-md-4">
@@ -359,7 +359,7 @@ $res5 = $db->getData();
                                                         <span style="float: right;">สิทธิคงเหลือ : </span>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <span style="float: right;"><?php echo number_format($res3['occ_value_bal_use'], 2) ?> บาท</span>
+                                                        <span style="float: right;"><?php echo number_format($res3['occ_value_bal_bal'], 2) ?> บาท</span>
                                                     </div>
 
                                                     <div class="col-md-4">
@@ -368,7 +368,7 @@ $res5 = $db->getData();
 
                                                         <a href='disa_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
 
-                                                        <a href='disa_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
+                                                        <a href='disa_history.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -419,7 +419,7 @@ $res5 = $db->getData();
 
                                                         <a href='edu_form_add.php' class='btn btn-warning btn-xs' style="color:white; float:right">ยื่นคำร้อง</a>
 
-                                                        <a href='occ_form_add.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
+                                                        <a href='edu_history.php' class='btn btn-warning btn-xs' style="color:white;" style="">ตรวจสอบสถานะ</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -453,7 +453,7 @@ $res5 = $db->getData();
                                                         <span style="float: right;">สิทธิคงเหลือ : </span>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <span style="float: right;"><?php echo number_format($res3['occ_value_bal_use'], 2) ?> บาท</span>
+                                                        <span style="float: right;"><?php echo number_format($res3['occ_value_bal_bal'], 2) ?> บาท</span>
                                                     </div>
 
                                                     <div class="col-md-4">

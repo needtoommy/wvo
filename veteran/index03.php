@@ -143,7 +143,7 @@ $db2 = new DB();
         $sql = "SELECT * FROM wvo.req_health as rh 
         INNER JOIN tbl_member as m ON m.m_id = rh.m_id 
         INNER JOIN tbl_status as st ON st.s_id = rh.s_id 
-        WHERE rh.m_id = 2
+        WHERE rh.m_id = 2 AND m.m_alive <> 0
         ORDER BY rh.m_id DESC";
         $db->Execute($sql);
         $res =  $db->getData();
@@ -154,7 +154,7 @@ $db2 = new DB();
         $sql2 = "SELECT * FROM wvo.req_occ as rocc 
         INNER JOIN tbl_member as m ON m.m_id = rocc.m_id 
         INNER JOIN tbl_status as st ON st.s_id = rocc.s_id 
-        WHERE rocc.m_id = 2
+        WHERE rocc.m_id = 2 AND m.m_alive <> 0
         ORDER BY rocc.m_id DESC";
         $db2->Execute($sql2);
         $res2 =  $db2->getData();

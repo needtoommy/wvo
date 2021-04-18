@@ -8,7 +8,7 @@ $sql = "SELECT * from tbl_member
 INNER JOIN veteran ON veteran.m_id = tbl_member.m_id
 INNER JOIN veteran_family ON veteran.VT_ID = veteran_family.VT_ID
 WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " 
-AND VT_FM_RELATION ='ภรรยา'";
+AND VT_FM_RELATION ='ภรรยา' AND veteran.VT_ALIVE <>0";
 
 $db->Execute($sql);
 $res = $db->getData();

@@ -15,6 +15,9 @@ $NORMAL_PENSION_ST = $_POST['NORMAL_PENSION_ST'];
 $NORMAL_PENSION_VALUE = $_POST['NORMAL_PENSION_VALUE'];
 $REQ_MONTHLY_FILE_NAME = $_POST['REQ_MONTHLY_FILE_NAME'];
 $REQ_MONTHLY_PAY_TYPE = $_POST['REQ_MONTHLY_PAY_TYPE'];
+$CLIVE_VALUE = $_POST['CLIVE_VALUE'];
+$CLIVE_ST = $_POST['CLIVE_ST'];
+$CLIVE_AGENT_PAY = $_POST['CLIVE_AGENT_PAY'];
 
 $datetime = date('d/m/Y h:i:s', strtotime('+543 year'));
 
@@ -27,6 +30,9 @@ $sql = "INSERT INTO req_monthly
 	EXTRA_PEN_AGENT_PAY,
 	PEN_AGENT_PAY,
 	EXTRA_PENSION_VALUE,
+    CLIVE_VALUE,
+    CLIVE_ST,
+    CLIVE_AGENT_PAY,
     NORMAL_PENSION_ST,
     NORMAL_PENSION_VALUE,
     REQ_MONTHLY_FILE_NAME,
@@ -42,6 +48,9 @@ $sql = "INSERT INTO req_monthly
 	'$EXTRA_PEN_AGENT_PAY',
 	'$PEN_AGENT_PAY',
 	'$EXTRA_PENSION_VALUE',
+    '$CLIVE_VALUE',
+    '$CLIVE_ST',
+    '$CLIVE_AGENT_PAY',
     '$NORMAL_PENSION_ST',
     '$NORMAL_PENSION_VALUE',
     'image_00001.jpg',
@@ -55,7 +64,7 @@ $db->Execute($sql);
 
 
 
-$sql = "select max(REQ_DISA_ID) as maxid from req_disa limit 1";
+$sql = "select max(REQ_MOTHLY_ID) as maxid from req_monthly limit 1";
 $db->Execute($sql);
 $res = $db->getData();
 $last_id = $res['maxid'];
@@ -63,7 +72,6 @@ $last_id = $res['maxid'];
 $check = 0;
 
 for ($i = 0; $i < count($_FILES['REQ_MONTHLY_FILE_NAME']['name']); $i++) {
-
 
     $date1 = date("Ymd_His");
     $numrand = (mt_rand());
@@ -97,6 +105,7 @@ for ($i = 0; $i < count($_FILES['REQ_MONTHLY_FILE_NAME']['name']); $i++) {
 
 
 }
+// echo $sql;
 
 
 if ($db->Execute($sql)) {

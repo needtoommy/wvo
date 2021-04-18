@@ -11287,13 +11287,13 @@ CREATE TABLE IF NOT EXISTS `veteran_family` (
   `VT_FM_NAME` varchar(30) NOT NULL,
   `VT_FM_LNAME` varchar(30) NOT NULL,
   `VT_FM_RELATION` varchar(30) NOT NULL COMMENT 'เกี่ยวข้องเป็น',
-  `VT_FM_ALIVE` int(5) NOT NULL COMMENT 'มีชีวิต1ไม่มี0',
+  `VT_FVT_ALIVE` int(5) NOT NULL COMMENT 'มีชีวิต1ไม่มี0',
   PRIMARY KEY (`VT_FM_ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table wvo.veteran_family: ~2 rows (approximately)
 /*!40000 ALTER TABLE `veteran_family` DISABLE KEYS */;
-INSERT INTO `veteran_family` (`VT_FM_ID`, `VT_ID`, `VT_FM_TITLE`, `VT_FM_IDCARD`, `VT_FM_NAME`, `VT_FM_LNAME`, `VT_FM_RELATION`, `VT_FM_ALIVE`) VALUES
+INSERT INTO `veteran_family` (`VT_FM_ID`, `VT_ID`, `VT_FM_TITLE`, `VT_FM_IDCARD`, `VT_FM_NAME`, `VT_FM_LNAME`, `VT_FM_RELATION`, `VT_FVT_ALIVE`) VALUES
 	(1, 1, 'นาง', '7878143721302', 'มานี', 'ภักดี', 'ภรรยา', 1),
 	(2, 1, 'นาง', '6878143721333', 'สวย', 'ภักดี', 'มารดา', 1),
 	(3, 1, 'นาย', '6878143721333', 'จริง', 'ภักดี', 'บิดา', 1);

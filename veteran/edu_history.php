@@ -4,15 +4,13 @@ include '../connect/db.php';
 echo $_SESSION["m_id"];
 $db = new DB;
 
-$sql = "
-SELECT * FROM req_health as rh 
-INNER JOIN tbl_member as m ON m.m_id = rh.m_id 
-INNER JOIN tbl_status as st ON st.s_id = rh.s_id 
-WHERE rh.m_id = " . intval($_SESSION["m_id"]) . " AND m.m_alive <> 0
-ORDER BY rh.m_id DESC";
 
-$db->Execute($sql);
 
+$sql2 = "SELECT * from tbl_member 
+INNER JOIN veteran ON veteran.m_id = tbl_member.m_id
+WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " AND veteran.VT_ALIVE <>0 ";
+$db->Execute($sql2);
+$res2 = $db->getData();
 
 
 
@@ -57,7 +55,7 @@ $db->Execute($sql);
 
                             <div class="dashboard_log my-2">
                                 <div class="d-flex align-items-center">
-                                    <div class="account_money">
+                                    <!--<div class="account_money">
                                         <ul>
                                             <li class="crypto">
                                                 <span>0.0025</span>
@@ -67,12 +65,13 @@ $db->Execute($sql);
                                                 <span>19.93 USD</span>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                     <div class="profile_log dropdown">
                                         <div class="user" data-toggle="dropdown">
                                             <span class="thumb"><i class="la la-user"></i></span>
-                                            <span class="name">Maria Pascle</span>
-                                            <span class="arrow"><i class="la la-angle-down"></i></span>
+                                            <span class="name">
+                                                <p><?php echo $res2['VT_TITLE'] . ' ' . $res2['VT_FNAME'] . ' ' . $res2['VT_LNAME'] ?></p>
+                                            </span>
                                         </div>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a href="accounts.html" class="dropdown-item">
@@ -129,7 +128,7 @@ $db->Execute($sql);
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="page-title-content">
-                            <p>ประวัติการให้การสงเคราะห์ค่ารักษาพยาบาล
+                            <p>ประวัติการให้การสงเคราะห์เงินช่วยการศึกษาบุตร
                                
                             </p>
                         </div>
@@ -143,6 +142,19 @@ $db->Execute($sql);
                 <div class="row">
                     <div class="col-md-12">
                         <?php
+                        $sql = "
+                        SELECT * FROM req_edu as redu
+                        INNER JOIN tbl_member as m ON m.m_id = redu.m_id 
+                        INNER JOIN tbl_status as st ON st.s_id = redu.s_id 
+                        INNER JOIN veteran as vt ON m.m_id = vt.m_id
+                        INNER JOIN veteran_family as vfm ON vt.VT_ID  = vfm.VT_ID
+                        INNER JOIN education_level elv ON redu.ELV_ID = elv.ELV_ID
+                        WHERE redu.m_id = " . intval($_SESSION["m_id"]) . " AND m.m_alive <> 0
+                        and redu.VT_FM_ID = vfm.VT_FM_ID
+                        ORDER BY redu.m_id DESC";
+                        
+                        $db->Execute($sql);
+                        
 
                         echo ' <table id="example1" class="table table-bordered table-striped">';
                         echo "<thead>";
@@ -151,8 +163,10 @@ $db->Execute($sql);
     <th width='10%'>เลขใบคำร้อง</th>
       <th width='10%'>วันที่รับคำร้อง</th>
       <th width='10%'>ชื่อ-สกุล</th>
-      <th width='15%'>รายละเอียดการเบิก</th>
-      <th width='12%'>จำนวนเงินขอเบิก</th>
+      <th width='10%'>เบิกให้</th>
+      <th width='10%'>ระดับชั้น</th>
+      <th width='10%'>ภาคเรียนที่</th>
+      <th width='10%'>ปีการศึกษา</th>
       <th width='12%'>จำนวนเงินอนุมัติ</th>
       <th width='10%'>สถานะ</th>
       <th width='8%'>ดูรายละเอียด</th>
@@ -162,20 +176,17 @@ $db->Execute($sql);
                         echo "</thead>";
                         while ($row = $db->getData()) {
                             echo "<tr>";
-                            echo "<td>" . $row["REQ_HEL_ID"] .  "</td> ";
-
-                            echo "<td>" . $row["REQ_HEL_DATE"] .  "</td> ";
-                            //echo "<td>"."<img src='../m_img/".$row['m_img']."' width='100%'>"."</td>";
-                            //echo "<td>" .$row["m_username"].  "</td> ";
+                            echo "<td>" . $row["REQ_EDU_ID"] .  "</td> ";
+                            echo "<td>" . $row["REQ_EDU_DATE"] .  "</td> ";
                             echo "<td>" . $row["m_fname"] . $row["m_name"] . ' ' . $row["m_lname"] . "</td> ";
-                            echo "<td>" . $row["REQ_HEL_DETAIL"] .  "</td> ";
-                            echo "<td>" . $row["REQ_HEL_VALUE"] .  "</td> ";
-                            echo "<td>" . $row["REQ_HEL_VALUE_APPROVE"] .  "</td> ";
+                            echo "<td>" . $row["VT_FM_TITLE"] . $row["VT_FM_NAME"] . ' ' . $row["VT_FM_LNAME"] . "</td> ";
+                            echo "<td>" . $row["ELV_NAME"] .  "</td> ";
+                            echo "<td>" . $row["REQ_EDU_SEMESTER"] .  "</td> ";
+                            echo "<td>" . $row["REQ_EDU_YEAR"] .  "</td> ";
+                            echo "<td>" . $row["REQ_EDU_VALUE_APPROVE"] .  "</td> ";
                             echo "<td>" . $row["s_name"] .  "</td> ";
 
-
-
-                            echo "<td><a href='medi_view.php?&REQ_HEL_ID=$row[0]' class='btn btn-primary mt-3 waves-effect'>ดูรายการ</a> 
+                            echo "<td><a href='edu_view.php?&REQ_EDU_ID=$row[0]' class='btn btn-primary mt-3 waves-effect'>ดูรายการ</a> 
     <br></br>
             
     </td> ";

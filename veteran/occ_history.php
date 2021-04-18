@@ -4,15 +4,13 @@ include '../connect/db.php';
 echo $_SESSION["m_id"];
 $db = new DB;
 
-$sql = "
-SELECT * FROM req_health as rh 
-INNER JOIN tbl_member as m ON m.m_id = rh.m_id 
-INNER JOIN tbl_status as st ON st.s_id = rh.s_id 
-WHERE rh.m_id = " . intval($_SESSION["m_id"]) . " AND m.m_alive <> 0
-ORDER BY rh.m_id DESC";
 
-$db->Execute($sql);
 
+$sql2 = "SELECT * from tbl_member 
+INNER JOIN veteran ON veteran.m_id = tbl_member.m_id
+WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " AND veteran.VT_ALIVE <>0 ";
+$db->Execute($sql2);
+$res2 = $db->getData();
 
 
 
@@ -57,7 +55,7 @@ $db->Execute($sql);
 
                             <div class="dashboard_log my-2">
                                 <div class="d-flex align-items-center">
-                                    <div class="account_money">
+                                    <!--<div class="account_money">
                                         <ul>
                                             <li class="crypto">
                                                 <span>0.0025</span>
@@ -67,12 +65,13 @@ $db->Execute($sql);
                                                 <span>19.93 USD</span>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                     <div class="profile_log dropdown">
                                         <div class="user" data-toggle="dropdown">
                                             <span class="thumb"><i class="la la-user"></i></span>
-                                            <span class="name">Maria Pascle</span>
-                                            <span class="arrow"><i class="la la-angle-down"></i></span>
+                                            <span class="name">
+                                                <p><?php echo $res2['VT_TITLE'] . ' ' . $res2['VT_FNAME'] . ' ' . $res2['VT_LNAME'] ?></p>
+                                            </span>
                                         </div>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a href="accounts.html" class="dropdown-item">
@@ -129,7 +128,7 @@ $db->Execute($sql);
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="page-title-content">
-                            <p>ประวัติการให้การสงเคราะห์ค่ารักษาพยาบาล
+                            <p>ประวัติการให้การสงเคราะห์เงินช่วยเหลือครั้งคราว
                                
                             </p>
                         </div>
@@ -143,6 +142,15 @@ $db->Execute($sql);
                 <div class="row">
                     <div class="col-md-12">
                         <?php
+                        $sql = "
+                        SELECT * FROM req_occ as rocc
+                        INNER JOIN tbl_member as m ON m.m_id = rocc.m_id 
+                        INNER JOIN tbl_status as st ON st.s_id = rocc.s_id 
+                        WHERE rocc.m_id = " . intval($_SESSION["m_id"]) . " AND m.m_alive <> 0
+                        ORDER BY rocc.m_id DESC";
+                        
+                        $db->Execute($sql);
+                        
 
                         echo ' <table id="example1" class="table table-bordered table-striped">';
                         echo "<thead>";
@@ -162,20 +170,20 @@ $db->Execute($sql);
                         echo "</thead>";
                         while ($row = $db->getData()) {
                             echo "<tr>";
-                            echo "<td>" . $row["REQ_HEL_ID"] .  "</td> ";
+                            echo "<td>" . $row["REQ_OCC_ID"] .  "</td> ";
 
-                            echo "<td>" . $row["REQ_HEL_DATE"] .  "</td> ";
+                            echo "<td>" . $row["REQ_OCC_DATE"] .  "</td> ";
                             //echo "<td>"."<img src='../m_img/".$row['m_img']."' width='100%'>"."</td>";
                             //echo "<td>" .$row["m_username"].  "</td> ";
                             echo "<td>" . $row["m_fname"] . $row["m_name"] . ' ' . $row["m_lname"] . "</td> ";
-                            echo "<td>" . $row["REQ_HEL_DETAIL"] .  "</td> ";
-                            echo "<td>" . $row["REQ_HEL_VALUE"] .  "</td> ";
-                            echo "<td>" . $row["REQ_HEL_VALUE_APPROVE"] .  "</td> ";
+                            echo "<td>" . $row["REQ_OCC_REASON"] .  "</td> ";
+                            echo "<td>" . $row["REQ_OCC_VALUE"] .  "</td> ";
+                            echo "<td>" . $row["REQ_OCC_VALUE_APPROVE"] .  "</td> ";
                             echo "<td>" . $row["s_name"] .  "</td> ";
 
 
 
-                            echo "<td><a href='medi_view.php?&REQ_HEL_ID=$row[0]' class='btn btn-primary mt-3 waves-effect'>ดูรายการ</a> 
+                            echo "<td><a href='occ_view.php?&REQ_OCC_ID=$row[0]' class='btn btn-primary mt-3 waves-effect'>ดูรายการ</a> 
     <br></br>
             
     </td> ";
