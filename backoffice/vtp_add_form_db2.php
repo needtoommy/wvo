@@ -10,6 +10,9 @@ $VT_ID = $_POST['VT_ID'];
 $m_username = $_POST['m_username'];
 $m_password = $_POST['m_password'];
 $m_email = $_POST['m_email'];
+$VT_TITLE = $_POST['VT_TITLE'];
+$VT_FNAME = $_POST['VT_FNAME'];
+$VT_LNAME = $_POST['VT_LNAME'];
 
 $year = date('Y') + 543;
 $now = date('d/m/y h:s:i', strtotime('+543 years'));
@@ -20,13 +23,21 @@ $sql = "INSERT INTO tbl_member (
                         VT_ID,
                         m_username,
                         m_password,
-                        m_email
+                        m_fname,
+                        m_name,
+                        m_lname,
+                        m_email,
+                        m_level
 
 ) VALUES (
                         '$VT_ID',
                         '$m_username',
                         '$m_password',
-                        '$m_email'
+                        '$VT_TITLE',
+                        '$VT_FNAME',
+                        '$VT_LNAME',
+                        '$m_email',
+                        'member'
 )";
 
 $db->Execute($sql);
@@ -34,24 +45,28 @@ $db->Execute($sql);
 // exit;
 
 // insert family
-for ($i = 1; $i <= count($VT_FM_NAME); $i++) {
+for ($i = 0; $i < count($VT_FM_NAME); $i++) {
 
     $sql = "INSERT INTO veteran_family (
         VT_ID,
         VT_FM_TITLE,
+        VT_FM_IDCARD,
         VT_FM_NAME,
         VT_FM_LNAME,
         VT_FM_BRITH_DATE,
         VT_FM_AGE,
+        VT_FM_RELATION,
         VT_SEX
     ) VALUES (
-        '" . $_POST['VT_ID'][$i] . "',
-        '" . $_POST['VT_FM_TITLE'][$i] . "',
-        '" . $_POST['VT_FM_NAME'][$i] . "',
-        '" . $_POST['VT_FM_LNAME'][$i] . "',
-        '" . $_POST['VT_FM_BRITH_DATE'][$i] . "',
-        '" . $_POST['VT_FM_AGE'][$i] . "',
-        '" . $_POST['VT_SEX'][$i] . "'
+        '" . $_POST['VT_ID'] . "',
+        '" . $_POST['VT_FM_TITLE'][$i+1] . "',
+        '" . $_POST['VT_FM_IDCARD'][$i+1] . "',
+        '" . $_POST['VT_FM_NAME'][$i+1] . "',
+        '" . $_POST['VT_FM_LNAME'][$i+1] . "',
+        '" . $_POST['VT_FM_BRITH_DATE'][$i+1] . "',
+        '" . $_POST['VT_FM_AGE'][$i+1] . "',
+        '" . $_POST['VT_FM_RELATION'][$i+1] . "',
+        '" . $_POST['VT_SEX'][$i+1] . "'
     )";
 
     // echo $sql;
@@ -79,6 +94,25 @@ $sql = "UPDATE veteran SET m_id=$m_id WHERE VT_ID=$VT_ID AND VT_ALIVE <>0";
 $db->Execute($sql);
 
 
+$sql = "SELECT * FROM assist_policy WHERE ATP_STATUS='Y'";
+$db->Execute($sql);
+
+$assist_policy = array(); 
+while($res = $db->getData()){
+    array_push($assist_policy,$res);
+}
+
+$bal_1 = $assist_policy[0]['ATP_VALUE'];
+$bal_2 = $assist_policy[1]['ATP_VALUE'];
+$bal_3 = $assist_policy[2]['ATP_VALUE'];
+$bal_4 = $assist_policy[3]['ATP_VALUE'];
+$bal_5 = $assist_policy[4]['ATP_VALUE'];
+$bal_6 = $assist_policy[5]['ATP_VALUE'];
+$bal_7 = $assist_policy[6]['ATP_VALUE'];
+// echo '<pre>';
+// print_r($assist_policy);
+// echo '</pre>';
+// exit;
 
 if ($VT_CARD_STEP == "1ท." || $VT_CARD_STEP == "1ค.") {
     $sql = "INSERT INTO edu_value_bal VALUES (
@@ -98,10 +132,10 @@ if ($VT_CARD_STEP == "1ท." || $VT_CARD_STEP == "1ค.") {
 } else {
     $sql = "INSERT INTO edu_value_bal VALUES (
         '$m_id',
-        '12000',
+        '$bal_7',
         '1',
         '0',
-        '12000',
+        '$bal_7',
         '$year',
         'Y',
         '$now',
@@ -121,9 +155,9 @@ $sql = "INSERT INTO health_value_bal (
     health_value_bal_status
 ) VALUES (
     '$m_id',
-    '3500',
+    '$bal_1',
     '0',
-    '3500',
+    '$bal_1',
     '$year',
     'Y'
 )";
@@ -140,9 +174,9 @@ $sql = "INSERT INTO health_value_bal (
     mat_value_bal_status
 ) VALUES (
     '$m_id',
-    '1000',
+    '$bal_3',
     '0',
-    '1000',
+    '$bal_3',
     '$year',
     'Y'
 )";
@@ -159,9 +193,9 @@ $sql = "INSERT INTO health_value_bal (
     occ_value_bal_status
 ) VALUES (
     '$m_id',
-    '1000',
+    '$bal_2',
     '0',
-    '1000',
+    '$bal_2',
     '$year',
     'Y'
 )";

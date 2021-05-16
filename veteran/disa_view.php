@@ -7,7 +7,7 @@ $ID = $_GET['REQ_DISA_ID'];
 
 
 $sql = "SELECT * FROM req_disa as rdisa
-INNER JOIN tbl_member as m ON m.m_id = rdisa.m_id 
+INNER JOIN tbl_member as m ON m.m_id = rdisa.vm_id 
 INNER JOIN tbl_status as st ON st.s_id = rdisa.s_id
 INNER JOIN  disaster_type as dt ON rdisa.REQ_DST_ID = dt.DST_ID
 INNER JOIN  veteran ON m.m_id = veteran.m_id
@@ -45,13 +45,16 @@ $res2 = $db->getData();
     <link rel="stylesheet" href="./vendor/waves/waves.min.css">
     <link rel="stylesheet" href="./vendor/magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@100;300;400&display=swap" rel="stylesheet">
 </head>
+<style>
+    body {
+        font-family: 'Prompt', sans-serif !important;
+    }
+</style>
 
 <body>
-
-
-
-
 
     <div id="preloader">
         <div class="sk-three-bounce">
@@ -62,7 +65,6 @@ $res2 = $db->getData();
     </div>
 
     <div id="main-wrapper">
-
         <div class="header dashboard">
             <div class="container-fluid">
                 <div class="row">
@@ -70,31 +72,19 @@ $res2 = $db->getData();
                         <nav class="navbar navbar-expand-lg navbar-light px-0 justify-content-between">
                             <a class="navbar-brand" href="index.html"><img src="./images/logo.png" alt="">
                             </a>
-
-
                             <div class="dashboard_log my-2">
                                 <div class="d-flex align-items-center">
 
                                     <div class="profile_log dropdown">
                                         <div class="user" data-toggle="dropdown">
-                                            <span class="thumb"><i class="la la-user"></i></span>
-                                            <span class="name">Maria Pascle</span>
+                                            <span>
+                                                <img style="border-radius: 50%;" src="../m_img/<?php echo $res['m_img'] ?>" alt="User Image" width="45" height="45"></span>
+                                            &nbsp;
+                                            <p><?php echo $res['VT_TITLE'] . ' ' . $res['VT_FNAME'] . ' ' . $res['VT_LNAME'] ?></p>
                                             <span class="arrow"><i class="la la-angle-down"></i></span>
                                         </div>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="accounts.html" class="dropdown-item">
-                                                <i class="la la-user"></i> Account
-                                            </a>
-                                            <a href="history.html" class="dropdown-item">
-                                                <i class="la la-book"></i> History
-                                            </a>
-                                            <a href="settings.html" class="dropdown-item">
-                                                <i class="la la-cog"></i> Setting
-                                            </a>
-                                            <a href="lock.html" class="dropdown-item">
-                                                <i class="la la-lock"></i> Lock
-                                            </a>
-                                            <a href="signin.html" class="dropdown-item logout">
+                                            <a href="../index.php" class="dropdown-item logout">
                                                 <i class="la la-sign-out"></i> Logout
                                             </a>
                                         </div>
@@ -111,26 +101,18 @@ $res2 = $db->getData();
             <div class="menu">
                 <ul>
                     <li>
-                        <a href="index.php" data-toggle="tooltip" data-placement="right" title="Home">
-                            <span><i class="la la-igloo"></i></span>
+                        <a href="index.php" data-toggle="tooltip" data-placement="right" title="Home" class="active">
+                            <span><i class="la la-home"></i></span>
                         </a>
                     </li>
-                    <li><a href="buy-sell.html" data-toggle="tooltip" data-placement="right" title="Exchange">
-                            <span><i class="la la-exchange-alt"></i></span>
-                        </a>
-                    </li>
-                    <li><a href="accounts.html" data-toggle="tooltip" data-placement="right" title="Account">
+                    <li>
+                        <a href="profile_vt.php" data-toggle="tooltip" data-placement="right" title="Account">
                             <span><i class="la la-user"></i></span>
-                        </a>
-                    </li>
-                    <li><a href="settings.html" data-toggle="tooltip" data-placement="right" title="Setting">
-                            <span><i class="la la-tools"></i></span>
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
-
         <div class="page-title dashboard">
             <div class="container-fluid">
                 <div class="row">
@@ -148,120 +130,7 @@ $res2 = $db->getData();
         <div class="content-body">
             <div class="container-fluid">
                 <div class="row">
-                    <!-- <div class="col-xl-5 col-lg-5 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="buy-sell-widget">
-                                    <ul class="nav nav-tabs">
-                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab"
-                                                href="#buy">Buy</a>
-                                        </li>
-                                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sell">Sell</a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content tab-content-default">
-                                        <div class="tab-pane fade show active" id="buy" role="tabpanel">
-                                            <form method="post" name="myform" class="currency_validate">
-                                                <div class="form-group">
-                                                    <label class="mr-sm-2">Currency</label>
-                                                    <div class="input-group mb-3">
-                                                        <select name='currency' class="form-control">
-                                                            <option data-display="Bitcoin" value="bitcoin">Bitcoin
-                                                            </option>
-                                                            <option value="litecoin">Litecoin</option>
-                                                        </select>
-                                                        <input type="text" name="usd_amount" class="form-control"
-                                                            value="125.00 USD">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="mr-sm-2">Payment Method</label>
-                                                    <div class="input-group mb-3">
-                                                        <select name='currency' class="form-control">
-                                                            <option data-display="Bitcoin" value="bitcoin">Bitcoin
-                                                            </option>
-                                                            <option value="litecoin">Litecoin</option>
-                                                        </select>
-                                                        <input type="text" name="usd_amount" class="form-control"
-                                                            value="125.00 USD">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="mr-sm-2">Enter your amount</label>
-                                                    <div class="input-group">
-                                                        <input type="text" name="currency_amount" class="form-control"
-                                                            placeholder="0.0214 BTC">
-                                                        <input type="text" name="usd_amount" class="form-control"
-                                                            placeholder="125.00 USD">
-                                                    </div>
-                                                    <div class="d-flex justify-content-between mt-3">
-                                                        <p class="mb-0">Monthly Limit</p>
-                                                        <h6 class="mb-0">$49750 remaining</h6>
-                                                    </div>
-                                                </div>
-                                                <button type="submit" name="submit"
-                                                    class="btn btn-success btn-block">Exchange
-                                                    Now</button>
-
-                                            </form>
-                                        </div>
-                                        <div class="tab-pane fade" id="sell">
-                                            <form method="post" name="myform" class="currency2_validate">
-                                                <div class="form-group">
-                                                    <label class="mr-sm-2">Currency</label>
-                                                    <div class="input-group mb-3">
-                                                        <select name='currency' class="form-control">
-                                                            <option data-display="Bitcoin" value="bitcoin">Bitcoin
-                                                            </option>
-                                                            <option value="litecoin">Litecoin</option>
-                                                        </select>
-                                                        <input type="text" name="usd_amount" class="form-control"
-                                                            value="125.00 USD">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="mr-sm-2">Payment Method</label>
-                                                    <div class="input-group mb-3">
-                                                        <select name='currency' class="form-control">
-                                                            <option data-display="Bitcoin" value="bitcoin">Bitcoin
-                                                            </option>
-                                                            <option value="litecoin">Litecoin</option>
-                                                        </select>
-                                                        <input type="text" name="usd_amount" class="form-control"
-                                                            value="125.00 USD">
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="mr-sm-2">Enter your amount</label>
-                                                    <div class="input-group">
-                                                        <input type="text" name="currency_amount" class="form-control"
-                                                            placeholder="0.0214 BTC">
-                                                        <input type="text" name="usd_amount" class="form-control"
-                                                            placeholder="125.00 USD">
-                                                    </div>
-                                                    <div class="d-flex justify-content-between mt-3">
-                                                        <p class="mb-0">Monthly Limit</p>
-                                                        <h6 class="mb-0">$49750 remaining</h6>
-                                                    </div>
-                                                </div>
-                                                <button type="submit" name="submit"
-                                                    class="btn btn-success btn-block">Exchange
-                                                    Now</button>
-
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <p class="p-4">Note: Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi cupiditate
-                            suscipit explicabo voluptas eos in tenetur error temporibus dolorum. Nulla!</p>
-                    </div>-->
+                   
                     <div class="col-xl-12 col-lg-12 col-md-12">
                         <div class="card">
                             <div class="card-body">
@@ -279,16 +148,7 @@ $res2 = $db->getData();
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="seller-info text-right">
-                                            <div class="media">
-                                                <div class="media-body">
-                                                    <h4>Seller</h4>
-                                                    <h5>John Doe</h5>
-                                                    <a href="#">hello@example.com</a>
-                                                </div>
-                                                <img class="ml-3" src="./images/profile/1.png" alt="" width="50">
-                                            </div>
-                                        </div> -->
+                                       
                                     </div>
                                     <div class="table-responsive">
                                         <table class="table">
@@ -377,7 +237,7 @@ $res2 = $db->getData();
                                                 <tr>
                                                     <td>ไฟล์แนบ</td>
                                                     <td> <?php
-                                                            $sql3 = "SELECT file_name, is_image FROM multi_file where m_id = " . $res['m_id'] . " and vs_id ='1'and req_id= " . $res['REQ_DISA_ID'] . "";
+                                                            $sql3 = "SELECT file_name, is_image FROM multi_file where m_id = " . $res['m_id'] . " and vs_id ='4'and req_id= " . $res['REQ_DISA_ID'] . "";
 
                                                             // exit;
                                                             $db->Execute($sql3);
@@ -419,7 +279,7 @@ $res2 = $db->getData();
                                             </tbody>
                                         </table>
                                         <center>
-                                            <a href='medi_history.php' class='btn btn-warning btn-s'>กลับหน้าหลัก</a>
+                                            <a style="color:white;" href='medi_history.php' class='btn btn-warning btn-s'>กลับหน้าหลัก</a>
 
                                         </center>
 
@@ -460,81 +320,6 @@ $res2 = $db->getData();
         </div>
     </div>
 
-    <!--removeIf(production)-->
-    <!--**********************************
-            Right sidebar start
-        ***********************************-->
-    <div class="sidebar-right">
-        <a class="sidebar-right-trigger" href="javascript:void(0)">
-            <span><i class="fa fa-cog fa-spin"></i></span>
-        </a>
-        <div class="sidebar-right-inner">
-            <div class="admin-settings">
-                <div class="opt-background">
-                    <p>Font Family</p>
-                    <select class="form-control" name="theme_font" id="theme_font">
-                        <option value="nunito">Nunito</option>
-                        <option value="opensans">Open Sans</option>
-
-                    </select>
-                </div>
-                <div>
-                    <p>Primary Color</p>
-                    <div class="opt-nav-header-color">
-                        <span>
-                            <input type="radio" name="navigation_header" value="color_1" class="filled-in chk-col-primary" id="nav_header_color_1" />
-                            <label for="nav_header_color_1"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="navigation_header" value="color_2" class="filled-in chk-col-primary" id="nav_header_color_2" />
-                            <label for="nav_header_color_2"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="navigation_header" value="color_3" class="filled-in chk-col-primary" id="nav_header_color_3" />
-                            <label for="nav_header_color_3"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="navigation_header" value="color_4" class="filled-in chk-col-primary" id="nav_header_color_4" />
-                            <label for="nav_header_color_4"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="navigation_header" value="color_5" class="filled-in chk-col-primary" id="nav_header_color_5" />
-                            <label for="nav_header_color_5"></label>
-                        </span>
-                    </div>
-                </div>
-                <div class="opt-header-color">
-                    <p>Background Color</p>
-                    <div>
-                        <span>
-                            <input type="radio" name="header_bg" value="color_1" class="filled-in chk-col-primary" id="header_color_1">
-                            <label for="header_color_1"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="header_bg" value="color_2" class="filled-in chk-col-primary" id="header_color_2">
-                            <label for="header_color_2"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="header_bg" value="color_3" class="filled-in chk-col-primary" id="header_color_3">
-                            <label for="header_color_3"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="header_bg" value="color_4" class="filled-in chk-col-primary" id="header_color_4">
-                            <label for="header_color_4"></label>
-                        </span>
-                        <span>
-                            <input type="radio" name="header_bg" value="color_5" class="filled-in chk-col-primary" id="header_color_5">
-                            <label for="header_color_5"></label>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--**********************************
-            Right sidebar end
-        ***********************************-->
-    <!--endRemoveIf(production)-->
 
     </div>
 

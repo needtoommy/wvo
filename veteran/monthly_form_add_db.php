@@ -18,6 +18,7 @@ $REQ_MONTHLY_PAY_TYPE = $_POST['REQ_MONTHLY_PAY_TYPE'];
 $CLIVE_VALUE = $_POST['CLIVE_VALUE'];
 $CLIVE_ST = $_POST['CLIVE_ST'];
 $CLIVE_AGENT_PAY = $_POST['CLIVE_AGENT_PAY'];
+$REQ_MONTHLY_REMARK = $_POST['REQ_MONTHLY_REMARK'];
 
 $datetime = date('d/m/Y h:i:s', strtotime('+543 year'));
 
@@ -37,7 +38,8 @@ $sql = "INSERT INTO req_monthly
     NORMAL_PENSION_VALUE,
     REQ_MONTHLY_FILE_NAME,
     REQ_MONTHLY_PAY_TYPE,
-    create_datetime
+    create_datetime,
+    REQ_MONTHLY_REMARK
 	)
 	VALUES
 	(
@@ -55,7 +57,8 @@ $sql = "INSERT INTO req_monthly
     '$NORMAL_PENSION_VALUE',
     'image_00001.jpg',
     '$REQ_MONTHLY_PAY_TYPE',
-    '$datetime'
+    '$datetime',
+    '$REQ_MONTHLY_REMARK'
 	)";
 
 
@@ -103,15 +106,13 @@ for ($i = 0; $i < count($_FILES['REQ_MONTHLY_FILE_NAME']['name']); $i++) {
         $sql = "INSERT INTO multi_file (m_id,req_id,type,seq,file_name, is_image,vs_id) VALUES ($m_id,$last_id,'11',$i+1,'" . $newname . "', 0,'6')";
     }
 
-
+    $db->Execute($sql);
 }
 // echo $sql;
 
 
-if ($db->Execute($sql)) {
-	echo "success";
-} else {
-	echo "fail";
-}
+
+echo "success";
+
 
 mysqli_close($con);

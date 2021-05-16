@@ -31,7 +31,14 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
         <link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
         <link href="../assets/plugins/datatables.net-fixedcolumns-bs4/css/fixedcolumns.bootstrap4.min.css" rel="stylesheet" />
         <!-- ================== END PAGE LEVEL STYLE ================== -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@100;300;400&display=swap" rel="stylesheet">
     </head>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif !important;
+        }
+    </style>
 
     <body>
         <!-- begin #page-loader -->
@@ -56,21 +63,21 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                 <!-- end navbar-header -->
                 <!-- begin header-nav -->
                 <ul class="navbar-nav navbar-right">
-                
+
                     <li class="dropdown navbar-user">
+
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../assets/img/user/user-13.jpg" alt="" />
-                            <span class="d-none d-md-inline"><?php
-                                                                $sql = "SELECT * FROM tbl_member WHERE m_id = " . $_SESSION['m_id'] . " AND m_alive <> 0";
-                                                                $db->Execute($sql);
-                                                                $res = $db->getData();
-                                                                echo $res['m_name'];
-                                                                // print_r($res);
-                                                                ?></span> <b class="caret"></b>
+                            <?php
+                            $sql = "SELECT * FROM tbl_member WHERE m_id = " . $_SESSION['m_id'] . " AND m_alive <> 0";
+                            $db->Execute($sql);
+                            $res = $db->getData();
+                            echo $res['m_name'];
+                            ?>
+                            <img src="m_img/<?php echo $res['m_img'] ?>" alt="" />
+                            <span class="d-none d-md-inline"></span> <b class="caret"></b>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="javascript:;" class="dropdown-item">Edit Profile</a>
-                           
                             <div class="dropdown-divider"></div>
                             <a href="check_logout.php" class="dropdown-item">Log Out</a>
                         </div>
@@ -90,7 +97,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             <a href="javascript:;" data-toggle="nav-profile">
                                 <div class="cover with-shadow"></div>
                                 <div class="image">
-                                    <img src="../assets/img/user/user-13.jpg" alt="" />
+                                    <img src="m_img/<?php echo $res['m_img'] ?>" alt="" />
                                 </div>
                                 <div class="info">
                                     <b class="caret pull-right"></b><?php
@@ -104,12 +111,12 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                 </div>
                             </a>
                         </li>
-                       
+
                     </ul>
                     <!-- end sidebar user -->
                     <!-- begin sidebar nav -->
                     <ul class="nav">
-                        <li class="nav-header">Navigation</li>
+                        <li class="nav-header"></li>
 
 
                         <!-- --------------****Start******-------------------- -->
@@ -317,150 +324,152 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
             <!-- begin #content -->
             <div id="content" class="content">
 
-                <!-- begin row -->
-                <div class="row">
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
-                        <?php
+                <?php if ($_GET['type'] != 7) { ?>
+                    <!-- begin row -->
+                    <div class="row">
+                        <!-- begin col-3 -->
+                        <div class="col-xl-3 col-md-6">
+                            <?php
 
 
-                        if ($_GET['type'] == 1) {
-                            $sql = "SELECT count(*) as count from req_health where s_id =1";
-                        } else if ($_GET['type'] == 2) {
-                            $sql = "SELECT count(*) as count from req_occ where s_id =1";
-                        } else if ($_GET['type'] == 3) {
-                            $sql = "SELECT count(*) as count from req_disa where s_id =1";
-                        } else if ($_GET['type'] == 4) {
-                            $sql = "SELECT count(*) as count from req_maternity where s_id =1";
-                        } else if ($_GET['type'] == 5) {
-                            $sql = "SELECT count(*) as count from req_edu where s_id =1";
-                        } else if ($_GET['type'] == 6) {
-                            $sql = "SELECT count(*) as count from req_monthly where s_id =1";
-                        }
-                        $db->Execute($sql);
-                        $res = $db->getData();
-                        ?>
-                        <div class="widget widget-stats bg-blue">
-                            <div class="stats-icon"><i class="fa fa-pause"></i></div>
-                            <div class="stats-info">
-                                <h3>รออนุมัติ</h3>
-                                <p><?php echo $res['count']; ?></p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end col-3 -->
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
-
-                        <?php
-
-
-                        if ($_GET['type'] == 1) {
-                            $sql = "SELECT count(*) count from req_health where s_id =3";
-                        } else if ($_GET['type'] == 2) {
-                            $sql = "SELECT count(*) count from req_occ where s_id =3";
-                        } else if ($_GET['type'] == 3) {
-                            $sql = "SELECT count(*) count from req_disa where s_id =3";
-                        } else if ($_GET['type'] == 4) {
-                            $sql = "SELECT count(*) count from req_maternity where s_id =3";
-                        } else if ($_GET['type'] == 5) {
-                            $sql = "SELECT count(*) count from req_edu where s_id =3";
-                        } else if ($_GET['type'] == 6) {
-                            $sql = "SELECT count(*) count from req_monthly where s_id =3";
-                        }
-                        $db->Execute($sql);
-                        $res = $db->getData();
-                        ?>
-
-                        <div class="widget widget-stats bg-info">
-                            <div class="stats-icon"><i class="fa fa-check"></i></div>
-                            <div class="stats-info">
-                                <h3>อนุมัติ</h3>
-                                <p><?php echo $res['count'] ?></p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                            if ($_GET['type'] == 1) {
+                                $sql = "SELECT count(*) as count from req_health where s_id =1";
+                            } else if ($_GET['type'] == 2) {
+                                $sql = "SELECT count(*) as count from req_occ where s_id =1";
+                            } else if ($_GET['type'] == 3) {
+                                $sql = "SELECT count(*) as count from req_disa where s_id =1";
+                            } else if ($_GET['type'] == 4) {
+                                $sql = "SELECT count(*) as count from req_maternity where s_id =1";
+                            } else if ($_GET['type'] == 5) {
+                                $sql = "SELECT count(*) as count from req_edu where s_id =1";
+                            } else if ($_GET['type'] == 6) {
+                                $sql = "SELECT count(*) as count from req_monthly where s_id =1";
+                            }
+                            $db->Execute($sql);
+                            $res = $db->getData();
+                            ?>
+                            <div class="widget widget-stats bg-blue">
+                                <div class="stats-icon"><i class="fa fa-pause"></i></div>
+                                <div class="stats-info">
+                                    <h3>รออนุมัติ</h3>
+                                    <p><?php echo $res['count']; ?></p>
+                                </div>
+                                <div class="stats-link">
+                                    <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- end col-3 -->
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
-                        <?php
+                        <!-- end col-3 -->
+                        <!-- begin col-3 -->
+                        <div class="col-xl-3 col-md-6">
+
+                            <?php
 
 
-                        if ($_GET['type'] == 1) {
-                            $sql = "SELECT count(*) count from req_health where s_id =5";
-                        } else if ($_GET['type'] == 2) {
-                            $sql = "SELECT count(*) count from req_occ where s_id =5";
-                        } else if ($_GET['type'] == 3) {
-                            $sql = "SELECT count(*) count from req_disa where s_id =5";
-                        } else if ($_GET['type'] == 4) {
-                            $sql = "SELECT count(*) count from req_maternity where s_id =5";
-                        } else if ($_GET['type'] == 5) {
-                            $sql = "SELECT count(*) count from req_edu where s_id =5";
-                        } else if ($_GET['type'] == 6) {
-                            $sql = "SELECT count(*) count from req_monthly where s_id =5";
-                        }
+                            if ($_GET['type'] == 1) {
+                                $sql = "SELECT count(*) count from req_health where s_id =3";
+                            } else if ($_GET['type'] == 2) {
+                                $sql = "SELECT count(*) count from req_occ where s_id =3";
+                            } else if ($_GET['type'] == 3) {
+                                $sql = "SELECT count(*) count from req_disa where s_id =3";
+                            } else if ($_GET['type'] == 4) {
+                                $sql = "SELECT count(*) count from req_maternity where s_id =3";
+                            } else if ($_GET['type'] == 5) {
+                                $sql = "SELECT count(*) count from req_edu where s_id =3";
+                            } else if ($_GET['type'] == 6) {
+                                $sql = "SELECT count(*) count from req_monthly where s_id =3";
+                            }
+                            $db->Execute($sql);
+                            $res = $db->getData();
+                            ?>
 
-                        $db->Execute($sql);
-                        $res = $db->getData();
-                        ?>
-
-
-
-
-                        <div class="widget widget-stats bg-orange">
-                            <div class="stats-icon"><i class="fa fa-check"></i></div>
-                            <div class="stats-info">
-                                <h3>อนุมัติเบิกจ่าย</h3>
-                                <p><?php echo $res['count'] ?></p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                            <div class="widget widget-stats bg-info">
+                                <div class="stats-icon"><i class="fa fa-check"></i></div>
+                                <div class="stats-info">
+                                    <h3>อนุมัติ</h3>
+                                    <p><?php echo $res['count'] ?></p>
+                                </div>
+                                <div class="stats-link">
+                                    <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- end col-3 -->
-                    <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
-                        <?php
+                        <!-- end col-3 -->
+                        <!-- begin col-3 -->
+                        <div class="col-xl-3 col-md-6">
+                            <?php
 
 
-                        if ($_GET['type'] == 1) {
-                            $sql = "SELECT count(*) count from req_health where s_id =7";
-                        } else if ($_GET['type'] == 2) {
-                            $sql = "SELECT count(*) count from req_occ where s_id =7";
-                        } else if ($_GET['type'] == 3) {
-                            $sql = "SELECT count(*) count from req_disa where s_id =7";
-                        } else if ($_GET['type'] == 4) {
-                            $sql = "SELECT count(*) count from req_maternity where s_id =7";
-                        } else if ($_GET['type'] == 5) {
-                            $sql = "SELECT count(*) count from req_edu where s_id =7";
-                        } else if ($_GET['type'] == 6) {
-                            $sql = "SELECT count(*) count from req_monthly where s_id =7";
-                        }
-                        $db->Execute($sql);
-                        $res = $db->getData();
-                        ?>
+                            if ($_GET['type'] == 1) {
+                                $sql = "SELECT count(*) count from req_health where s_id =5";
+                            } else if ($_GET['type'] == 2) {
+                                $sql = "SELECT count(*) count from req_occ where s_id =5";
+                            } else if ($_GET['type'] == 3) {
+                                $sql = "SELECT count(*) count from req_disa where s_id =5";
+                            } else if ($_GET['type'] == 4) {
+                                $sql = "SELECT count(*) count from req_maternity where s_id =5";
+                            } else if ($_GET['type'] == 5) {
+                                $sql = "SELECT count(*) count from req_edu where s_id =5";
+                            } else if ($_GET['type'] == 6) {
+                                $sql = "SELECT count(*) count from req_monthly where s_id =5";
+                            }
+
+                            $db->Execute($sql);
+                            $res = $db->getData();
+                            ?>
 
 
-                        <div class="widget widget-stats bg-red">
-                            <div class="stats-icon"><i class="fa fa-times"></i></div>
-                            <div class="stats-info">
-                                <h3>ยกเลิก</h3>
-                                <p><?php echo $res['count'] ?></p>
-                            </div>
-                            <div class="stats-link">
-                                <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+
+
+                            <div class="widget widget-stats bg-orange">
+                                <div class="stats-icon"><i class="fa fa-check"></i></div>
+                                <div class="stats-info">
+                                    <h3>อนุมัติเบิกจ่าย</h3>
+                                    <p><?php echo $res['count'] ?></p>
+                                </div>
+                                <div class="stats-link">
+                                    <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                </div>
                             </div>
                         </div>
+                        <!-- end col-3 -->
+                        <!-- begin col-3 -->
+                        <div class="col-xl-3 col-md-6">
+                            <?php
+
+
+                            if ($_GET['type'] == 1) {
+                                $sql = "SELECT count(*) count from req_health where s_id =7";
+                            } else if ($_GET['type'] == 2) {
+                                $sql = "SELECT count(*) count from req_occ where s_id =7";
+                            } else if ($_GET['type'] == 3) {
+                                $sql = "SELECT count(*) count from req_disa where s_id =7";
+                            } else if ($_GET['type'] == 4) {
+                                $sql = "SELECT count(*) count from req_maternity where s_id =7";
+                            } else if ($_GET['type'] == 5) {
+                                $sql = "SELECT count(*) count from req_edu where s_id =7";
+                            } else if ($_GET['type'] == 6) {
+                                $sql = "SELECT count(*) count from req_monthly where s_id =7";
+                            }
+                            $db->Execute($sql);
+                            $res = $db->getData();
+                            ?>
+
+
+                            <div class="widget widget-stats bg-red">
+                                <div class="stats-icon"><i class="fa fa-times"></i></div>
+                                <div class="stats-info">
+                                    <h3>ยกเลิก</h3>
+                                    <p><?php echo $res['count'] ?></p>
+                                </div>
+                                <div class="stats-link">
+                                    <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end col-3 -->
                     </div>
-                    <!-- end col-3 -->
-                </div>
+                <?php } ?>
                 <!-- end row -->
                 <!-- begin row -->
                 <div class="row">
@@ -553,10 +562,10 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
                                         <div class="col-md-12 mt-3" style="text-align:center;">
                                             <button style="display: inline-block;" type="submit" onclick="view_report(0)" class="btn btn-primary" style="display: block;">
-                                            รายงานการจ่ายเงินการสงเคราะห์
+                                                รายงานการจ่ายเงินการสงเคราะห์
                                             </button>
                                             <button style="display: inline-block;" type="submit" onclick="view_report(1)" class="btn btn-primary" style="display: block;">
-                                            รายงานสถิติการจ่ายเงินการสงเคราะห์
+                                                รายงานสถิติการจ่ายเงินการสงเคราะห์
                                             </button>
                                         </div>
 
@@ -607,11 +616,11 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
         <script src="../assets/js/demo/table-manage-fixed-columns.demo.js"></script>
         <script>
             function view_report(type_report) {
-                window.open("../TCPDF/examples/example_011_1.php?status=" + '5,8' + "&dateto=" + $('#dateto').val() + "&date=" + $('#date').val() + "&type=" + $('#type').val() + "&type_report=" + type_report, '_blank')
+                window.open("../TCPDF/examples/example_011_1.php?status=" + $('#status').val() + "&dateto=" + $('#dateto').val() + "&date=" + $('#date').val() + "&type=" + $('#type').val() + "&type_report=" + type_report, '_blank')
             }
 
             function view_report_fi() {
-                window.open("../TCPDF/examples/example_011_1.php?status=" + '8' + "&year=" + $('#year').val() + "&month=" + $('#month').val() + "&type=" + $('#type').val(), '_blank')
+                window.open("../TCPDF/examples/example_011_1.php?status=" + $('#status').val() + "&year=" + $('#year').val() + "&month=" + $('#month').val() + "&type=" + $('#type').val(), '_blank')
             }
         </script>
 

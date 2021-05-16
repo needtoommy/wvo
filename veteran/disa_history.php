@@ -10,7 +10,7 @@ $sql2 = "SELECT * from tbl_member
 INNER JOIN veteran ON veteran.m_id = tbl_member.m_id
 WHERE tbl_member.m_id = " . intval($_SESSION["m_id"]) . " AND veteran.VT_ALIVE <>0 ";
 $db->Execute($sql2);
-$res2 = $db->getData();
+$res = $db->getData();
 
 
 
@@ -24,13 +24,20 @@ $res2 = $db->getData();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tradix </title>
+    <title>ประวัติการให้การสงเคราะห์ค่าประสบภัยพิบัติ </title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon.png">
     <!-- Custom Stylesheet -->
     <link rel="stylesheet" href="./vendor/waves/waves.min.css">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@100;300;400&display=swap" rel="stylesheet">
 </head>
+<style>
+    body {
+        font-family: 'Prompt', sans-serif !important;
+    }
+</style>
 
 <body>
 
@@ -51,42 +58,19 @@ $res2 = $db->getData();
                         <nav class="navbar navbar-expand-lg navbar-light px-0 justify-content-between">
                             <a class="navbar-brand" href="index.html"><img src="./images/logo.png" alt="">
                             </a>
-
-
                             <div class="dashboard_log my-2">
                                 <div class="d-flex align-items-center">
-                                    <!--<div class="account_money">
-                                        <ul>
-                                            <li class="crypto">
-                                                <span>0.0025</span>
-                                                <i class="cc BTC-alt"></i>
-                                            </li>
-                                            <li class="usd">
-                                                <span>19.93 USD</span>
-                                            </li>
-                                        </ul>
-                                    </div> -->
+
                                     <div class="profile_log dropdown">
                                         <div class="user" data-toggle="dropdown">
-                                            <span class="thumb"><i class="la la-user"></i></span>
-                                            <span class="name">
-                                                <p><?php echo $res2['VT_TITLE'] . ' ' . $res2['VT_FNAME'] . ' ' . $res2['VT_LNAME'] ?></p>
-                                            </span>
+                                            <span>
+                                                <img style="border-radius: 50%;" src="../m_img/<?php echo $res['m_img'] ?>" alt="User Image" width="45" height="45"></span>
+                                            &nbsp;
+                                            <p><?php echo $res['VT_TITLE'] . ' ' . $res['VT_FNAME'] . ' ' . $res['VT_LNAME'] ?></p>
+                                            <span class="arrow"><i class="la la-angle-down"></i></span>
                                         </div>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="accounts.html" class="dropdown-item">
-                                                <i class="la la-user"></i> Account
-                                            </a>
-                                            <a href="history.html" class="dropdown-item">
-                                                <i class="la la-book"></i> History
-                                            </a>
-                                            <a href="settings.html" class="dropdown-item">
-                                                <i class="la la-cog"></i> Setting
-                                            </a>
-                                            <a href="lock.html" class="dropdown-item">
-                                                <i class="la la-lock"></i> Lock
-                                            </a>
-                                            <a href="signin.html" class="dropdown-item logout">
+                                            <a href="../index.php" class="dropdown-item logout">
                                                 <i class="la la-sign-out"></i> Logout
                                             </a>
                                         </div>
@@ -103,20 +87,13 @@ $res2 = $db->getData();
             <div class="menu">
                 <ul>
                     <li>
-                        <a href="index.php" data-toggle="tooltip" data-placement="right" title="Home">
-                            <span><i class="la la-igloo"></i></span>
+                        <a href="index.php" data-toggle="tooltip" data-placement="right" title="Home" class="active">
+                            <span><i class="la la-home"></i></span>
                         </a>
                     </li>
-                    <li><a href="buy-sell.html" data-toggle="tooltip" data-placement="right" title="Exchange">
-                            <span><i class="la la-exchange-alt"></i></span>
-                        </a>
-                    </li>
-                    <li><a href="accounts.html" data-toggle="tooltip" data-placement="right" title="Account">
+                    <li>
+                        <a href="profile_vt.php" data-toggle="tooltip" data-placement="right" title="Account">
                             <span><i class="la la-user"></i></span>
-                        </a>
-                    </li>
-                    <li><a href="settings.html" data-toggle="tooltip" data-placement="right" title="Setting">
-                            <span><i class="la la-tools"></i></span>
                         </a>
                     </li>
                 </ul>
@@ -144,11 +121,11 @@ $res2 = $db->getData();
                         <?php
                         $sql = "
                         SELECT * FROM req_disa as rdisa
-                        INNER JOIN tbl_member as m ON m.m_id = rdisa.m_id 
+                        INNER JOIN tbl_member as m ON m.m_id = rdisa.vm_id 
                         INNER JOIN tbl_status as st ON st.s_id = rdisa.s_id
                         INNER JOIN  disaster_type as dt ON rdisa.REQ_DST_ID = dt.DST_ID
-                        WHERE rdisa.m_id = " . intval($_SESSION["m_id"]) . " AND m.m_alive <> 0
-                        ORDER BY rdisa.m_id DESC";
+                        WHERE rdisa.vm_id = " . intval($_SESSION["m_id"]) . " AND m.m_alive <> 0
+                        ORDER BY rdisa.vm_id DESC";
 
                         $db->Execute($sql);
 
@@ -182,7 +159,7 @@ $res2 = $db->getData();
 
 
 
-                            echo "<td><a href='disa_view.php?&REQ_DISA_ID=$row[0]' class='btn btn-primary mt-3 waves-effect'>ดูรายการ</a> 
+                            echo "<td><a href='disa_view.php?&REQ_DISA_ID=".$row['REQ_DISA_ID']."' class='btn btn-primary mt-3 waves-effect'>ดูรายการ</a> 
     <br></br>
             
     </td> ";
@@ -365,86 +342,6 @@ $res2 = $db->getData();
                 </div>-->
                 </div>
             </div>
-
-
-
-
-
-            <!--removeIf(production)-->
-            <!--**********************************
-            Right sidebar start
-        ***********************************-->
-            <div class="sidebar-right">
-                <a class="sidebar-right-trigger" href="javascript:void(0)">
-                    <span><i class="fa fa-cog fa-spin"></i></span>
-                </a>
-                <div class="sidebar-right-inner">
-                    <div class="admin-settings">
-                        <div class="opt-background">
-                            <p>Font Family</p>
-                            <select class="form-control" name="theme_font" id="theme_font">
-                                <option value="nunito">Nunito</option>
-                                <option value="opensans">Open Sans</option>
-
-                            </select>
-                        </div>
-                        <div>
-                            <p>Primary Color</p>
-                            <div class="opt-nav-header-color">
-                                <span>
-                                    <input type="radio" name="navigation_header" value="color_1" class="filled-in chk-col-primary" id="nav_header_color_1" />
-                                    <label for="nav_header_color_1"></label>
-                                </span>
-                                <span>
-                                    <input type="radio" name="navigation_header" value="color_2" class="filled-in chk-col-primary" id="nav_header_color_2" />
-                                    <label for="nav_header_color_2"></label>
-                                </span>
-                                <span>
-                                    <input type="radio" name="navigation_header" value="color_3" class="filled-in chk-col-primary" id="nav_header_color_3" />
-                                    <label for="nav_header_color_3"></label>
-                                </span>
-                                <span>
-                                    <input type="radio" name="navigation_header" value="color_4" class="filled-in chk-col-primary" id="nav_header_color_4" />
-                                    <label for="nav_header_color_4"></label>
-                                </span>
-                                <span>
-                                    <input type="radio" name="navigation_header" value="color_5" class="filled-in chk-col-primary" id="nav_header_color_5" />
-                                    <label for="nav_header_color_5"></label>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="opt-header-color">
-                            <p>Background Color</p>
-                            <div>
-                                <span>
-                                    <input type="radio" name="header_bg" value="color_1" class="filled-in chk-col-primary" id="header_color_1">
-                                    <label for="header_color_1"></label>
-                                </span>
-                                <span>
-                                    <input type="radio" name="header_bg" value="color_2" class="filled-in chk-col-primary" id="header_color_2">
-                                    <label for="header_color_2"></label>
-                                </span>
-                                <span>
-                                    <input type="radio" name="header_bg" value="color_3" class="filled-in chk-col-primary" id="header_color_3">
-                                    <label for="header_color_3"></label>
-                                </span>
-                                <span>
-                                    <input type="radio" name="header_bg" value="color_4" class="filled-in chk-col-primary" id="header_color_4">
-                                    <label for="header_color_4"></label>
-                                </span>
-                                <span>
-                                    <input type="radio" name="header_bg" value="color_5" class="filled-in chk-col-primary" id="header_color_5">
-                                    <label for="header_color_5"></label>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--**********************************
-            Right sidebar end
-        ***********************************-->
-            <!--endRemoveIf(production)-->
 
         </div>
 

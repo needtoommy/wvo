@@ -48,7 +48,7 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 		function getData()
 		{
 			if ($this->link->num_rows != 0) {
-				$rows = $this->link->fetch_array();
+				$rows = $this->link->fetch_assoc();
 				return $rows;
 			} else {
 				$this->Error[] = "ไม่มีข้อมูล";
@@ -78,9 +78,9 @@ if ($_SERVER['SERVER_NAME'] == 'localhost') {
 		var $con;
 		var $link;
 
-		private $host = "27.254.172.35";
-		private $user = "kkkornco_db";
-		private $pass = "iloveu";
+		private $host = "27.254.174.39";
+		private $user = "kkkornco";
+		private $pass = "FULcfk75";
 		private $dbname = "kkkornco_db";
 
 

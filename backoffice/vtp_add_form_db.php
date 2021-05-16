@@ -24,6 +24,12 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
     $VT_CARD_STEP = $_POST['VT_CARD_STEP'];
     $VT_CARD_NO = $_POST['VT_CARD_NO'];
     $VT_ARMY_ST = $_POST['VT_ARMY_ST'];
+    $VT_ARMY = $_POST['VT_ARMY'];
+    $VT_OCCU = $_POST['VT_OCCU'];
+    $VT_INCOME = $_POST['VT_INCOME'];
+    $VT_MARITAL_ST_ID = $_POST['VT_MARITAL_ST_ID'];
+    $VT_BANK_NAME = $_POST['VT_BANK_NAME'];
+    $VT_BANK_ACC_NUM = $_POST['VT_BANK_ACC_NUM'];
 
     $sql = "SELECT VT_ID_NUM FROM veteran WHERE VT_ID_NUM = '$VT_ID_NUM'  AND VT_ALIVE <>0";
 
@@ -37,10 +43,11 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             VT_LNAME,
                             VT_BRITH_DATE,
                             VT_AGE,
+                            VT_OCCU,
                             VT_SEX,
                             VT_HEIGHT,
                             VT_WEIGHT,
-                            VT_PHONE,
+                            VT_INCOME,
                             VT_RACE,
                             VT_NATIONALITY,
                             VT_RELIGION,
@@ -49,17 +56,23 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             VT_ID_NUM,
                             VT_CARD_STEP,
                             VT_CARD_NO,
-                            VT_ARMY_ST
+                            VT_ARMY_ST,
+                            VT_ARMY,
+                            VT_MARITAL_ST_ID,
+                            VT_PHONE,
+                            VT_BANK_NAME,
+                            VT_BANK_ACC_NUM
 ) VALUES (
                            '$VT_TITLE',
                             '$VT_FNAME',
                             '$VT_LNAME',
                             '$VT_BRITH_DATE',
                             '$VT_AGE',
+                            '$VT_OCCU',
                             '$VT_SEX',
                             '$VT_HEIGHT',
                             '$VT_WEIGHT',
-                            '$VT_PHONE',
+                            '$VT_INCOME',
                             '$VT_RACE',
                             '$VT_NATIONALITY',
                             '$VT_RELIGION',
@@ -68,7 +81,13 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             '$VT_ID_NUM',
                             '$VT_CARD_STEP',
                             '$VT_CARD_NO',
-                            '$VT_ARMY_ST'
+                            '$VT_ARMY_ST',
+                            '$VT_ARMY',
+                            '$VT_MARITAL_ST_ID',
+                            '$VT_PHONE',
+                            '$VT_BANK_NAME',
+                            '$VT_BANK_ACC_NUM'
+
 
 )";
 

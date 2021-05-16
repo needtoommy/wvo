@@ -1,3 +1,7 @@
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+</head>
 <?php
 session_start();
 include '../connect/db.php';
@@ -56,9 +60,9 @@ $check_type = 0;
 
 
 if ($VT_CARD_STEP == "1ท." || $VT_CARD_STEP == "1ค.") {
-    $sql = "INSERT INTO  edu_value_bal VALUES  ('" . $_SESSION['m_id'] . "','12000', $max_seq+1,'$REQ_EDU_VALUE',$max_bal-$REQ_EDU_VALUE,'$year_now', 'Y',  '" . $date . "', '" . $date . "')";
+    // $sql = "INSERT INTO  edu_value_bal VALUES  ('" . $_SESSION['m_id'] . "','12000', $max_seq+1,'$REQ_EDU_VALUE',$max_bal-$REQ_EDU_VALUE,'$year_now', 'Y',  '" . $date . "', '" . $date . "')";
 
-    $db->Execute($sql);
+    // $db->Execute($sql);
 
     $sql = "INSERT INTO req_edu 
     (
@@ -102,12 +106,12 @@ if ($VT_CARD_STEP == "1ท." || $VT_CARD_STEP == "1ค.") {
 } else {
     if ($res_maxuse > 3000) {
         // echo 'จำนวนเงินเกิน';
-        echo "<script type='text/javascript'>alert('จำนวนเงินเกิน'); window.location='index.php'</script>";
+        echo "<script type='text/javascript'>swal('จำนวนเงินเกิน', '', 'warning'); window.location='index.php'</script>";
         exit;
     } else {
-        $sql = "INSERT INTO  edu_value_bal VALUES ('" . $_SESSION['m_id'] . "','12000', $max_seq+1,'$REQ_EDU_VALUE',$max_bal-$REQ_EDU_VALUE,'$year_now', 'Y',  '" . $date . "', '" . $date . "')";
+        // $sql = "INSERT INTO  edu_value_bal VALUES ('" . $_SESSION['m_id'] . "','12000', $max_seq+1,'$REQ_EDU_VALUE',$max_bal-$REQ_EDU_VALUE,'$year_now', 'Y',  '" . $date . "', '" . $date . "')";
 
-        $db->Execute($sql);
+        // $db->Execute($sql);
 
         $sql = "INSERT INTO req_edu 
         (
@@ -203,19 +207,21 @@ if ($check_type == 1) {
         }
     }
 
-
-
-    if ($check > 0) {
-        echo "success";
-    } else {
-        echo "fail";
-    }
+    echo '
+    <script type="text/javascript">
+    
+    $(document).ready(function(){
+    
+        swal("บันทึกสำเร็จ", "", "success");
+        
+        setTimeout(function(){window.location="index.php"}, 2000);
+    });
+    </script>
+    ';
+    // header('Location: index.php');
+    exit;
 }
-// echo $sql;
 
-// echo $sql;
-echo "<script type='text/javascript'>alert('บันทึกสำเร็จ'); window.location='index.php'</script>";
-// header('Location: index.php');
-exit;
+ 
 
-$db->Execute($sql);
+

@@ -13,18 +13,40 @@ if (isset($_POST['m_username'])) {
   
   $result = mysqli_query($con, $sql);
   $row = mysqli_fetch_array($result);
+?>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+</head>
 
+
+<?php
   if (count($row['m_alive'])==0){
-    echo "<script>";
-    echo "alert(\" user หรือ  password ไม่ถูกต้อง\");";
-    echo "window.history.back()";
-    echo "</script>";
+ 
+    echo '
+          <script type="text/javascript">
+
+          $(document).ready(function(){
+
+              swal("user หรือ  password ไม่ถูกต้อง", "", "success");
+              
+              setTimeout(function(){window.history.back()}, 2000);
+          });
+          </script>
+        ';
   }
   else if ($row['m_alive'] == 0) {
-    echo "<script>";
-    echo "alert('ไม่สามารถลงชื่อเข้าใช้ได้ เนื่องจากบุคคลนี้เสียชีวิตแล้ว!');";
-    echo "window.history.back()";
-    echo "</script>";
+    echo '
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+
+      swal("ไม่สามารถลงชื่อเข้าใช้ได้ เนื่องจากบุคคลนี้เสียชีวิตแล้ว!", "", "warning");
+        
+        setTimeout(function(){window.history.back()}, 2000);
+    });
+    </script>
+  ';
   }
 
 
@@ -52,7 +74,7 @@ if (isset($_POST['m_username'])) {
 
       echo 'r u member';
 
-      Header("Location: veteran/");
+      Header("Location: veteran/index.php");
     }
     if ($_SESSION["m_level"] == "technician") {
 

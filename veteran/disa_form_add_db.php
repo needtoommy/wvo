@@ -15,34 +15,37 @@ $REQ_DISA_DETAIL = $_POST['REQ_DISA_DETAIL'];
 $REQ_DISA_PAY_TYPE = $_POST['REQ_DISA_PAY_TYPE'];
 $REQ_DISA_FILE_NAME = $_POST[' REQ_DISA_FILE_NAME'];
 $datetime = date('d/m/Y h:i:s', strtotime('+543 year'));
+$year = date('Y')+543;
 
 $sql = "INSERT INTO req_disa
 	(
-	m_id,
 	s_id,
 	REQ_DISA_DATE,
 	REQ_DISA_DATE_FROM,
 	REQ_DISA_DATE_TO,
+    REQ_DISA_BG_YEAR,
 	REQ_DST_ID,
 	REQ_DMT_TYPE,
     REQ_DISA_DETAIL,
     REQ_DISA_PAY_TYPE,
     REQ_DISA_FILE_NAME,
-    create_datetime
+    create_datetime,
+    vm_id
 	)
 	VALUES
 	(
-	'$m_id',
 	'$s_id',
 	'$REQ_DISA_DATE',
 	'$REQ_DISA_DATE_FROM',
 	'$REQ_DISA_DATE_TO',
+    '$year',
 	'$REQ_DST_ID',
 	'$REQ_DMT_TYPE',
     '$REQ_DISA_DETAIL',
     '$REQ_DISA_PAY_TYPE',
     'image_00001.jpg',
-    '$datetime'
+    '$datetime',
+    '$m_id'
 	)";
 
 
@@ -58,6 +61,9 @@ $last_id = $res['maxid'];
 
 $check = 0;
 
+// echo '<pre>';
+// print_r($_FILES);
+// echo '</pre>';
 for ($i = 0; $i < count($_FILES['REQ_DISA_FILE_NAME']['name']); $i++) {
 
 
@@ -86,19 +92,14 @@ for ($i = 0; $i < count($_FILES['REQ_DISA_FILE_NAME']['name']); $i++) {
         $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
         && $imageFileType != "gif"
     ) {
-        $sql = "INSERT INTO multi_file (m_id,req_id,type,seq,file_name, is_image,vs_id) VALUES ($m_id,$last_id,'11',$i+1,'" . $newname . "', 1,'4')";
+        $sql = "INSERT INTO multi_file (m_id,req_id,type,seq,file_name, is_image,vs_id,flag_up_by) VALUES ($m_id,$last_id,'11',$i+1,'" . $newname . "', 1,'4',0)";
     } else {
-        $sql = "INSERT INTO multi_file (m_id,req_id,type,seq,file_name, is_image,vs_id) VALUES ($m_id,$last_id,'11',$i+1,'" . $newname . "', 0,'4')";
+        $sql = "INSERT INTO multi_file (m_id,req_id,type,seq,file_name, is_image,vs_id,flag_up_by) VALUES ($m_id,$last_id,'11',$i+1,'" . $newname . "', 0,'4',0)";
     }
 
-
+    $db->Execute($sql);
 }
 
-
-if ($db->Execute($sql)) {
 	echo "success";
-} else {
-	echo "fail";
-}
 
 mysqli_close($con);

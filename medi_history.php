@@ -300,7 +300,7 @@
                 <div class="row">
                     <div class="col-xl-6">
                         <div class="copyright">
-                            <p>© Copyright 2019 <a href="#">Tradix</a> I All Rights Reserved</p>
+                            <p>© Copyright 2019 <a href="#">ระบบสวัสดิการสงเคราะห์ทหารผ่านศึก</a> I All Rights Reserved</p>
                         </div>
                     </div>
                     <div class="col-xl-6">
@@ -317,92 +317,7 @@
             </div>
         </div>
 
-        <!--removeIf(production)-->
-        <!--**********************************
-            Right sidebar start
-        ***********************************-->
-        <div class="sidebar-right">
-            <a class="sidebar-right-trigger" href="javascript:void(0)">
-                <span><i class="fa fa-cog fa-spin"></i></span>
-            </a>
-            <div class="sidebar-right-inner">
-                <div class="admin-settings">
-                    <div class="opt-background">
-                        <p>Font Family</p>
-                        <select class="form-control" name="theme_font" id="theme_font">
-                            <option value="nunito">Nunito</option>
-                            <option value="opensans">Open Sans</option>
-
-                        </select>
-                    </div>
-                    <div>
-                        <p>Primary Color</p>
-                        <div class="opt-nav-header-color">
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_1"
-                                    class="filled-in chk-col-primary" id="nav_header_color_1" />
-                                <label for="nav_header_color_1"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_2"
-                                    class="filled-in chk-col-primary" id="nav_header_color_2" />
-                                <label for="nav_header_color_2"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_3"
-                                    class="filled-in chk-col-primary" id="nav_header_color_3" />
-                                <label for="nav_header_color_3"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_4"
-                                    class="filled-in chk-col-primary" id="nav_header_color_4" />
-                                <label for="nav_header_color_4"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_5"
-                                    class="filled-in chk-col-primary" id="nav_header_color_5" />
-                                <label for="nav_header_color_5"></label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="opt-header-color">
-                        <p>Background Color</p>
-                        <div>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_1" class="filled-in chk-col-primary"
-                                    id="header_color_1">
-                                <label for="header_color_1"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_2" class="filled-in chk-col-primary"
-                                    id="header_color_2">
-                                <label for="header_color_2"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_3" class="filled-in chk-col-primary"
-                                    id="header_color_3">
-                                <label for="header_color_3"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_4" class="filled-in chk-col-primary"
-                                    id="header_color_4">
-                                <label for="header_color_4"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_5" class="filled-in chk-col-primary"
-                                    id="header_color_5">
-                                <label for="header_color_5"></label>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--**********************************
-            Right sidebar end
-        ***********************************-->
-        <!--endRemoveIf(production)-->
-
+ 
     </div>
 
 

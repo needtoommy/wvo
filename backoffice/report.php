@@ -31,7 +31,16 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
         <link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
         <link href="../assets/plugins/datatables.net-fixedcolumns-bs4/css/fixedcolumns.bootstrap4.min.css" rel="stylesheet" />
         <!-- ================== END PAGE LEVEL STYLE ================== -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@100;300;400&display=swap" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif !important;
+        }
+    </style>
 
     <body>
         <!-- begin #page-loader -->
@@ -56,93 +65,21 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                 <!-- end navbar-header -->
                 <!-- begin header-nav -->
                 <ul class="navbar-nav navbar-right">
-                    <!--
-                    <li class="navbar-form">
-                        <form action="" method="POST" name="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Enter keyword" />
-                                <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
-                            </div>
-                        </form>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle f-s-14">
-                            <i class="fa fa-bell"></i>
-                            <span class="label">5</span>
-                        </a>
-                        <div class="dropdown-menu media-list dropdown-menu-right">
-                            <div class="dropdown-header">NOTIFICATIONS (5)</div>
-                            <a href="javascript:;" class="dropdown-item media">
-                                <div class="media-left">
-                                    <i class="fa fa-bug media-object bg-silver-darker"></i>
-                                </div>
-                                <div class="media-body">
-                                    <h6 class="media-heading">Server Error Reports <i class="fa fa-exclamation-circle text-danger"></i></h6>
-                                    <div class="text-muted f-s-10">3 minutes ago</div>
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="dropdown-item media">
-                                <div class="media-left">
-                                    <img src="../assets/img/user/user-1.jpg" class="media-object" alt="" />
-                                    <i class="fab fa-facebook-messenger text-blue media-object-icon"></i>
-                                </div>
-                                <div class="media-body">
-                                    <h6 class="media-heading">John Smith</h6>
-                                    <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
-                                    <div class="text-muted f-s-10">25 minutes ago</div>
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="dropdown-item media">
-                                <div class="media-left">
-                                    <img src="../assets/img/user/user-2.jpg" class="media-object" alt="" />
-                                    <i class="fab fa-facebook-messenger text-blue media-object-icon"></i>
-                                </div>
-                                <div class="media-body">
-                                    <h6 class="media-heading">Olivia</h6>
-                                    <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
-                                    <div class="text-muted f-s-10">35 minutes ago</div>
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="dropdown-item media">
-                                <div class="media-left">
-                                    <i class="fa fa-plus media-object bg-silver-darker"></i>
-                                </div>
-                                <div class="media-body">
-                                    <h6 class="media-heading"> New User Registered</h6>
-                                    <div class="text-muted f-s-10">1 hour ago</div>
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="dropdown-item media">
-                                <div class="media-left">
-                                    <i class="fa fa-envelope media-object bg-silver-darker"></i>
-                                    <i class="fab fa-google text-warning media-object-icon f-s-14"></i>
-                                </div>
-                                <div class="media-body">
-                                    <h6 class="media-heading"> New Email From John</h6>
-                                    <div class="text-muted f-s-10">2 hour ago</div>
-                                </div>
-                            </a>
-                            <div class="dropdown-footer text-center">
-                                <a href="javascript:;">View more</a>
-                            </div>
-                        </div>
-                    </li> -->
+
                     <li class="dropdown navbar-user">
+
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../assets/img/user/user-13.jpg" alt="" />
-                            <span class="d-none d-md-inline"><?php
-                                                                $sql = "SELECT * FROM tbl_member WHERE m_id = " . $_SESSION['m_id'] . " AND m_alive <> 0";
-                                                                $db->Execute($sql);
-                                                                $res = $db->getData();
-                                                                echo $res['m_name'];
-                                                                // print_r($res);
-                                                                ?></span> <b class="caret"></b>
+                            <?php
+                            $sql = "SELECT * FROM tbl_member WHERE m_id = " . $_SESSION['m_id'] . " AND m_alive <> 0";
+                            $db->Execute($sql);
+                            $res = $db->getData();
+                            echo $res['m_name'];
+                            ?>
+                            <img src="m_img/<?php echo $res['m_img'] ?>" alt="" />
+                            <span class="d-none d-md-inline"></span> <b class="caret"></b>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="javascript:;" class="dropdown-item">Edit Profile</a>
-                            <a href="javascript:;" class="dropdown-item"><span class="badge badge-danger pull-right">2</span> Inbox</a>
-                            <a href="javascript:;" class="dropdown-item">Calendar</a>
-                            <a href="javascript:;" class="dropdown-item">Setting</a>
                             <div class="dropdown-divider"></div>
                             <a href="check_logout.php" class="dropdown-item">Log Out</a>
                         </div>
@@ -162,7 +99,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             <a href="javascript:;" data-toggle="nav-profile">
                                 <div class="cover with-shadow"></div>
                                 <div class="image">
-                                    <img src="../assets/img/user/user-13.jpg" alt="" />
+                                    <img src="m_img/<?php echo $res['m_img'] ?>" alt="" />
                                 </div>
                                 <div class="info">
                                     <b class="caret pull-right"></b><?php
@@ -187,37 +124,14 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                     <!-- end sidebar user -->
                     <!-- begin sidebar nav -->
                     <ul class="nav">
-                        <li class="nav-header">Navigation</li>
-
-
-                        <!-- --------------****Start******-------------------- -->
-                        <?php
-                        if ($level == 'vsofficer') {
-                        ?>
-                            <li class="has-sub active">
-                                <a href="calendar.html">
-                                    <i class="fa fa-edit"></i>
-                                    <span> พิจารณาคำร้อง</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li <?php echo $_GET['type'] == 1 ? 'class="active"' : '' ?>><a href="index.php?type=1&level=<?php echo $level ?>">ค่ารักษาพยาบาล</a></li>
-                                    <li <?php echo $_GET['type'] == 2 ? 'class="active"' : '' ?>><a href="index.php?type=2&level=<?php echo $level ?>">เงินช่วยเหลือครั้งคราว</a></li>
-                                    <li <?php echo $_GET['type'] == 3 ? 'class="active"' : '' ?>><a href="index.php?type=3&level=<?php echo $level ?>">ค่าประสบภัยพิบัติ</a></li>
-                                    <li <?php echo $_GET['type'] == 4 ? 'class="active"' : '' ?>><a href="index.php?type=4&level=<?php echo $level ?>">ค่าคลอดบุตร</a></li>
-                                    <li <?php echo $_GET['type'] == 5 ? 'class="active"' : '' ?>><a href="index.php?type=5&level=<?php echo $level ?>">ค่าการศึกษาบุตร</a></li>
-                                    <li <?php echo $_GET['type'] == 6 ? 'class="active"' : '' ?>><a href="index.php?type=6&level=<?php echo $level ?>">เงินช่วยเหลือรายเดือน</a></li>
-                                </ul>
-                            </li>
-
-                        <?php } ?>
-
+                        <li class="nav-header"></li>
 
                         <!-- --------------****Start******-------------------- -->
                         <?php
                         if ($level == 'vsmanager') {
                         ?>
                             <li class="has-sub active">
-                                <a href="calendar.html">
+                                <a href="#">
                                     <i class="fa fa-edit"></i>
                                     <span>รายงาน</span>
                                 </a>
@@ -230,149 +144,27 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                     <li <?php echo $_GET['type'] == 6 ? 'class="active"' : '' ?>><a href="report.php?type=6&level=<?php echo $level ?>">รายงานเงินช่วยเหลือรายเดือน</a></li>
                                 </ul>
                             </li>
-
-                        <?php } ?>
-
-
-
-                        <!-- --------------****Start******-------------------- -->
-                        <?php
-                        if ($level == 'finoffice') {
-                        ?>
-                            <li class="has-sub active">
-                                <a href="calendar.html">
-                                    <i class="fa fa-edit"></i>
-                                    <span> อนุมัติเบิกจ่าย</span>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li <?php echo $_GET['type'] == 1 ? 'class="active"' : '' ?>><a href="index.php?type=1&level=<?php echo $level ?>">ค่ารักษาพยาบาล</a></li>
-                                    <li <?php echo $_GET['type'] == 2 ? 'class="active"' : '' ?>><a href="index.php?type=2&level=<?php echo $level ?>">เงินช่วยเหลือครั้งคราว</a></li>
-                                    <li <?php echo $_GET['type'] == 3 ? 'class="active"' : '' ?>><a href="index.php?type=3&level=<?php echo $level ?>">ค่าประสบภัยพิบัติ</a></li>
-                                    <li <?php echo $_GET['type'] == 4 ? 'class="active"' : '' ?>><a href="index.php?type=4&level=<?php echo $level ?>">ค่าคลอดบุตร</a></li>
-                                    <li <?php echo $_GET['type'] == 5 ? 'class="active"' : '' ?>><a href="index.php?type=5&level=<?php echo $level ?>">ค่าการศึกษาบุตร</a></li>
-                                    <li <?php echo $_GET['type'] == 6 ? 'class="active"' : '' ?>><a href="index.php?type=6&level=<?php echo $level ?>">เงินช่วยเหลือรายเดือน</a></li>
-                                </ul>
-                            </li>
-
-                        <?php } ?>
-
-
-                        <!-- -----------------**********************************--------------------- -->
-                        <?php if ($level == 'finoffice') {
-                        ?>
-                            <li <?php echo $_GET['type'] == 7 ? 'class="active"' : '' ?>>
-                                <a href="vs_pay.php?type=7">
-                                    <i class="fa fa-edit"></i>
-                                    <span>จ่ายเงินสงเคราะห์</span>
-                                </a>
-                            </li>
-                        <?php } ?>
-
-
-                        <!-- -----------------**********************************--------------------- -->
-                        <?php if ($level == 'finoffice') {
-                        ?>
-                            <li <?php echo $_GET['type'] == 8 ? 'class="active"' : '' ?>>
-                                <a href="vs_pay_m.php?type=8">
-                                    <i class="fa fa-edit"></i>
-                                    <span>จ่ายเงินรายเดือน</span>
-                                </a>
-                            </li>
-                        <?php } ?>
-
-
-                        <!-- -----------------**********************************--------------------- -->
-                        <?php if ($level == 'vsofficer' || $level == 'vsmanager') {
-                        ?>
                             <li <?php echo $_GET['type'] == 9 ? 'class="active"' : '' ?>>
                                 <a href="death_list.php?type=9">
                                     <i class="fa fa-edit"></i>
                                     <span>บันทึกการสงเคราะห์กรณีถึงแก่ความตาย</span>
                                 </a>
                             </li>
-                        <?php } ?>
-
-
-
-                        <!-- -----------------**********************************--------------------- -->
-                        <?php if ($level == '') {
-                        ?>
-                            <li <?php echo $_GET['type'] == 7 ? 'class="active"' : '' ?>>
-                                <a href="calendar.html">
-                                    <i class="fa fa-edit"></i>
-                                    <span>ตรวจสอบใบคำร้องเงินครั้งคราว</span>
-                                </a>
-                            </li>
-                        <?php } ?>
-
-
-                        <!-- -----------------**********************************--------------------- -->
-                        <?php if ($level == '') {
-                        ?>
-                            <li <?php echo $_GET['type'] == 8 ? 'class="active"' : '' ?>>
-                                <a href="calendar.html">
-                                    <i class="fa fa-edit"></i>
-                                    <span>จัดการสมาชิก</span>
-                                </a>
-                            </li>
-                        <?php } ?>
-
-
-                        <!-- -----------------**********************************--------------------- -->
-                        <?php if ($level == '') { ?>
-                            <li <?php echo $_GET['type'] == 9 ? 'class="active"' : '' ?>>
-                                <a href="calendar.html">
-                                    <i class="fa fa-edit"></i>
-                                    <span>จัดการตำแหน่ง</span>
-                                </a>
-                            </li>
-                        <?php } ?>
-
-
-                        <!-- -----------------**********************************--------------------- -->
-                        <?php if ($level == '') { ?>
-                            <li <?php echo $_GET['type'] == 10 ? 'class="active"' : '' ?>>
-                                <a href="calendar.html">
-                                    <i class="fa fa-edit"></i>
-                                    <span>จัดการสถานะ</span>
-                                </a>
-                            </li>
-                        <?php } ?>
-
-
-                        <!-- -----------------**********************************--------------------- -->
-                        <?php if ($level == 'vsofficer') { ?>
                             <li <?php echo $_GET['type'] == 11 ? 'class="active"' : '' ?>>
-                                <a href="vtp_add_form.php">
+                                <a href="vtp_add_form.php?type=11&level=<?php echo $level ?>">
                                     <i class="fa fa-edit"></i>
                                     <span>จัดการประวัติทหารผ่านศึก</span>
                                 </a>
                             </li>
-                        <?php } ?>
-                        <!-- -----------------*************END*************--------------------- -->
 
-
-                        <!-- -----------------**********************************--------------------- -->
-                        <?php if ($level == '') { ?>
-                            <li <?php echo $_GET['type'] == 12 ? 'class="active"' : '' ?>>
-                                <a href="calendar.html">
+                            <li>
+                                <a href="assign_em_search.php">
                                     <i class="fa fa-edit"></i>
-                                    <span>จัดการแผนก</span>
+                                    <span>ส่งมอบงานกรณีประสบภัยพิบัตร</span>
                                 </a>
                             </li>
+
                         <?php } ?>
-                        <!-- -----------------*************END*************--------------------- -->
-
-                        <!--
-
-                        <li>
-                            <a href="../TCPDF/examples/example_001.php?test=jammy" target="_blank">
-                                <i class="fa fa-edit"></i>
-                                <span>ทดสอบ</span>
-                            </a>
-                        </li>
-                        -->
-
 
 
 
@@ -392,7 +184,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                 <!-- begin row -->
                 <div class="row">
                     <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
+                    <!-- <div class="col-xl-3 col-md-6">
                         <?php
 
 
@@ -422,10 +214,10 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                 <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- end col-3 -->
                     <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
+                    <!-- <div class="col-xl-3 col-md-6">
 
                         <?php
 
@@ -457,10 +249,10 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                 <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- end col-3 -->
                     <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
+                    <!-- <div class="col-xl-3 col-md-6">
                         <?php
 
 
@@ -494,10 +286,10 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                 <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- end col-3 -->
                     <!-- begin col-3 -->
-                    <div class="col-xl-3 col-md-6">
+                    <!-- <div class="col-xl-3 col-md-6">
                         <?php
 
 
@@ -529,7 +321,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                                 <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- end col-3 -->
                 </div>
                 <!-- end row -->
@@ -551,8 +343,9 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
                             <!-- begin panel-body -->
 
                             <div class="panel-body">
-
-                                <h1>รายงานผู้ยื่นคำร้องขอรับการสงเคราะห์</h1>
+                                <div>
+                                    <canvas id="myChart"></canvas>
+                                </div>
                                 <hr>
                                 <h4>เงื่อนไขในการค้นหา</h4> <br>
 
@@ -643,6 +436,63 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
             function view_report(type_report) {
                 window.open("../TCPDF/examples/example_011.php?status=" + $('#status').val() + "&dateto=" + $('#dateto').val() + "&date=" + $('#date').val() + "&type=" + $('#type').val() + "&type_report=" + type_report, '_blank')
             }
+
+
+
+            const labels = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+            ];
+            const data = {
+                labels: labels,
+                datasets: [{
+                    label: 'สรุปการเงิน',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                        'rgb(201, 203, 207)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    layout:{
+                        padding: '80'
+                    }
+                },
+            };
+
+            var myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
         </script>
 
         <!-- ================== END PAGE LEVEL JS ================== -->

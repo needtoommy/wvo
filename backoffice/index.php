@@ -27,10 +27,18 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 		<link href="../assets/plugins/jvectormap-next/jquery-jvectormap.css" rel="stylesheet" />
 		<link href="../assets/plugins/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" rel="stylesheet" />
 		<!-- <link href="../assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" /> -->
+		<!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
 		<link href="../assets/plugins/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-		<link href="../assets/plugins/datatables.net-fixedcolumns-bs4/css/fixedcolumns.bootstrap4.min.css" rel="stylesheet" />
+		<link href="../assets/plugins/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 		<!-- ================== END PAGE LEVEL STYLE ================== -->
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@100;300;400&display=swap" rel="stylesheet">
 	</head>
+	<style>
+		body {
+			font-family: 'Prompt', sans-serif !important;
+		}
+	</style>
 
 	<body>
 		<!-- begin #page-loader -->
@@ -55,17 +63,18 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 				<!-- end navbar-header -->
 				<!-- begin header-nav -->
 				<ul class="navbar-nav navbar-right">
-					
+
 					<li class="dropdown navbar-user">
+
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<img src="../assets/img/user/user-13.jpg" alt="" />
-							<span class="d-none d-md-inline"><?php
-																$sql = "SELECT * FROM tbl_member WHERE m_id = " . $_SESSION['m_id'] . " AND m_alive <> 0";
-																$db->Execute($sql);
-																$res = $db->getData();
-																echo $res['m_name'];
-																// print_r($res);
-																?></span> <b class="caret"></b>
+							<?php
+							$sql = "SELECT * FROM tbl_member WHERE m_id = " . $_SESSION['m_id'] . " AND m_alive <> 0";
+							$db->Execute($sql);
+							$res = $db->getData();
+							echo $res['m_name'];
+							?>
+							<img src="m_img/<?php echo $res['m_img'] ?>" alt="" />
+							<span class="d-none d-md-inline"></span> <b class="caret"></b>
 						</a>
 						<div class="dropdown-menu dropdown-menu-right">
 							<a href="javascript:;" class="dropdown-item">Edit Profile</a>
@@ -88,7 +97,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 							<a href="javascript:;" data-toggle="nav-profile">
 								<div class="cover with-shadow"></div>
 								<div class="image">
-									<img src="../assets/img/user/user-13.jpg" alt="" />
+									<img src="m_img/<?php echo $res['m_img'] ?>" alt="" />
 								</div>
 								<div class="info">
 									<b class="caret pull-right"></b><?php
@@ -102,20 +111,55 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 								</div>
 							</a>
 						</li>
-					
+
 					</ul>
 					<!-- end sidebar user -->
 					<!-- begin sidebar nav -->
 					<ul class="nav">
-						<li class="nav-header">Navigation</li>
+						<li class="nav-header"></li>
 
 
 						<!-- --------------****Start******-------------------- -->
 						<?php
+						if ($level == "admin") {
+						?>
+							<li class="has-sub active">
+								<a href="#">
+									<i class="fa fa-edit"></i>
+									<span> จัดการบัญชีผู้ใช้</span>
+								</a>
+								<ul class="sub-menu">
+									<li <?php echo $_GET['tab'] == 1 ? 'class="active"' : '' ?>><a href="admin_tab1.php?tab=1">จัดการบัญชีผู้ใช้(พนักงาน)</a></li>
+									<li <?php echo $_GET['tab'] == 2 ? 'class="active"' : '' ?>><a href="admin_tab2.php?tab=2">จัดการบัญชีผู้ใช้ (ทหารผ่านศึก)</a></li>
+
+								</ul>
+							</li>
+							<li class="has-sub <?php echo $_GET['type'] == "manage_assist" ? 'active' : '' ?>">
+								<a href="manage_assist.php?type=manage_assist">
+									<i class="fa fa-edit"></i>
+									<span>จัดการวงเงินสงเคราะห์</span>
+								</a>
+							</li>
+
+
+							<li class="has-sub ">
+								<a href="#">
+									<i class="fa fa-edit"></i>
+									<span> จัดการค่าเริ่มต้น</span>
+								</a>
+								<ul class="sub-menu">
+									<li <?php echo $_GET['tab'] == 1 ? 'class="active"' : '' ?>><a href="manage_status.php?type=status">จัดการสถานะรายการ</a></li>
+									<li <?php echo $_GET['tab'] == 2 ? 'class="active"' : '' ?>><a href="position.php">จัดการตำแหน่ง</a></li>
+
+								</ul>
+							</li>
+
+						<?php
+						}
 						if ($level == 'vsofficer') {
 						?>
 							<li class="has-sub active">
-								<a href="calendar.html">
+								<a href="#">
 									<i class="fa fa-edit"></i>
 									<span> พิจารณาคำร้อง</span>
 								</a>
@@ -132,8 +176,8 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 						<?php } ?>
 
 
-							<!-- --------------****Start******-------------------- -->
-							<?php
+						<!-- --------------****Start******-------------------- -->
+						<?php
 						if ($level == 'vsmanager') {
 						?>
 							<li class="has-sub active">
@@ -154,9 +198,9 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 						<?php } ?>
 
 
-						
-							<!-- --------------****finmanager******-------------------- -->
-							<?php
+
+						<!-- --------------****finmanager******-------------------- -->
+						<?php
 						if ($level == 'finmanager') {
 						?>
 							<li class="has-sub active">
@@ -209,20 +253,24 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 									<span>จ่ายเงินสงเคราะห์</span>
 								</a>
 							</li>
-						<?php } ?>
 
-
-						<!-- -----------------**********************************--------------------- -->
-						<?php if ($level == 'finoffice') {
-						?>
 							<li <?php echo $_GET['type'] == 8 ? 'class="active"' : '' ?>>
 								<a href="vs_pay_m.php?type=8">
 									<i class="fa fa-edit"></i>
 									<span>จ่ายเงินรายเดือน</span>
 								</a>
 							</li>
+
+							<li <?php echo $_GET['type'] == 9 ? 'class="active"' : '' ?>>
+								<a href="death_list.php?type=9">
+									<i class="fa fa-edit"></i>
+									<span>บันทึกการสงเคราะห์กรณีถึงแก่ความตาย</span>
+								</a>
+							</li>
 						<?php } ?>
 
+
+					
 
 						<!-- -----------------**********************************--------------------- -->
 						<?php if ($level == 'vsofficer' || $level == 'vsmanager') {
@@ -291,6 +339,20 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 									<span>จัดการประวัติทหารผ่านศึก</span>
 								</a>
 							</li>
+
+							<li class="has-sub">
+								<a href="#">
+									<i class="fa fa-edit"></i>
+									<span>จัดการประสบภัยพิบัตร</span>
+								</a>
+								<ul class="sub-menu">
+									<li><a href="view_disa_request.php">งานที่ต้องไปสำรวจ</a></li>
+                                
+                                    <li><a href="assign_em_search_add.php">เพิ่มคำร้อง</a></li>
+                                </ul>
+								
+								</ul>
+							</li>
 						<?php } ?>
 						<!-- -----------------*************END*************--------------------- -->
 
@@ -304,305 +366,9 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 								</a>
 							</li>
 						<?php } ?>
-						
 
-						<!--
-						<li class="has-sub active">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-th-large"></i>
-								<span>Dashboard</span>
-							</a>
-							<ul class="sub-menu">
-								<li class="active"><a href="index.html">Dashboard v1</a></li>
-								<li><a href="index_v2.html">Dashboard v2</a></li>
-								<li><a href="index_v3.html">Dashboard v3</a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<span class="badge pull-right">10</span>
-								<i class="fa fa-hdd"></i>
-								<span>Email</span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="email_inbox.html">Inbox</a></li>
-								<li><a href="email_compose.html">Compose</a></li>
-								<li><a href="email_detail.html">Detail</a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="widget.html">
-								<i class="fab fa-simplybuilt"></i>
-								<span>Widgets <span class="label label-theme">NEW</span></span>
-							</a>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-gem"></i>
-								<span>UI Elements <span class="label label-theme">NEW</span></span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="ui_general.html">General <i class="fa fa-paper-plane text-theme"></i></a></li>
-								<li><a href="ui_typography.html">Typography</a></li>
-								<li><a href="ui_tabs_accordions.html">Tabs & Accordions</a></li>
-								<li><a href="ui_unlimited_tabs.html">Unlimited Nav Tabs</a></li>
-								<li><a href="ui_modal_notification.html">Modal & Notification <i class="fa fa-paper-plane text-theme"></i></a></li>
-								<li><a href="ui_widget_boxes.html">Widget Boxes</a></li>
-								<li><a href="ui_media_object.html">Media Object</a></li>
-								<li><a href="ui_buttons.html">Buttons <i class="fa fa-paper-plane text-theme"></i></a></li>
-								<li><a href="ui_icons.html">Icons</a></li>
-								<li><a href="ui_simple_line_icons.html">Simple Line Icons</a></li>
-								<li><a href="ui_ionicons.html">Ionicons</a></li>
-								<li><a href="ui_tree.html">Tree View</a></li>
-								<li><a href="ui_language_bar_icon.html">Language Bar & Icon</a></li>
-								<li><a href="ui_social_buttons.html">Social Buttons</a></li>
-								<li><a href="ui_tour.html">Intro JS</a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="bootstrap_4.html">
-								<div class="icon-img">
-									<img src="../assets/img/logo/logo-bs4.png" alt="" />
-								</div>
-								<span>Bootstrap 4 <span class="label label-theme">NEW</span></span>
-							</a>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-list-ol"></i>
-								<span>Form Stuff <span class="label label-theme">NEW</span></span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="form_elements.html">Form Elements <i class="fa fa-paper-plane text-theme"></i></a></li>
-								<li><a href="form_plugins.html">Form Plugins <i class="fa fa-paper-plane text-theme"></i></a></li>
-								<li><a href="form_slider_switcher.html">Form Slider + Switcher</a></li>
-								<li><a href="form_validation.html">Form Validation</a></li>
-								<li><a href="form_wizards.html">Wizards</a></li>
-								<li><a href="form_wizards_validation.html">Wizards + Validation</a></li>
-								<li><a href="form_wysiwyg.html">WYSIWYG</a></li>
-								<li><a href="form_editable.html">X-Editable</a></li>
-								<li><a href="form_multiple_upload.html">Multiple File Upload</a></li>
-								<li><a href="form_summernote.html">Summernote</a></li>
-								<li><a href="form_dropzone.html">Dropzone</a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-table"></i>
-								<span>Tables</span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="table_basic.html">Basic Tables</a></li>
-								<li class="has-sub">
-									<a href="javascript:;"><b class="caret"></b> Managed Tables</a>
-									<ul class="sub-menu">
-										<li><a href="table_manage.html">Default</a></li>
-										<li><a href="table_manage_autofill.html">Autofill</a></li>
-										<li><a href="table_manage_buttons.html">Buttons</a></li>
-										<li><a href="table_manage_colreorder.html">ColReorder</a></li>
-										<li><a href="table_manage_fixed_columns.html">Fixed Column</a></li>
-										<li><a href="table_manage_fixed_header.html">Fixed Header</a></li>
-										<li><a href="table_manage_keytable.html">KeyTable</a></li>
-										<li><a href="table_manage_responsive.html">Responsive</a></li>
-										<li><a href="table_manage_rowreorder.html">RowReorder</a></li>
-										<li><a href="table_manage_scroller.html">Scroller</a></li>
-										<li><a href="table_manage_select.html">Select</a></li>
-										<li><a href="table_manage_combine.html">Extension Combination</a></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-star"></i>
-								<span>Front End</span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="../../../frontend/template/template_one_page_parallax/index.html" target="_blank">One Page Parallax</a></li>
-								<li><a href="../../../frontend/template/template_blog/index.html" target="_blank">Blog</a></li>
-								<li><a href="../../../frontend/template/template_forum/index.html" target="_blank">Forum</a></li>
-								<li><a href="../../../frontend/template/template_e_commerce/index.html" target="_blank">E-Commerce</a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-envelope"></i>
-								<span>Email Template</span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="email_system.html">System Template</a></li>
-								<li><a href="email_newsletter.html">Newsletter Template</a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-chart-pie"></i>
-								<span>Chart <span class="label label-theme">NEW</span></span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="chart-flot.html">Flot Chart</a></li>
-								<li><a href="chart-morris.html">Morris Chart</a></li>
-								<li><a href="chart-js.html">Chart JS</a></li>
-								<li><a href="chart-d3.html">d3 Chart</a></li>
-								<li><a href="chart-apex.html">Apex Chart <i class="fa fa-paper-plane text-theme"></i></a></li>
-							</ul>
-						</li>
-						<li>
-							<a href="calendar.html">
-								<i class="fa fa-calendar"></i>
-								<span>Calendar</span>
-							</a>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-map"></i>
-								<span>Map</span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="map_vector.html">Vector Map</a></li>
-								<li><a href="map_google.html">Google Map</a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-image"></i>
-								<span>Gallery</span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="gallery.html">Gallery v1</a></li>
-								<li><a href="gallery_v2.html">Gallery v2</a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-cogs"></i>
-								<span>Page Options <span class="label label-theme">NEW</span></span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="page_blank.html">Blank Page</a></li>
-								<li><a href="page_with_footer.html">Page with Footer</a></li>
-								<li><a href="page_without_sidebar.html">Page without Sidebar</a></li>
-								<li><a href="page_with_right_sidebar.html">Page with Right Sidebar</a></li>
-								<li><a href="page_with_minified_sidebar.html">Page with Minified Sidebar</a></li>
-								<li><a href="page_with_two_sidebar.html">Page with Two Sidebar</a></li>
-								<li><a href="page_with_line_icons.html">Page with Line Icons</a></li>
-								<li><a href="page_with_ionicons.html">Page with Ionicons</a></li>
-								<li><a href="page_full_height.html">Full Height Content</a></li>
-								<li><a href="page_with_wide_sidebar.html">Page with Wide Sidebar</a></li>
-								<li><a href="page_with_light_sidebar.html">Page with Light Sidebar</a></li>
-								<li><a href="page_with_mega_menu.html">Page with Mega Menu</a></li>
-								<li><a href="page_with_top_menu.html">Page with Top Menu</a></li>
-								<li><a href="page_with_boxed_layout.html">Page with Boxed Layout</a></li>
-								<li><a href="page_with_mixed_menu.html">Page with Mixed Menu</a></li>
-								<li><a href="page_boxed_layout_with_mixed_menu.html">Boxed Layout with Mixed Menu</a></li>
-								<li><a href="page_with_transparent_sidebar.html">Page with Transparent Sidebar</a></li>
-								<li><a href="page_with_search_sidebar.html">Page with Search Sidebar <i class="fa fa-paper-plane text-theme"></i></a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-gift"></i>
-								<span>Extra <span class="label label-theme">NEW</span></span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="extra_timeline.html">Timeline</a></li>
-								<li><a href="extra_coming_soon.html">Coming Soon Page</a></li>
-								<li><a href="extra_search_results.html">Search Results</a></li>
-								<li><a href="extra_invoice.html">Invoice</a></li>
-								<li><a href="extra_404_error.html">404 Error Page</a></li>
-								<li><a href="extra_profile.html">Profile Page</a></li>
-								<li><a href="extra_scrum_board.html">Scrum Board <i class="fa fa-paper-plane text-theme"></i></a></li>
-								<li><a href="extra_cookie_acceptance_banner.html">Cookie Acceptance Banner <i class="fa fa-paper-plane text-theme"></i></a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-key"></i>
-								<span>Login & Register</span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="login.html">Login</a></li>
-								<li><a href="login_v2.html">Login v2</a></li>
-								<li><a href="login_v3.html">Login v3</a></li>
-								<li><a href="register_v3.html">Register v3</a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-cubes"></i>
-								<span>Version <span class="label label-theme">NEW</span></span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="../template_html/index_v3.html">HTML</a></li>
-								<li><a href="../template_ajax/">AJAX</a></li>
-								<li><a href="../template_angularjs/">ANGULAR JS</a></li>
-								<li><a href="../template_angularjs8/">ANGULAR JS 8</a></li>
-								<li><a href="../template_laravel/">LARAVEL</a></li>
-								<li><a href="../template_vuejs/">VUE JS</a></li>
-								<li><a href="../template_reactjs/">REACT JS</a></li>
-								<li><a href="../template_material/index_v3.html">MATERIAL DESIGN</a></li>
-								<li><a href="../template_apple/index_v3.html">APPLE DESIGN</a></li>
-								<li><a href="../template_transparent/index_v3.html">TRANSPARENT DESIGN <i class="fa fa-paper-plane text-theme"></i></a></li>
-								<li><a href="../template_facebook/index_v3.html">FACEBOOK DESIGN <i class="fa fa-paper-plane text-theme"></i></a></li>
-								<li><a href="../template_google/index_v3.html">GOOGLE DESIGN <i class="fa fa-paper-plane text-theme"></i></a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-medkit"></i>
-								<span>Helper</span>
-							</a>
-							<ul class="sub-menu">
-								<li><a href="helper_css.html">Predefined CSS Classes</a></li>
-							</ul>
-						</li>
-						<li class="has-sub">
-							<a href="javascript:;">
-								<b class="caret"></b>
-								<i class="fa fa-align-left"></i>
-								<span>Menu Level</span>
-							</a>
-							<ul class="sub-menu">
-								<li class="has-sub">
-									<a href="javascript:;">
-										<b class="caret"></b>
-										Menu 1.1
-									</a>
-									<ul class="sub-menu">
-										<li class="has-sub">
-											<a href="javascript:;">
-												<b class="caret"></b>
-												Menu 2.1
-											</a>
-											<ul class="sub-menu">
-												<li><a href="javascript:;">Menu 3.1</a></li>
-												<li><a href="javascript:;">Menu 3.2</a></li>
-											</ul>
-										</li>
-										<li><a href="javascript:;">Menu 2.2</a></li>
-										<li><a href="javascript:;">Menu 2.3</a></li>
-									</ul>
-								</li>
-								<li><a href="javascript:;">Menu 1.2</a></li>
-								<li><a href="javascript:;">Menu 1.3</a></li>
-							</ul>
-						</li>
-						 begin sidebar minify button -->
 
+					
 
 						<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
 						<!-- end sidebar minify button -->
@@ -617,190 +383,196 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 			<!-- begin #content -->
 			<div id="content" class="content">
 
-				<!-- begin row -->
-				<div class="row">
-					<!-- begin col-3 -->
-					<div style="width:20%; padding:10px;">
-						<?php
+				<?php
+
+				if ($_SESSION['m_level'] !== 'admin') {
+				?>
+					<!-- begin row -->
+					<div class="row">
+						<!-- begin col-3 -->
+						<div style="width:20%; padding:10px;">
+							<?php
 
 
-						if ($_GET['type'] == 1) {
-							$sql = "SELECT count(*) as count from req_health where s_id =1";
-						} else if ($_GET['type'] == 2) {
-							$sql = "SELECT count(*) as count from req_occ where s_id =1";
-						} else if ($_GET['type'] == 3) {
-							$sql = "SELECT count(*) as count from req_disa where s_id =1";
-						} else if ($_GET['type'] == 4) {
-							$sql = "SELECT count(*) as count from req_maternity where s_id =1";
-						} else if ($_GET['type'] == 5) {
-							$sql = "SELECT count(*) as count from req_edu where s_id =1";
-						} else if ($_GET['type'] == 6) {
-							$sql = "SELECT count(*) as count from req_monthly where s_id =1";
-						}
-						$db->Execute($sql);
-						$res = $db->getData();
-						?>
-						<div class="widget widget-stats bg-blue">
-							<div class="stats-icon"><i class="fa fa-pause"></i></div>
-							<div class="stats-info">
-								<h3>รออนุมัติ</h3>
-								<p><?php echo $res['count']; ?></p>
-							</div>
-							<div class="stats-link">
-								<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-							</div>
-						</div>
-					</div>
-					<!-- end col-3 -->
-					<!-- begin col-3 -->
-					<div style="width:20%; padding:10px;">
-
-						<?php
-
-
-						if ($_GET['type'] == 1) {
-							$sql = "SELECT count(*) count from req_health where s_id =3";
-						} else if ($_GET['type'] == 2) {
-							$sql = "SELECT count(*) count from req_occ where s_id =3";
-						} else if ($_GET['type'] == 3) {
-							$sql = "SELECT count(*) count from req_disa where s_id =3";
-						} else if ($_GET['type'] == 4) {
-							$sql = "SELECT count(*) count from req_maternity where s_id =3";
-						} else if ($_GET['type'] == 5) {
-							$sql = "SELECT count(*) count from req_edu where s_id =3";
-						} else if ($_GET['type'] == 6) {
-							$sql = "SELECT count(*) count from req_monthly where s_id =3";
-						}
-						$db->Execute($sql);
-						$res = $db->getData();
-						?>
-
-						<div class="widget widget-stats bg-info">
-							<div class="stats-icon"><i class="fa fa-check"></i></div>
-							<div class="stats-info">
-								<h3>อนุมัติ</h3>
-								<p><?php echo $res['count'] ?></p>
-							</div>
-							<div class="stats-link">
-								<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+							if ($_GET['type'] == 1) {
+								$sql = "SELECT count(*) as count from req_health where s_id =1";
+							} else if ($_GET['type'] == 2) {
+								$sql = "SELECT count(*) as count from req_occ where s_id =1";
+							} else if ($_GET['type'] == 3) {
+								$sql = "SELECT count(*) as count from req_disa where s_id =1";
+							} else if ($_GET['type'] == 4) {
+								$sql = "SELECT count(*) as count from req_maternity where s_id =1";
+							} else if ($_GET['type'] == 5) {
+								$sql = "SELECT count(*) as count from req_edu where s_id =1";
+							} else if ($_GET['type'] == 6) {
+								$sql = "SELECT count(*) as count from req_monthly where s_id =1";
+							}
+							$db->Execute($sql);
+							$res = $db->getData();
+							?>
+							<div class="widget widget-stats bg-blue">
+								<div class="stats-icon"><i class="fa fa-pause"></i></div>
+								<div class="stats-info">
+									<h3>รออนุมัติ</h3>
+									<p><?php echo $res['count']; ?></p>
+								</div>
+								<div class="stats-link">
+									<a href="index.php?type=<?php echo $_GET['type'] ?>&level=vsofficer&status=1">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+								</div>
 							</div>
 						</div>
-					</div>
-					<!-- end col-3 -->
-					<!-- begin col-3 -->
-					<div style="width:20%; padding:10px;">
-						<?php
+						<!-- end col-3 -->
+						<!-- begin col-3 -->
+						<div style="width:20%; padding:10px;">
+
+							<?php
 
 
-						if ($_GET['type'] == 1) {
-							$sql = "SELECT count(*) count from req_health where s_id =5";
-						} else if ($_GET['type'] == 2) {
-							$sql = "SELECT count(*) count from req_occ where s_id =5";
-						} else if ($_GET['type'] == 3) {
-							$sql = "SELECT count(*) count from req_disa where s_id =5";
-						} else if ($_GET['type'] == 4) {
-							$sql = "SELECT count(*) count from req_maternity where s_id =5";
-						} else if ($_GET['type'] == 5) {
-							$sql = "SELECT count(*) count from req_edu where s_id =5";
-						} else if ($_GET['type'] == 6) {
-							$sql = "SELECT count(*) count from req_monthly where s_id =5";
-						}
-						$db->Execute($sql);
-						$res = $db->getData();
-						?>
+							if ($_GET['type'] == 1) {
+								$sql = "SELECT count(*) count from req_health where s_id =3";
+							} else if ($_GET['type'] == 2) {
+								$sql = "SELECT count(*) count from req_occ where s_id =3";
+							} else if ($_GET['type'] == 3) {
+								$sql = "SELECT count(*) count from req_disa where s_id =3";
+							} else if ($_GET['type'] == 4) {
+								$sql = "SELECT count(*) count from req_maternity where s_id =3";
+							} else if ($_GET['type'] == 5) {
+								$sql = "SELECT count(*) count from req_edu where s_id =3";
+							} else if ($_GET['type'] == 6) {
+								$sql = "SELECT count(*) count from req_monthly where s_id =3";
+							}
+							$db->Execute($sql);
+							$res = $db->getData();
+							?>
 
-
-
-
-						<div class="widget widget-stats bg-orange">
-							<div class="stats-icon"><i class="fa fa-check"></i></div>
-							<div class="stats-info">
-								<h3>อนุมัติเบิกจ่าย</h3>
-								<p><?php echo $res['count'] ?></p>
-							</div>
-							<div class="stats-link">
-								<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+							<div class="widget widget-stats bg-info">
+								<div class="stats-icon"><i class="fa fa-check"></i></div>
+								<div class="stats-info">
+									<h3>อนุมัติ</h3>
+									<p><?php echo $res['count'] ?></p>
+								</div>
+								<div class="stats-link">
+									<a  href="index.php?type=<?php echo $_GET['type'] ?>&level=vsofficer&status=3">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+								</div>
 							</div>
 						</div>
-					</div>
-					<!-- end col-3 -->
-
-					<!-- begin col-3 -->
-					<div style="width:20%; padding:10px;">
-						<?php
+						<!-- end col-3 -->
+						<!-- begin col-3 -->
+						<div style="width:20%; padding:10px;">
+							<?php
 
 
-						if ($_GET['type'] == 1) {
-							$sql = "SELECT count(*) count from req_health where s_id =8";
-						} else if ($_GET['type'] == 2) {
-							$sql = "SELECT count(*) count from req_occ where s_id =8";
-						} else if ($_GET['type'] == 3) {
-							$sql = "SELECT count(*) count from req_disa where s_id =8";
-						} else if ($_GET['type'] == 4) {
-							$sql = "SELECT count(*) count from req_maternity where s_id =8";
-						} else if ($_GET['type'] == 5) {
-							$sql = "SELECT count(*) count from req_edu where s_id =8";
-						} else if ($_GET['type'] == 6) {
-							$sql = "SELECT count(*) count from req_monthly where s_id =8";
-						}
-						$db->Execute($sql);
-						$res = $db->getData();
-						?>
+							if ($_GET['type'] == 1) {
+								$sql = "SELECT count(*) count from req_health where s_id =5";
+							} else if ($_GET['type'] == 2) {
+								$sql = "SELECT count(*) count from req_occ where s_id =5";
+							} else if ($_GET['type'] == 3) {
+								$sql = "SELECT count(*) count from req_disa where s_id =5";
+							} else if ($_GET['type'] == 4) {
+								$sql = "SELECT count(*) count from req_maternity where s_id =5";
+							} else if ($_GET['type'] == 5) {
+								$sql = "SELECT count(*) count from req_edu where s_id =5";
+							} else if ($_GET['type'] == 6) {
+								$sql = "SELECT count(*) count from req_monthly where s_id =5";
+							}
+							$db->Execute($sql);
+							$res = $db->getData();
+							?>
 
 
 
 
-						<div class="widget widget-stats bg-success">
-							<div class="stats-icon"><i class="fa fa-check"></i></div>
-							<div class="stats-info">
-								<h3>จ่ายแล้ว</h3>
-								<p><?php echo $res['count'] ?></p>
-							</div>
-							<div class="stats-link">
-								<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
-							</div>
-						</div>
-					</div>
-					<!-- end col-3 -->
-
-
-
-					<!-- begin col-3 -->
-					<div style="width:20%; padding:10px;">
-						<?php
-
-
-						if ($_GET['type'] == 1) {
-							$sql = "SELECT count(*) count from req_health where s_id =7";
-						} else if ($_GET['type'] == 2) {
-							$sql = "SELECT count(*) count from req_occ where s_id =7";
-						} else if ($_GET['type'] == 3) {
-							$sql = "SELECT count(*) count from req_disa where s_id =7";
-						} else if ($_GET['type'] == 4) {
-							$sql = "SELECT count(*) count from req_maternity where s_id =7";
-						} else if ($_GET['type'] == 5) {
-							$sql = "SELECT count(*) count from req_edu where s_id =7";
-						} else if ($_GET['type'] == 6) {
-							$sql = "SELECT count(*) count from req_monthly where s_id =7";
-						}
-						$db->Execute($sql);
-						$res = $db->getData();
-						?>
-
-
-						<div class="widget widget-stats bg-red">
-							<div class="stats-icon"><i class="fa fa-times"></i></div>
-							<div class="stats-info">
-								<h3>ยกเลิก</h3>
-								<p><?php echo $res['count'] ?></p>
-							</div>
-							<div class="stats-link">
-								<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+							<div class="widget widget-stats bg-orange">
+								<div class="stats-icon"><i class="fa fa-check"></i></div>
+								<div class="stats-info">
+									<h3>อนุมัติเบิกจ่าย</h3>
+									<p><?php echo $res['count'] ?></p>
+								</div>
+								<div class="stats-link">
+									<a  href="index.php?type=<?php echo $_GET['type'] ?>&level=vsofficer&status=5">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+								</div>
 							</div>
 						</div>
+						<!-- end col-3 -->
+
+						<!-- begin col-3 -->
+						<div style="width:20%; padding:10px;">
+							<?php
+
+
+							if ($_GET['type'] == 1) {
+								$sql = "SELECT count(*) count from req_health where s_id =8";
+							} else if ($_GET['type'] == 2) {
+								$sql = "SELECT count(*) count from req_occ where s_id =8";
+							} else if ($_GET['type'] == 3) {
+								$sql = "SELECT count(*) count from req_disa where s_id =8";
+							} else if ($_GET['type'] == 4) {
+								$sql = "SELECT count(*) count from req_maternity where s_id =8";
+							} else if ($_GET['type'] == 5) {
+								$sql = "SELECT count(*) count from req_edu where s_id =8";
+							} else if ($_GET['type'] == 6) {
+								$sql = "SELECT count(*) count from req_monthly where s_id =8";
+							}
+							$db->Execute($sql);
+							$res = $db->getData();
+							?>
+
+
+
+
+							<div class="widget widget-stats bg-success">
+								<div class="stats-icon"><i class="fa fa-check"></i></div>
+								<div class="stats-info">
+									<h3>จ่ายแล้ว</h3>
+									<p><?php echo $res['count'] ?></p>
+								</div>
+								<div class="stats-link">
+									<a  href="index.php?type=<?php echo $_GET['type'] ?>&level=vsofficer&status=8">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+								</div>
+							</div>
+						</div>
+						<!-- end col-3 -->
+
+
+
+						<!-- begin col-3 -->
+						<div style="width:20%; padding:10px;">
+							<?php
+
+
+							if ($_GET['type'] == 1) {
+								$sql = "SELECT count(*) count from req_health where s_id =7";
+							} else if ($_GET['type'] == 2) {
+								$sql = "SELECT count(*) count from req_occ where s_id =7";
+							} else if ($_GET['type'] == 3) {
+								$sql = "SELECT count(*) count from req_disa where s_id =7";
+							} else if ($_GET['type'] == 4) {
+								$sql = "SELECT count(*) count from req_maternity where s_id =7";
+							} else if ($_GET['type'] == 5) {
+								$sql = "SELECT count(*) count from req_edu where s_id =7";
+							} else if ($_GET['type'] == 6) {
+								$sql = "SELECT count(*) count from req_monthly where s_id =7";
+							}
+							$db->Execute($sql);
+							$res = $db->getData();
+							?>
+
+
+							<div class="widget widget-stats bg-red">
+								<div class="stats-icon"><i class="fa fa-times"></i></div>
+								<div class="stats-info">
+									<h3>ยกเลิก</h3>
+									<p><?php echo $res['count'] ?></p>
+								</div>
+								<div class="stats-link">
+									<a  href="index.php?type=<?php echo $_GET['type'] ?>&level=vsofficer&status=7">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+								</div>
+							</div>
+						</div>
+						<!-- end col-3 -->
 					</div>
-					<!-- end col-3 -->
-				</div>
+
+				<?php } ?>
 				<!-- end row -->
 				<!-- begin row -->
 				<div class="row">
@@ -809,7 +581,67 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 					$_SESSION['level'] = $_GET['level'];
 					$_GET['type'] . $_GET['level'];
 
-					include "check_form.php";
+
+
+					if ($_SESSION['m_level'] == 'admin') {
+					?>
+
+						<div class="col-md-12">
+							<!-- begin panel -->
+							<div class="panel panel-inverse" data-sortable-id="ui-general-2">
+								<!-- begin panel-heading -->
+								<div class="panel-heading">
+									<div class="panel-heading-btn">
+										<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+										<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+										<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+										<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+									</div>
+								</div>
+								<!-- end panel-heading -->
+								<!-- begin panel-body -->
+								<div class="panel-body">
+
+									<table id="data-table-default" class="table table-striped table-bordered table-td-valign-middle">
+
+										<!--<table class="table table-striped table-bordered table-td-valign-middle">-->
+										<thead>
+											<tr>
+												<td>#</td>
+												<td>ชื่อ-นามสกุล</td>
+												<td>ชื่อบัญชีผู้ใช้</td>
+												<td>สิทธิ์ผู้ใช้งาน</td>
+											</tr>
+										</thead>
+										<tbody>
+											<?php
+											$sql = "SELECT * FROM tbl_member ORDER BY m_id DESC";
+											$db->Execute($sql);
+											$i = 1;
+											while ($res = $db->getData()) {
+											?>
+												<tr>
+													<td><?php echo $i ?></td>
+													<td><?php echo $res['m_fname'] . ' ' . $res['m_name'] . ' ' . $res['m_lname'] ?></td>
+													<td><?php echo $res['m_username'] ?></td>
+													<td><?php echo $res['m_level'] ?></td>
+												</tr>
+											<?php
+												$i++;
+											}
+											?>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+					<?php
+					} else {
+						include "check_form.php";
+					}
+
 
 					?>
 				</div>
@@ -843,9 +675,9 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 		<script src="../assets/js/demo/dashboard.js"></script>
 		<script src="../assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
 		<script src="../assets/plugins/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
-		<script src="../assets/plugins/datatables.net-fixedcolumns/js/dataTables.fixedcolumns.min.js"></script>
-		<script src="../assets/plugins/datatables.net-fixedcolumns-bs4/js/fixedcolumns.bootstrap4.min.js"></script>
-		<script src="../assets/js/demo/table-manage-fixed-columns.demo.js"></script>
+		<script src="../assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+		<script src="../assets/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+		<script src="../assets/js/demo/table-manage-default.demo.js"></script>
 
 		<!-- ================== END PAGE LEVEL JS ================== -->
 	</body>

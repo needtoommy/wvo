@@ -24,10 +24,40 @@ $GOV_HOS_ID = $_POST['GOV_HOS_ID'];
 $create_datetime = $_POST['create_datetime'];
 $REQ_HEL_SICKNESS  = $_POST['REQ_HEL_SICKNESS'];
 $check_hidden = $_POST['check_hidden'];
-
+$VT_ID = $_POST['VT_ID'];
 $date = date('d/m/Y', strtotime('+543 year'));
 
-$sql = "INSERT INTO req_health
+if ($_POST['VT_ID']) {
+	$sql = "INSERT INTO req_health
+	(
+	m_id,
+	s_id,
+	REQ_HEL_SICKNESS,
+	REQ_HEL_PAY_TYPE,
+	REQ_HEL_RECEIPT,
+	REQ_HEL_VALUE,
+	REQ_HEL_DETAIL,
+	REQ_HEL_DATE,
+	VT_ID,
+	GOV_HOS_ID,
+	create_datetime
+	)
+	VALUES
+	(
+	'$m_id',
+	'$s_id',
+	'$REQ_HEL_SICKNESS',
+	$REQ_HEL_PAY_TYPE,
+	'$REQ_HEL_RECEIPT',
+	'$REQ_HEL_VALUE',
+	'$REQ_HEL_DETAIL',
+	'$date ',
+	'$VT_ID',
+	'$GOV_HOS_ID',
+	'$create_datetime'
+	)";
+} else {
+	$sql = "INSERT INTO req_health
 	(
 	m_id,
 	s_id,
@@ -55,6 +85,8 @@ $sql = "INSERT INTO req_health
 	'$GOV_HOS_ID',
 	'$create_datetime'
 	)";
+}
+
 
 
 $db->Execute($sql);

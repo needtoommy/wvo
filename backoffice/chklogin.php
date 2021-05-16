@@ -1,3 +1,8 @@
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+</head>
+
 <?php
 session_start();
 include "../connect/db.php";
@@ -12,7 +17,6 @@ if (isset($_POST['m_username'])) {
   $sql = "SELECT * FROM tbl_member 
                   WHERE  m_username='" . $m_username . "' 
                   AND  m_password='" . $m_password . "'  AND m_alive <> 0";
-  echo $sql;
   $db->Execute($sql);
 
   $row =  $db->getData();
@@ -29,9 +33,7 @@ if (isset($_POST['m_username'])) {
 
     if ($_SESSION["m_level"] == "admin") {
 
-      echo ' r u admin';
-
-      Header("Location: admin_vt/");
+      Header("Location: index.php");
     }
     if ($_SESSION["m_level"] == "member") {
 
@@ -63,21 +65,28 @@ if (isset($_POST['m_username'])) {
     }
     if ($_SESSION["m_level"] == "finoffice") {
 
-      Header("Location: index.php");
+      Header("Location: index.php?type=1&level=finoffice");
     }
     if ($_SESSION["m_level"] == "finmanager") {
 
-      Header("Location: index.php?type=1&level=finmanager");
+      Header("Location: report_finmanager.php?type=1&level=finmanager");
     }
     if ($_SESSION["m_level"] == "vsmanager") {
 
-      Header("Location: index.php?type=1&level=vsmanager");
+      Header("Location: report.php?type=1&level=vsmanager");
     }
   } else {
-    echo "<script>";
-    echo "alert(\" user หรือ  password ไม่ถูกต้อง\");";
-    echo "window.history.back()";
-    echo "</script>";
+    echo '
+      <script type="text/javascript">
+
+      $(document).ready(function(){
+
+        swal("user หรือ  password ไม่ถูกต้อง", "", "warning");
+          
+          setTimeout(function(){ window.location = "vs_pay_m.php" }, 1500);
+      });
+      </script>
+      ';
   }
 } else {
 

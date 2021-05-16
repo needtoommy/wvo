@@ -13,7 +13,7 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
             <label class="col-lg-1 text-lg-right col-form-label">ชื่อ <span class="text-danger">*</span></label>
             <div class="col-lg-2 col-xl-3">
-                <input type="text" name="VT_FM_NAME[<?php echo $i ?>]" placeholder="ชื่อ" data-parsley-group="step-1" class="form-control" />
+                <input type="text" name="VT_FM_NAME[<?php echo $i + 1 ?>]" placeholder="ชื่อ" data-parsley-group="step-1" class="form-control" />
             </div>
             <label class="col-lg-1 text-lg-right col-form-label">นามสกุล <span class="text-danger">*</span></label>
             <div class="col-lg-2 col-xl-3">
@@ -28,13 +28,13 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
 
             <label class="col-lg-1 text-lg-right col-form-label">อายุ <span class="text-danger">*</span></label>
             <div class="col-lg-2 col-xl-2">
-                <input type="text" name="VT_FM_AGE[<?php echo $i + 1 ?>]" placeholder="อายุ" data-parsley-group="step-1" class="form-control" />
+                <input type="number" name="VT_FM_AGE[<?php echo $i + 1 ?>]" placeholder="อายุ" data-parsley-group="step-1" class="form-control" />
             </div>
             <label class="col-lg-1 text-lg-right col-form-label">เกี่ยวข้องเป็น <span class="text-danger">*</span></label>
             <div class="col-lg-9 col-xl-3">
                 <div class="row row-space-6">
                     <div class="col-7">
-                        <select class="form-control" name="VT_SEX[<?php echo $i ?>]">
+                        <select class="form-control" name="VT_FM_RELATION[<?php echo $i +1?>]">
                             <option>เลือกความสัมพันธ์</option>
                             <option value="บิดา">บิดา</option>
                             <option value="มารดา">มารดา</option>
@@ -50,19 +50,20 @@ if ($_SESSION['PERMISSION'] == 'KORN') {
             </div>
 
         </div>
-
-
-
-
         <div class="form-group row m-b-12">
-            <label class="col-lg-2 text-lg-right col-form-label">วันเดือนปีเกิด <span class="text-danger">*</span></label>
+            <label class="col-lg-2 text-lg-right col-form-label">เพศ <span class="text-danger">*</span></label>
             <div class="col-lg-2 col-xl-2">
-                <input type="number" name="VT_ID_NUM" id="VT_ID_NUM" placeholder="" data-parsley-group="step-1" class="form-control" />
+                <select name="VT_SEX[<?php echo $i + 1 ?>]"  class="form-control">
+                    <option value="ไม่ระบุ">ไม่ระบุ</option>
+                    <option value="ชาย">ชาย</option>
+                    <option value="หญิง">หญิง</option>
+                </select>
             </div>
-        </div>
 
-
-
+            <label class="col-lg-1 text-lg-right col-form-label">เลขบัตรประชาชน <span class="text-danger">*</span></label>
+            <div class="col-lg-2 col-xl-2">
+                    <input type="text" name="VT_FM_IDCARD[<?php echo $i+1 ?>]"  class="form-control">
+            </div>
         </div>
 
 <?php

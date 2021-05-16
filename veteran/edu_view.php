@@ -72,31 +72,19 @@ $res2 = $db->getData();
                         <nav class="navbar navbar-expand-lg navbar-light px-0 justify-content-between">
                             <a class="navbar-brand" href="index.html"><img src="./images/logo.png" alt="">
                             </a>
-
-
                             <div class="dashboard_log my-2">
                                 <div class="d-flex align-items-center">
-                                    
+
                                     <div class="profile_log dropdown">
                                         <div class="user" data-toggle="dropdown">
-                                            <span class="thumb"><i class="la la-user"></i></span>
-                                            <span class="name">Maria Pascle</span>
+                                            <span>
+                                                <img style="border-radius: 50%;" src="../m_img/<?php echo $res['m_img'] ?>" alt="User Image" width="45" height="45"></span>
+                                            &nbsp;
+                                            <p><?php echo $res['VT_TITLE'] . ' ' . $res['VT_FNAME'] . ' ' . $res['VT_LNAME'] ?></p>
                                             <span class="arrow"><i class="la la-angle-down"></i></span>
                                         </div>
                                         <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="accounts.html" class="dropdown-item">
-                                                <i class="la la-user"></i> Account
-                                            </a>
-                                            <a href="history.html" class="dropdown-item">
-                                                <i class="la la-book"></i> History
-                                            </a>
-                                            <a href="settings.html" class="dropdown-item">
-                                                <i class="la la-cog"></i> Setting
-                                            </a>
-                                            <a href="lock.html" class="dropdown-item">
-                                                <i class="la la-lock"></i> Lock
-                                            </a>
-                                            <a href="signin.html" class="dropdown-item logout">
+                                            <a href="../index.php" class="dropdown-item logout">
                                                 <i class="la la-sign-out"></i> Logout
                                             </a>
                                         </div>
@@ -113,20 +101,13 @@ $res2 = $db->getData();
             <div class="menu">
                 <ul>
                     <li>
-                        <a href="index.php" data-toggle="tooltip" data-placement="right" title="Home">
-                            <span><i class="la la-igloo"></i></span>
+                        <a href="index.php" data-toggle="tooltip" data-placement="right" title="Home" class="active">
+                            <span><i class="la la-home"></i></span>
                         </a>
                     </li>
-                    <li><a href="buy-sell.html" data-toggle="tooltip" data-placement="right" title="Exchange">
-                            <span><i class="la la-exchange-alt"></i></span>
-                        </a>
-                    </li>
-                    <li><a href="accounts.html" data-toggle="tooltip" data-placement="right" title="Account">
+                    <li>
+                        <a href="profile_vt.php" data-toggle="tooltip" data-placement="right" title="Account">
                             <span><i class="la la-user"></i></span>
-                        </a>
-                    </li>
-                    <li><a href="settings.html" data-toggle="tooltip" data-placement="right" title="Setting">
-                            <span><i class="la la-tools"></i></span>
                         </a>
                     </li>
                 </ul>
@@ -295,7 +276,7 @@ $res2 = $db->getData();
                                     <div class="table-responsive">
                                         <table class="table">
                                             <tbody>
-                                               
+
                                                 <tr>
                                                     <td>วันที่ยื่นคำร้อง</td>
                                                     <td><?php echo $res['REQ_EDU_DATE']; ?></td>
@@ -316,8 +297,7 @@ $res2 = $db->getData();
                                                                 echo '<font color="#1DEC72">';
                                                                 echo $res['s_name'];
                                                                 echo '</font>';
-                                                            }
-                                                            else {
+                                                            } else {
                                                                 echo '<font color="green">';
                                                                 echo 'กำลังดำเนินการ';
                                                                 echo '</font>';
@@ -329,7 +309,7 @@ $res2 = $db->getData();
                                                 </tr>
                                                 <tr>
                                                     <td>เบิกให้</td>
-                                                    <td><?php echo $res["m_fname"] . $row["m_name"] . ' ' . $row["m_lname"]  ?></td> 
+                                                    <td><?php echo $res["m_fname"] . $row["m_name"] . ' ' . $row["m_lname"]  ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>ประเภทสถาบัน</td>
@@ -405,7 +385,7 @@ $res2 = $db->getData();
                                                 <tr>
                                                     <td>ไฟล์แนบ</td>
                                                     <td> <?php
-                                                            $sql3 = "SELECT file_name, is_image FROM multi_file where m_id = " . $res['m_id'] . " and vs_id ='1'and req_id= " . $res['REQ_HEL_ID'] . "";
+                                                            $sql3 = "SELECT file_name, is_image FROM multi_file where m_id = " . $res['m_id'] . " and vs_id ='5'and req_id= " . $res['REQ_EDU_ID'] . "";
 
                                                             // exit;
                                                             $db->Execute($sql3);
@@ -447,10 +427,10 @@ $res2 = $db->getData();
                                             </tbody>
                                         </table>
                                         <center>
-                                        <a href='index.php' class='btn btn-warning btn-s'>กลับหน้าหลัก</a> 
-                                        
+                                            <a href='index.php' class='btn btn-warning btn-s text-white'>กลับหน้าหลัก</a>
+
                                         </center>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -458,111 +438,36 @@ $res2 = $db->getData();
                     </div>
                 </div>
 
-                
-                                    
-                    
-                </div>
+
+
+
             </div>
         </div>
+    </div>
 
 
-        <div class="footer dashboard">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xl-6">
-                        <div class="copyright">
-                            <p>© Copyright 2021 <a href="#">ระบบสวัสดิการสงเคราะห์</a> I All Rights Reserved</p>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="footer-social">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-                            </ul>
-                        </div>
+    <div class="footer dashboard">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-6">
+                    <div class="copyright">
+                        <p>© Copyright 2021 <a href="#">ระบบสวัสดิการสงเคราะห์</a> I All Rights Reserved</p>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!--removeIf(production)-->
-        <!--**********************************
-            Right sidebar start
-        ***********************************-->
-        <div class="sidebar-right">
-            <a class="sidebar-right-trigger" href="javascript:void(0)">
-                <span><i class="fa fa-cog fa-spin"></i></span>
-            </a>
-            <div class="sidebar-right-inner">
-                <div class="admin-settings">
-                    <div class="opt-background">
-                        <p>Font Family</p>
-                        <select class="form-control" name="theme_font" id="theme_font">
-                            <option value="nunito">Nunito</option>
-                            <option value="opensans">Open Sans</option>
-
-                        </select>
-                    </div>
-                    <div>
-                        <p>Primary Color</p>
-                        <div class="opt-nav-header-color">
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_1" class="filled-in chk-col-primary" id="nav_header_color_1" />
-                                <label for="nav_header_color_1"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_2" class="filled-in chk-col-primary" id="nav_header_color_2" />
-                                <label for="nav_header_color_2"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_3" class="filled-in chk-col-primary" id="nav_header_color_3" />
-                                <label for="nav_header_color_3"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_4" class="filled-in chk-col-primary" id="nav_header_color_4" />
-                                <label for="nav_header_color_4"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="navigation_header" value="color_5" class="filled-in chk-col-primary" id="nav_header_color_5" />
-                                <label for="nav_header_color_5"></label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="opt-header-color">
-                        <p>Background Color</p>
-                        <div>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_1" class="filled-in chk-col-primary" id="header_color_1">
-                                <label for="header_color_1"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_2" class="filled-in chk-col-primary" id="header_color_2">
-                                <label for="header_color_2"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_3" class="filled-in chk-col-primary" id="header_color_3">
-                                <label for="header_color_3"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_4" class="filled-in chk-col-primary" id="header_color_4">
-                                <label for="header_color_4"></label>
-                            </span>
-                            <span>
-                                <input type="radio" name="header_bg" value="color_5" class="filled-in chk-col-primary" id="header_color_5">
-                                <label for="header_color_5"></label>
-                            </span>
-                        </div>
+                <div class="col-xl-6">
+                    <div class="footer-social">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-        <!--**********************************
-            Right sidebar end
-        ***********************************-->
-        <!--endRemoveIf(production)-->
+    </div>
+
 
     </div>
 

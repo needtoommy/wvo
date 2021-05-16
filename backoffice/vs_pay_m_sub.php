@@ -1,3 +1,7 @@
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+</head>
 <?php
 
 session_start();
@@ -18,8 +22,17 @@ $db->Execute($sql);
 $res = $db->getData();
 // print_r($res);
 if (!empty($res)) {
-    // echo 'fail';
-    echo "<script>alert('คุณได้ทำการอนุมัติเงินของเดือนนี้ไปแล้ว!!!!!!'); window.location='vs_pay_m.php?type=$type'</script>";
+    echo '
+    <script type="text/javascript">
+    
+    $(document).ready(function(){
+    
+      swal("คุณได้ทำการอนุมัติเงินของเดือนนี้ไปแล้ว!!!!!", "", "warning");
+        
+        setTimeout(function(){window.location="vs_pay_m.php?type='.$type.'"}, 2000);
+    });
+    </script>
+    ';
     exit;
 } else {
     for ($i = 1; $i <= count($_POST['MAL_ID']); $i++) {
@@ -32,7 +45,6 @@ if (!empty($res)) {
       
         $db->Execute($sql);
         $res = $db->getData();
-        print_r($res);
         // exit;
         if (!empty($res)) {
             $sql = "INSERT INTO pay_monthly 
@@ -53,6 +65,16 @@ if (!empty($res)) {
             $db->Execute($sql);
         }
     }
-    echo "<script>alert('อนุมัติสำเร็จ!'); window.location='vs_pay_m.php?type=$type'</script>";
+    echo '
+    <script type="text/javascript">
+    
+    $(document).ready(function(){
+    
+      swal("อนุมัติสำเร็จ!", "", "success");
+        
+        setTimeout(function(){window.location="vs_pay_m.php?type='.$type.'"}, 2000);
+    });
+    </script>
+    ';
     exit;
 }
